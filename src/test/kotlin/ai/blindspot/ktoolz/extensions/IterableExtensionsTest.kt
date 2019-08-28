@@ -149,7 +149,7 @@ class IterableExtensionsTest {
     }
 
     @Test
-    fun `test singleOrEmpty`() {
+    fun testSingleOrEmpty() {
         val input = listOf(1, 2, 3, 4, 5)
         assertEquals(5, input.singleOrEmpty { it > 4 })
         assertNull(input.singleOrEmpty { it > 5 })
@@ -161,7 +161,7 @@ class IterableExtensionsTest {
     }
 
     @Test
-    fun `test splitPairCollection`() {
+    fun testSplitPairCollection() {
         val input = listOf(1 to 2, 3 to 4, 5 to 6)
         val (odd, even) = input.splitPairCollection()
         assertEquals(listOf(1, 3, 5), odd)
@@ -169,7 +169,7 @@ class IterableExtensionsTest {
     }
 
     @Test
-    fun `test setDifferenceBy`() {
+    fun testSetDifferenceBy() {
         val `this` = listOf(1 to 1, 2 to 1, 3 to 1)
         val other = listOf(1 to 2, 2 to 2, 5 to 2)
         val result = `this`.setDifferenceBy(other) { it.first }
@@ -213,7 +213,7 @@ class IterableExtensionsTest {
     }
 
     @Test
-    fun `test flattenToLists`() {
+    fun testFlattenToLists() {
         val input = (1..9).map { Triple(it, it * 10, it * 100) }
         val expected = Triple((1..9).toList(), (1..9).map { it * 10 }, (1..9).map { it * 100 })
 
