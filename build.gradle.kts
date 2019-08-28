@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "ai.blindspot"
-version = "0.0.3"
+version = "0.0.3-SNAPSHOT"
 
 repositories {
     jcenter()
