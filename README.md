@@ -12,3 +12,5 @@ nexus.username=<fill.me>
 nexus.password=<fill.me>
 ```
 To publish the library, one must execute `./gradlew publish` or using the `Makefile` - `make publish`.
+
+To release new version of the Ktoolz simply call `make release VERSION=0.0.0` where `0.0.0` is the new version. 
