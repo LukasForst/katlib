@@ -2,7 +2,10 @@ package ai.blindspot.ktoolz.extensions
 
 import mu.KLogging
 import java.util.ArrayList
+import java.util.Comparator
+import java.util.NavigableSet
 import java.util.Random
+import java.util.TreeSet
 
 @PublishedApi
 internal val iterableLogger = KLogging().logger("IterableExtensions")
@@ -452,4 +455,13 @@ fun <A, B, C> List<Triple<A, B, C>>.flattenToLists(): Triple<List<A>, List<B>, L
         cList.add(c)
     }
     return Triple(aList, bList, cList)
+}
+
+/**
+ * Returns a [NavigableSet] of all elements.
+ *
+ * Elements in the set returned are sorted according to the given [comparator].
+ */
+fun <T> Iterable<T>.toNavigableSet(comparator: Comparator<in T>): NavigableSet<T> {
+    return toCollection(TreeSet(comparator))
 }

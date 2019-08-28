@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Optional
+import kotlin.reflect.KClass
 
 /**
  * Returns value or null from Optional. Useful when using kotlin-like T? and Optional<T>
@@ -70,3 +71,27 @@ inline fun <T> T.validate(isValid: Boolean, invalidBlock: (T) -> Unit): T {
  * If [isValidSelector] returns true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed
  * */
 inline fun <T> T.validate(isValidSelector: (T) -> Boolean, invalidBlock: (T) -> Unit): T = validate(isValidSelector(this), invalidBlock)
+
+/**
+ * When both items in pair are not null, returns non-nullable pair, otherwise returns null.
+ */
+fun <A : Any, B : Any> Pair<A?, B?>.propagateNull(): Pair<A, B>? {
+    if (first != null && second != null) {
+        @Suppress("UNCHECKED_CAST") //the cast is safe because it is checked that both values are not null
+        return this as Pair<A, B>
+    }
+
+    return null
+}
+
+/**
+ * A function used to get the instance of class. This method allows to get class instances even for generic classes,
+ * which cannot be obtained using :: notation.
+ *
+ * Usage example:
+ * *kClass< List< String > >()* which returns *KClass< List< String > >*.
+ *
+ * Note that *List::class* returns *KClass< List< * > >* and *List< String >::class*
+ * is not allowed.
+ */
+inline fun <reified T : Any> kClass(): KClass<T> = T::class

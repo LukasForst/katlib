@@ -2,6 +2,7 @@ package ai.blindspot.ktoolz.extensions
 
 import ai.blindspot.ktoolz.SettableRandom
 import java.util.Random
+import java.util.TreeSet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -10,6 +11,15 @@ import kotlin.test.assertTrue
 import kotlin.test.fail
 
 class IterableExtensionsTest {
+
+    @Test
+    fun toNavigableSetTest() {
+        val iterable = listOf(1, 2, 10, 0, 3, 3)
+        val expected = TreeSet(iterable)
+        val actual = iterable.toNavigableSet(Comparator.naturalOrder())
+
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun testSumByLong() {

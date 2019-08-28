@@ -55,6 +55,17 @@ class MapExtensionsTest {
     }
 
     @Test
+    fun testMergeReduceTo() {
+        val map1 = mapOf("a" to 5, "b" to 10, "c" to 11, "d" to 3)
+        val map2 = mapOf("a" to 3, "c" to 8, "d" to 3, "e" to 4)
+        val reduction: Map<String, Int> = map1.mergeReduceTo(LinkedHashMap(), map2)
+        assertEquals(mapOf("a" to 5, "b" to 10, "c" to 11, "d" to 3, "e" to 4), reduction)
+        val sumReduction: Map<String, Int> = map1.mergeReduceTo(LinkedHashMap(), map2) { a, b -> a - b }
+        assertEquals(mapOf("a" to 2, "b" to 10, "c" to 3, "d" to 0, "e" to 4), sumReduction)
+    }
+
+
+    @Test
     fun testJoin() {
         val map1 = mapOf("a" to 5, "b" to 10, "c" to 11)
         val map2 = mapOf("a" to "a", "c" to "b", "d" to "c")

@@ -5,11 +5,38 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
 internal class OtherExtensionsTest {
+
+    @Test
+    fun kClassTest() {
+        assertEquals(String::class, kClass())
+        assertEquals(List::class, kClass())
+
+        // it is not possible to test other cases since generics are always erased in the runtime
+    }
+
+    @Test
+    fun propagateNullTest() {
+        val allNullPair: Pair<String?, Int?> = null to null
+        assertNull(allNullPair.propagateNull())
+
+        val leftNullPair: Pair<String?, Int?> = null to 0
+        assertNull(leftNullPair.propagateNull())
+
+        val rightNullPair: Pair<String?, Int?> = "null" to null
+        assertNull(rightNullPair.propagateNull())
+
+        val notNullPair: Pair<String?, Int?> = "null" to 0
+        val actual = notNullPair.propagateNull()
+
+        assertNotNull(actual)
+        assertEquals(notNullPair, actual)
+    }
 
     @Test
     fun orNullWithValue() {
