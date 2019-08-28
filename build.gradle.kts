@@ -12,8 +12,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
 
-group = "ai.blindspot"
-version = "0.0.3-SNAPSHOT"
+group = "ai.blindspot.ktoolz"
+version = "0.0.4"
 
 repositories {
     jcenter()
