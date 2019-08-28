@@ -11,4 +11,4 @@ nexus.url.releases=<fill.me>
 nexus.username=<fill.me>
 nexus.password=<fill.me>
 ```
-To publish the library, one must execute `./gradlew publish`.
+To publish the library, one must execute `./gradlew publish` or using the `Makefile` - `make publish`.
