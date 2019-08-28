@@ -2,6 +2,8 @@
  * The properties needed by build and read from `ktoolz.properties` file or environment variables.
  */
 object Props {
+    val nexusUrlSnapshots = PropertyEntry.create(propertyName = "nexus.url.snapshots", environmentName = "NEXUS_URL_SNAPSHOTS")
+    val nexusUrlReleases = PropertyEntry.create(propertyName = "nexus.url.releases", environmentName = "NEXUS_URL_RELEASES")
     val nexusUser = PropertyEntry.create(propertyName = "nexus.username", environmentName = "NEXUS_USERNAME")
     val nexusPassword = PropertyEntry.create(propertyName = "nexus.password", environmentName = "NEXUS_PASSWORD")
 

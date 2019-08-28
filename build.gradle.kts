@@ -1,11 +1,15 @@
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URI
 
 plugins {
+    `maven-publish`
+
     kotlin("jvm") version Versions.kotlin
 }
 
-group = "ai.blindspot.ktoolz"
-version = "0.0.1"
+group = "ai.blindspot"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     jcenter()
@@ -33,4 +37,37 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+val sourcesJar by tasks.creating(Jar::class) {
+    classifier = "sources"
+    from(sourceSets.main.get().allSource)
+}
+
+val javadocJar by tasks.creating(Jar::class) {
+    classifier = "javadoc"
+    from(tasks.javadoc)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("default") {
+            from(components["java"])
+            artifact(sourcesJar)
+            artifact(javadocJar)
+        }
+    }
+    repositories {
+        maven {
+            val releasesRepoUrl = URI(Props.nexusUrlReleases.get())
+            val snapshotsRepoUrl = URI(Props.nexusUrlSnapshots.get())
+
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+            credentials {
+                username = Props.nexusUser.get()
+                password = Props.nexusPassword.get()
+            }
+        }
+    }
 }

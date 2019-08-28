@@ -38,7 +38,7 @@ class PropertyEntry(
     /**
      * Fetches the property value, if it is not found among env vars or in property file, <code>null</code> is returned.
      */
-    fun getOrNull(): String? = System.getenv(environmentName) ?: properties.getProperty(environmentName)
+    fun getOrNull(): String? = System.getenv(environmentName) ?: properties.getProperty(propertyName)
 
     /**
      * Fetches the property value, if it is not found among env vars or in property file, <code>default</code> is returned.
