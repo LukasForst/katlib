@@ -1,10 +1,13 @@
 package ai.blindspot.ktoolz.extensions
 
 import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
+import java.util.Date
 import java.util.Locale
 import java.util.stream.Stream
 import kotlin.streams.toList
@@ -52,3 +55,8 @@ fun LocalDate.getDaysInInterval(to: LocalDate): Int = (ChronoUnit.DAYS.between(t
  * Returns number of days between [this] date and [to] date (exclusive). This means that this method returns 0 when [this] and [to] are equal.
  */
 fun LocalDate.getDayDifference(to: LocalDate) = ChronoUnit.DAYS.between(this, to).toInt()
+
+/**
+ * Convert java.util.Date to LocalDate
+ */
+fun Date.toLocalDate(): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()))

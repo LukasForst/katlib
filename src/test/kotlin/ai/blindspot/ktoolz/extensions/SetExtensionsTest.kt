@@ -1,6 +1,6 @@
 package ai.blindspot.ktoolz.extensions
 
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 

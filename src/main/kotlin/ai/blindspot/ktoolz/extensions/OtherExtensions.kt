@@ -1,9 +1,5 @@
 package ai.blindspot.ktoolz.extensions
 
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
-import java.util.Date
 import java.util.Optional
 import kotlin.reflect.KClass
 
@@ -20,21 +16,6 @@ inline fun <T : Any?> T.whenNull(block: () -> Unit): T {
     return this
 }
 
-/**
- * Executes [block] iff this (result of previous method) is true. Returns given Boolean.
- * */
-inline fun Boolean.whenTrue(block: () -> Unit): Boolean {
-    if (this) block()
-    return this
-}
-
-/**
- * Executes [block] iff this (result of previous method) is false. Returns given Boolean.
- * */
-inline fun Boolean.whenFalse(block: () -> Unit): Boolean {
-    if (!this) block()
-    return this
-}
 
 /**
  * Creates a single element list from [this].
@@ -48,11 +29,6 @@ fun <T : Any> T.asList() = listOf(this)
 fun <T : Comparable<T>> ClosedRange<T>.intersects(other: ClosedRange<T>): Boolean {
     return this.endInclusive >= other.start && this.start <= other.endInclusive
 }
-
-/**
- * Convert java.util.Date to LocalDate
- */
-fun Date.toLocalDate(): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()))
 
 /**
  * Creates collection of [this] and other
@@ -95,3 +71,19 @@ fun <A : Any, B : Any> Pair<A?, B?>.propagateNull(): Pair<A, B>? {
  * is not allowed.
  */
 inline fun <reified T : Any> kClass(): KClass<T> = T::class
+
+/**
+ * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApplyBlock] lambda returns true.
+ * Returns `this` value.
+ */
+inline fun <T : Any> T.applyIf(shouldApplyBlock: () -> Boolean, block: T.() -> Unit): T = applyIf(shouldApplyBlock(), block)
+
+/**
+ * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApply] parameter is true.
+ * Returns `this` value.
+ */
+inline fun <T : Any> T.applyIf(shouldApply: Boolean, block: T.() -> Unit): T {
+    if (shouldApply) block()
+    return this
+}
+
