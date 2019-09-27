@@ -4,7 +4,7 @@ import java.util.Optional
 import kotlin.reflect.KClass
 
 /**
- * Returns value or null from Optional. Useful when using kotlin-like T? and Optional<T>
+ * Returns value or null from Optional. Useful when using kotlin-like T? and Optional<T>.
  * */
 fun <T> Optional<T>.orNull(): T? = this.orElse(null)
 
@@ -31,12 +31,12 @@ fun <T : Comparable<T>> ClosedRange<T>.intersects(other: ClosedRange<T>): Boolea
 }
 
 /**
- * Creates collection of [this] and other
+ * Creates collection of [this] and other.
  * */
 infix fun <T : Any> T.with(other: T): List<T> = listOf(this, other)
 
 /**
- * If [isValid] is true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed
+ * If [isValid] is true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed.
  * */
 inline fun <T> T.validate(isValid: Boolean, invalidBlock: (T) -> Unit): T {
     if (!isValid) invalidBlock(this)
@@ -44,7 +44,7 @@ inline fun <T> T.validate(isValid: Boolean, invalidBlock: (T) -> Unit): T {
 }
 
 /**
- * If [isValidSelector] returns true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed
+ * If [isValidSelector] returns true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed.
  * */
 inline fun <T> T.validate(isValidSelector: (T) -> Boolean, invalidBlock: (T) -> Unit): T = validate(isValidSelector(this), invalidBlock)
 
@@ -76,7 +76,7 @@ inline fun <reified T : Any> kClass(): KClass<T> = T::class
  * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApplyBlock] lambda returns true.
  * Returns `this` value.
  */
-inline fun <T : Any> T.applyIf(shouldApplyBlock: () -> Boolean, block: T.() -> Unit): T = applyIf(shouldApplyBlock(), block)
+inline fun <T : Any> T.applyIf(shouldApplyBlock: (T) -> Boolean, block: T.() -> Unit): T = applyIf(shouldApplyBlock(this), block)
 
 /**
  * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApply] parameter is true.

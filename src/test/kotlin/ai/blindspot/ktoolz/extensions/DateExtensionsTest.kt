@@ -9,7 +9,7 @@ import kotlin.streams.toList
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class TemporalExtensionsTest {
+class DateExtensionsTest {
 
     @Test
     fun testGetDateRangeTo() {
@@ -117,11 +117,11 @@ class TemporalExtensionsTest {
     fun `test from Date to LocalDate`() {
         val instant = Instant.ofEpochMilli(1_000_000)
         val date = Date.from(instant)
-
+        val zone = ZoneId.systemDefault()
         // Use current system time zone
-        val expectedLocalDate = LocalDate.from(instant.atZone(ZoneId.systemDefault()))
+        val expectedLocalDate = LocalDate.from(instant.atZone(zone))
 
-        val actualLocalDate = date.toLocalDate()
+        val actualLocalDate = date.toLocalDate(zone)
 
         assertEquals(expectedLocalDate, actualLocalDate)
     }

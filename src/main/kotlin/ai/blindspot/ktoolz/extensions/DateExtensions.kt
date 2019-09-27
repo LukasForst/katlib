@@ -33,7 +33,7 @@ fun LocalDate.getInvertedDateRangeToAsStream(to: LocalDate): Stream<LocalDate> =
 
 
 /**
- * Returns week of year for [this]
+ * Returns week of year for [this].
  */
 fun LocalDate.getWeekOfYear(): Int = this.get(WeekFields.of(Locale.GERMANY).weekOfYear())
 
@@ -57,6 +57,6 @@ fun LocalDate.getDaysInInterval(to: LocalDate): Int = (ChronoUnit.DAYS.between(t
 fun LocalDate.getDayDifference(to: LocalDate) = ChronoUnit.DAYS.between(this, to).toInt()
 
 /**
- * Convert java.util.Date to LocalDate
+ * Convert java.util.Date to LocalDate. [zoneId] parameter sets the zone of the [LocalDate] instance, default value is [ZoneId.systemDefault].
  */
-fun Date.toLocalDate(): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()))
+fun Date.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(zoneId))

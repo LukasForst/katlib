@@ -134,7 +134,10 @@ internal class OtherExtensionsTest {
     fun `test applyIf via block applied`() {
         val listUnderTest = mutableListOf(1)
 
-        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = { true }, block = { set(0, 0) }))
+        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = {
+            assertSame(listUnderTest, it)
+            true
+        }, block = { set(0, 0) }))
         assertEquals(0, listUnderTest[0])
     }
 
@@ -142,7 +145,10 @@ internal class OtherExtensionsTest {
     fun `test applyIf via block not applied()`() {
         val listUnderTest = mutableListOf(1)
 
-        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = { false }, block = { set(0, 0) }))
+        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = {
+            assertSame(listUnderTest, it)
+            false
+        }, block = { set(0, 0) }))
         assertEquals(1, listUnderTest[0])
     }
 }
