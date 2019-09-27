@@ -2,16 +2,12 @@
  * The properties needed by build and read from `ktoolz.properties` file or environment variables.
  */
 object Props {
-    val nexusUrlSnapshots = PropertyEntry.create(propertyName = "nexus.url.snapshots", environmentName = "NEXUS_URL_SNAPSHOTS")
-    val nexusUrlReleases = PropertyEntry.create(propertyName = "nexus.url.releases", environmentName = "NEXUS_URL_RELEASES")
-    val nexusUser = PropertyEntry.create(propertyName = "nexus.username", environmentName = "NEXUS_USERNAME")
-    val nexusPassword = PropertyEntry.create(propertyName = "nexus.password", environmentName = "NEXUS_PASSWORD")
+    val bintrayUser = PropertyEntry.create(propertyName = "bintray.user", environmentName = "BINTRAY_USER")
+    val bintrayApiKey = PropertyEntry.create(propertyName = "bintray.apiKey", environmentName = "BINTRAY_API_KEY")
 
     val sonarqubeHostUrl = PropertyEntry.create(propertyName = "sonar.host.url", environmentName = "SONAR_HOST_URL")
     val sonarqubeLogin = PropertyEntry.create(propertyName = "sonar.login", environmentName = "SONAR_LOGIN")
     val sonarqubePassword = PropertyEntry.create(propertyName = "sonar.password", environmentName = "SONAR_PASSWORD")
-
-    val codeCoverageMinimum = PropertyEntry.create(propertyName = "code.coverage.min", environmentName = "CODE_COVERAGE_MIN")
 
     val version = PropertyEntry.create(propertyName = "version", environmentName = "VERSION")
 }

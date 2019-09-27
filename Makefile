@@ -2,7 +2,7 @@ check:
 	./gradlew check
 
 publish: check
-	./gradlew publish
+	./gradlew bintrayUpload
 
 # use - make update-version VERSION=0.0.1
 update-version:
