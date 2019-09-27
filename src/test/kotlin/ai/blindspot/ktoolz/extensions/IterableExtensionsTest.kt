@@ -1,9 +1,9 @@
 package ai.blindspot.ktoolz.extensions
 
 import ai.blindspot.ktoolz.SettableRandom
+import org.junit.jupiter.api.Test
 import java.util.Random
 import java.util.TreeSet
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNull

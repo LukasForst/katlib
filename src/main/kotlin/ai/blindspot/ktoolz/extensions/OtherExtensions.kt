@@ -1,14 +1,10 @@
 package ai.blindspot.ktoolz.extensions
 
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
-import java.util.Date
 import java.util.Optional
 import kotlin.reflect.KClass
 
 /**
- * Returns value or null from Optional. Useful when using kotlin-like T? and Optional<T>
+ * Returns value or null from Optional. Useful when using kotlin-like T? and Optional<T>.
  * */
 fun <T> Optional<T>.orNull(): T? = this.orElse(null)
 
@@ -20,21 +16,6 @@ inline fun <T : Any?> T.whenNull(block: () -> Unit): T {
     return this
 }
 
-/**
- * Executes [block] iff this (result of previous method) is true. Returns given Boolean.
- * */
-inline fun Boolean.whenTrue(block: () -> Unit): Boolean {
-    if (this) block()
-    return this
-}
-
-/**
- * Executes [block] iff this (result of previous method) is false. Returns given Boolean.
- * */
-inline fun Boolean.whenFalse(block: () -> Unit): Boolean {
-    if (!this) block()
-    return this
-}
 
 /**
  * Creates a single element list from [this].
@@ -50,17 +31,12 @@ fun <T : Comparable<T>> ClosedRange<T>.intersects(other: ClosedRange<T>): Boolea
 }
 
 /**
- * Convert java.util.Date to LocalDate
- */
-fun Date.toLocalDate(): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(ZoneId.systemDefault()))
-
-/**
- * Creates collection of [this] and other
+ * Creates collection of [this] and other.
  * */
 infix fun <T : Any> T.with(other: T): List<T> = listOf(this, other)
 
 /**
- * If [isValid] is true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed
+ * If [isValid] is true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed.
  * */
 inline fun <T> T.validate(isValid: Boolean, invalidBlock: (T) -> Unit): T {
     if (!isValid) invalidBlock(this)
@@ -68,7 +44,7 @@ inline fun <T> T.validate(isValid: Boolean, invalidBlock: (T) -> Unit): T {
 }
 
 /**
- * If [isValidSelector] returns true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed
+ * If [isValidSelector] returns true, executes [invalidBlock]. Used mainly for validating entities -> do something when validation failed.
  * */
 inline fun <T> T.validate(isValidSelector: (T) -> Boolean, invalidBlock: (T) -> Unit): T = validate(isValidSelector(this), invalidBlock)
 
@@ -95,3 +71,19 @@ fun <A : Any, B : Any> Pair<A?, B?>.propagateNull(): Pair<A, B>? {
  * is not allowed.
  */
 inline fun <reified T : Any> kClass(): KClass<T> = T::class
+
+/**
+ * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApplyBlock] lambda returns true.
+ * Returns `this` value.
+ */
+inline fun <T : Any> T.applyIf(shouldApplyBlock: (T) -> Boolean, block: T.() -> Unit): T = applyIf(shouldApplyBlock(this), block)
+
+/**
+ * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApply] parameter is true.
+ * Returns `this` value.
+ */
+inline fun <T : Any> T.applyIf(shouldApply: Boolean, block: T.() -> Unit): T {
+    if (shouldApply) block()
+    return this
+}
+

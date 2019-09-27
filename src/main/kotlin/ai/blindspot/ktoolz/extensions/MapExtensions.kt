@@ -8,7 +8,7 @@ import java.util.Random
 
 
 /**
- * Randomly selects item with respect to the current weight distribution
+ * Randomly selects item with respect to the current weight distribution.
  */
 fun <T> Map<T, Double>.getWeightedRandom(rand: Random): T {
     val total = this.values.sum()

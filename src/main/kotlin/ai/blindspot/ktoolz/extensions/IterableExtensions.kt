@@ -11,12 +11,12 @@ import java.util.TreeSet
 internal val iterableLogger = KLogging().logger("IterableExtensions")
 
 /**
- * Function that will return a random element from the iterable
+ * Function that will return a random element from the iterable.
  */
 fun <E> Iterable<E>.getRandomElement(rand: Random) = this.elementAt(rand.nextInt(this.count()))
 
 /**
- * Creates reduction of the given [Iterable]. This function can be used for example for cumulative sums
+ * Creates reduction of the given [Iterable]. This function can be used for example for cumulative sums.
  */
 fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R): List<R> {
     val result = ArrayList<R>()
@@ -118,7 +118,7 @@ inline fun <T, R : Comparable<R>> Iterable<T>.minValueBy(selector: (T) -> R): R?
 
 /**
  * Applies the given [transform] function to each element of the original collection
- * and returns results as Set
+ * and returns results as Set.
  */
 inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R): Set<R> {
     return mapTo(LinkedHashSet(), transform)
@@ -126,7 +126,7 @@ inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R): Set<R> {
 
 /**
  * Applies the given [transform] function to each element of the original collection
- * and returns results as Set
+ * and returns results as Set.
  */
 inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R> {
     return flatMapTo(LinkedHashSet(), transform)
@@ -159,7 +159,7 @@ inline fun <T : Any> Iterable<T?>.forEachNotNull(action: (T) -> Unit) {
 }
 
 /**
- * Creates union of the given iterables
+ * Creates union of the given iterables.
  */
 fun <T> Iterable<Iterable<T>?>.union(): Set<T> {
     val result = LinkedHashSet<T>()
@@ -168,7 +168,7 @@ fun <T> Iterable<Iterable<T>?>.union(): Set<T> {
 }
 
 /**
- * Creates intersection of the given iterables
+ * Creates intersection of the given iterables.
  */
 fun <T> Iterable<Iterable<T>?>.intersect(): Set<T> {
     val result = LinkedHashSet<T>()
@@ -198,7 +198,7 @@ fun <T : Any, R : Any> Iterable<T?>.filterNotNullBy(selector: (T) -> R?): List<T
 /**
  * Returns the single element matching the given [predicate], or `null` if element was not found.
  *
- * Throws [IllegalArgumentException] when multiple elements are matching predicate
+ * Throws [IllegalArgumentException] when multiple elements are matching predicate.
  */
 inline fun <T> Iterable<T>.singleOrEmpty(predicate: (T) -> Boolean): T? {
     var single: T? = null
@@ -215,8 +215,8 @@ inline fun <T> Iterable<T>.singleOrEmpty(predicate: (T) -> Boolean): T? {
 
 
 /**
- * Returns single element, or `null` if the collection is empty
- * Throws [IllegalArgumentException] when multiple elements are matching predicate
+ * Returns single element, or `null` if the collection is empty.
+ * Throws [IllegalArgumentException] when multiple elements are matching predicate.
  */
 fun <T> Iterable<T>.singleOrEmpty(): T? {
     when (this) {
@@ -234,7 +234,7 @@ fun <T> Iterable<T>.singleOrEmpty(): T? {
 }
 
 /**
- * Takes Iterable with pairs and returns pair of collections filled with values in each part of pair
+ * Takes Iterable with pairs and returns pair of collections filled with values in each part of pair.
  * */
 fun <T, V> Iterable<Pair<T, V>>.splitPairCollection(): Pair<List<T>, List<V>> {
     val ts = mutableListOf<T>()
@@ -247,7 +247,7 @@ fun <T, V> Iterable<Pair<T, V>>.splitPairCollection(): Pair<List<T>, List<V>> {
 }
 
 /**
- * Returns all values that are in [this] and not in [other] with custom [selector]
+ * Returns all values that are in [this] and not in [other] with custom [selector].
  * */
 inline fun <T, R> Iterable<T>.setDifferenceBy(other: Iterable<T>, selector: (T) -> R): List<T> =
     (this.distinctBy(selector).map { Pair(it, true) } + other.distinctBy(selector).map { Pair(it, false) })
@@ -442,7 +442,7 @@ internal fun mapCapacity(expectedSize: Int): Int {
 internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int = if (this is Collection<*>) this.size else default
 
 /**
- * Returns three lists with separated values from list of triples
+ * Returns three lists with separated values from list of triples.
  * */
 fun <A, B, C> List<Triple<A, B, C>>.flattenToLists(): Triple<List<A>, List<B>, List<C>> {
     val aList = mutableListOf<A>()

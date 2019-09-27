@@ -1,12 +1,15 @@
 package ai.blindspot.ktoolz.extensions
 
+import org.junit.jupiter.api.Test
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 import kotlin.streams.toList
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class LocalDateExtensionsTest {
+class DateExtensionsTest {
 
     @Test
     fun testGetDateRangeTo() {
@@ -109,4 +112,29 @@ class LocalDateExtensionsTest {
         val week53Date = LocalDate.of(2023, 1, 2)
         assertEquals(week53Date, year.setWeekOfYearMonday(53))
     }
+
+    @Test
+    fun `test from Date to LocalDate`() {
+        val instant = Instant.ofEpochMilli(1_000_000)
+        val date = Date.from(instant)
+        val zone = ZoneId.systemDefault()
+        // Use current system time zone
+        val expectedLocalDate = LocalDate.from(instant.atZone(zone))
+
+        val actualLocalDate = date.toLocalDate(zone)
+
+        assertEquals(expectedLocalDate, actualLocalDate)
+    }
+
+    @Test
+    fun `test from Date to LocalDate in UTC`() {
+        val instant = Instant.ofEpochMilli(1_000_000)
+        val date = Date.from(instant)
+        val zone = ZoneId.of("UTC")
+        // Use current system time zone
+        val expectedLocalDate = LocalDate.from(instant.atZone(zone))
+
+        assertEquals(expectedLocalDate, date.toUtcLocalDate())
+    }
+
 }

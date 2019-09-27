@@ -1,7 +1,7 @@
 package ai.blindspot.ktoolz.extensions
 
+import org.junit.jupiter.api.Test
 import java.time.Instant
-import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class InstantExtensionsTest {

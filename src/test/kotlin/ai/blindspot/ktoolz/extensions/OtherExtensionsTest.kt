@@ -1,12 +1,13 @@
 package ai.blindspot.ktoolz.extensions
 
+import org.junit.jupiter.api.Test
 import java.util.Optional
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
@@ -111,6 +112,43 @@ internal class OtherExtensionsTest {
 
         txt.validate(true) { fail() }
         txt.validate(isValidSelector = { it == txt }, invalidBlock = { fail() })
+    }
 
+    @Test
+    fun `test applyIf applied`() {
+        val listUnderTest = mutableListOf(1)
+
+        assertSame(listUnderTest, listUnderTest.applyIf(true) { set(0, 0) })
+        assertEquals(0, listUnderTest[0])
+    }
+
+    @Test
+    fun `test applyIf not applied()`() {
+        val listUnderTest = mutableListOf(1)
+
+        assertSame(listUnderTest, listUnderTest.applyIf(false) { set(0, 0) })
+        assertEquals(1, listUnderTest[0])
+    }
+
+    @Test
+    fun `test applyIf via block applied`() {
+        val listUnderTest = mutableListOf(1)
+
+        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = {
+            assertSame(listUnderTest, it)
+            true
+        }, block = { set(0, 0) }))
+        assertEquals(0, listUnderTest[0])
+    }
+
+    @Test
+    fun `test applyIf via block not applied()`() {
+        val listUnderTest = mutableListOf(1)
+
+        assertSame(listUnderTest, listUnderTest.applyIf(shouldApplyBlock = {
+            assertSame(listUnderTest, it)
+            false
+        }, block = { set(0, 0) }))
+        assertEquals(1, listUnderTest[0])
     }
 }
