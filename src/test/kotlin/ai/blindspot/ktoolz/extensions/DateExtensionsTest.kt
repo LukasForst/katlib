@@ -126,4 +126,15 @@ class DateExtensionsTest {
         assertEquals(expectedLocalDate, actualLocalDate)
     }
 
+    @Test
+    fun `test from Date to LocalDate in UTC`() {
+        val instant = Instant.ofEpochMilli(1_000_000)
+        val date = Date.from(instant)
+        val zone = ZoneId.of("UTC")
+        // Use current system time zone
+        val expectedLocalDate = LocalDate.from(instant.atZone(zone))
+
+        assertEquals(expectedLocalDate, date.toUtcLocalDate())
+    }
+
 }

@@ -34,15 +34,21 @@ fun LocalDate.getInvertedDateRangeToAsStream(to: LocalDate): Stream<LocalDate> =
 
 /**
  * Returns week of year for [this].
+ *
+ * For such operation, [Locale] of country (therefore one must use [Locale.GERMANY] instead of [Locale.GERMAN]) is required.
+ * The default value is set to [Locale.GERMANY] since it uses calendar which starts at Monday.
  */
-fun LocalDate.getWeekOfYear(): Int = this.get(WeekFields.of(Locale.GERMANY).weekOfYear())
+fun LocalDate.getWeekOfYear(locale: Locale = Locale.GERMANY): Int = this.get(WeekFields.of(locale).weekOfYear())
 
 /**
  * Returns [this] LocalDate with week of the year set to [week] and day of the week set to [DayOfWeek.MONDAY]. I.e. when [this] date is 23-08-2019 and [week]
  * is 2, the returned date is 07-01-2019.
+ *
+ * For such operation, [Locale] of country (therefore one must use [Locale.GERMANY] instead of [Locale.GERMAN]) is required.
+ * The default value is set to [Locale.GERMANY] since it uses calendar which starts at Monday.
  */
-fun LocalDate.setWeekOfYearMonday(week: Int): LocalDate = this
-    .with(WeekFields.of(Locale.GERMANY).weekOfYear(), week.toLong())
+fun LocalDate.setWeekOfYearMonday(week: Int, locale: Locale = Locale.GERMANY): LocalDate = this
+    .with(WeekFields.of(locale).weekOfYear(), week.toLong())
     .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
 
 /**
@@ -57,6 +63,11 @@ fun LocalDate.getDaysInInterval(to: LocalDate): Int = (ChronoUnit.DAYS.between(t
 fun LocalDate.getDayDifference(to: LocalDate) = ChronoUnit.DAYS.between(this, to).toInt()
 
 /**
- * Convert java.util.Date to LocalDate. [zoneId] parameter sets the zone of the [LocalDate] instance, default value is [ZoneId.systemDefault].
+ * Convert [Date] to [LocalDate]. [zoneId] parameter sets the zone of the [LocalDate] instance.
  */
-fun Date.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(zoneId))
+fun Date.toLocalDate(zoneId: ZoneId): LocalDate = LocalDate.from(Instant.ofEpochMilli(this.time).atZone(zoneId))
+
+/**
+ * Convert [Date] to [LocalDate] with zone set to UTC.
+ */
+fun Date.toUtcLocalDate(): LocalDate = toLocalDate(ZoneId.of("UTC"))
