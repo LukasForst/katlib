@@ -1,13 +1,10 @@
 package ai.blindspot.ktoolz.extensions
 
-import mu.KLogging
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.util.UUID
 
 class PureFunctionsKtTest {
-
-    private companion object : KLogging()
 
     @Test
     fun `test isURL valid urls`() {
