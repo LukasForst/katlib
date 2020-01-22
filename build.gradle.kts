@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "ai.blindspot.ktoolz"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     jcenter()
