@@ -10,18 +10,18 @@ repositories {
 ```
 Then to import Ktoolz to Gradle project use:
 ```Kotlin
-implementation("ai.blindspot.ktoolz:ktoolz:1.0.0")
+implementation("ai.blindspot.ktoolz:ktoolz:1.0.3")
 ```
 Or with Groovy DSL
 ```groovy
-implementation 'ai.blindspot.ktoolz:ktoolz:1.0.0'
+implementation 'ai.blindspot.ktoolz:ktoolz:1.0.3'
 ```
 To import Ktoolz to Maven project use:
 ```xml
 <dependency>
   <groupId>ai.blindspot.ktoolz</groupId>
   <artifactId>ktoolz</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
