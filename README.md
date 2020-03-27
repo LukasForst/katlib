@@ -1,4 +1,6 @@
 # ktoolz
+[![GitHub version](https://badge.fury.io/gh/blindspot-ai%2Fktoolz.svg)](https://badge.fury.io/gh/blindspot-ai%2Fktoolz)
+
 Collection of Kotlin extension functions and utilities. 
 
 ## Using Ktoolz
