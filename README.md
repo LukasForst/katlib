@@ -1,5 +1,5 @@
 # ktoolz
-Collection of Kotlin extension functions and utilities
+Collection of Kotlin extension functions and utilities. 
 
 ## Using Ktoolz
 Ktoolz is hosted on [JCenter](https://bintray.com) and therefore one must include to the project.
@@ -39,3 +39,6 @@ bintray.apiKey=<api.key>
 To publish the library, one must execute `./gradlew bintrayUpload` or using the `Makefile` - `make publish`.
 
 To release new version of the Ktoolz simply call `make release VERSION=0.0.0` where `0.0.0` is the new version. 
+
+## Maintainers
+[Lukas Forst](https://github.com/LukasForst) and [Petr Eichler](https://github.com/Petr-Eichler)
