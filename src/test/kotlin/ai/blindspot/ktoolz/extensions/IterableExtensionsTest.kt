@@ -219,4 +219,10 @@ class IterableExtensionsTest {
 
         assertEquals(expected, input.flattenToLists())
     }
+    @Test
+    fun itemsToString() {
+        val itemToString: (Int) -> String = {i -> "NUM$i"}
+        val result = listOf(10, 20).itemsToString("numbers", itemToString = itemToString )
+        assertEquals("2 numbers: NUM10, NUM20", result)
+    }
 }

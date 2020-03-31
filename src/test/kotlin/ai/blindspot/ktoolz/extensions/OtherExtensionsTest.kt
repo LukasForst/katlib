@@ -153,28 +153,17 @@ internal class OtherExtensionsTest {
     }
 
     @Test
-    fun restrictLengthWithEllipsis() {
-        val result = "ABCDEFGHIJK".restrictLengthWithEllipsis(8, "elip")
-        assertEquals("ABCDelip", result)
+    fun toLongString() {
+        // With default parameters
+        assertEquals("Double(42.0)", 42.0.toLongString("42.0"))
+        // With explicit parameters
+        assertEquals("MyClass[short]", "Any object".toLongString("short","[]", className = "MyClass"))
     }
 
     @Test
-    fun toLongDebugString() {
-        assertEquals("Double(42.0)", 42.0.toLongDebugString())
-        assertEquals("MyClass[short]", "Any object".toLongDebugString("short","[]", className = "MyClass"))
-    }
-
-    @Test
-    fun toShortDebugString() {
+    fun toShortString() {
         val short = "SHORT"
-        val long = short.toLongDebugString()
-        assertEquals( short, long.toShortDebugString())
-    }
-
-    @Test
-    fun itemsToDebugString() {
-        val itemToString : (Int)->String = {i -> "NUM$i"}
-        val result = setOf(10, 20).itemsToDebugString("numbers", itemToString = itemToString )
-        assertEquals("2 numbers: NUM10, NUM20", result)
+        val long = short.toLongString(short)
+        assertEquals(short, long.toShortString())
     }
 }

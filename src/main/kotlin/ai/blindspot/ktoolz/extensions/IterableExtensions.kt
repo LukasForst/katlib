@@ -465,3 +465,34 @@ fun <A, B, C> List<Triple<A, B, C>>.flattenToLists(): Triple<List<A>, List<B>, L
 fun <T> Iterable<T>.toNavigableSet(comparator: Comparator<in T>): NavigableSet<T> {
     return toCollection(TreeSet(comparator))
 }
+
+/**
+ * Formats a collection of [TItem]s to a readable string like "3 colors: red, yellow, green".
+ *
+ * Each item is converted by [itemToString] to a string representation whose length is restricted by [itemLength]
+ *  and the output length by [totalLength]. A [separator] (default = ", ") is placed between the string representation.
+ *
+ * @param itemsType a string describing the collection items, such as "colors", "employees" etc.; default = "items"
+ * @param itemToString a lambda converting each item to its string representation.
+ */
+inline fun <TItem> Iterable<TItem>.itemsToString(
+    itemsType: String = "items",
+    separator: String = ", ",
+    itemLength: Int = 30,
+    totalLength: Int = 200,
+    itemToString: (TItem) -> String = { item -> item.toShortString() }
+): String {
+    val sb = StringBuilder("${this.count()} $itemsType")
+    var currentSeparator = ": "  // before the first item
+    for (item in this) {
+        sb.append(currentSeparator)
+        currentSeparator = separator // before other than first item
+        val short: String = if (item == null) "null" else itemToString(item).restrictLengthWithEllipsis(itemLength)
+        if (short.length + sb.length > totalLength) {
+            sb.append("…")
+            break // no more items will fit into [totalLength]
+        }
+        sb.append(short)
+    }
+    return sb.toString().restrictLengthWithEllipsis(totalLength)
+}
