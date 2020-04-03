@@ -151,4 +151,19 @@ internal class OtherExtensionsTest {
         }, block = { set(0, 0) }))
         assertEquals(1, listUnderTest[0])
     }
+
+    @Test
+    fun toLongString() {
+        // With default parameters
+        assertEquals("Double(42.0)", 42.0.toLongString("42.0"))
+        // With explicit parameters
+        assertEquals("MyClass[short]", "Any object".toLongString("short","[]", className = "MyClass"))
+    }
+
+    @Test
+    fun toShortString() {
+        val short = "SHORT"
+        val long = short.toLongString(short)
+        assertEquals(short, long.toShortString())
+    }
 }

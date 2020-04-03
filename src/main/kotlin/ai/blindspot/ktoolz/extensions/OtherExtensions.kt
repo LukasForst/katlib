@@ -87,3 +87,44 @@ inline fun <T : Any> T.applyIf(shouldApply: Boolean, block: T.() -> Unit): T {
     return this
 }
 
+/**
+ * Creates a string like "className(description)", for example "Double(42.0)"
+ * Useful e.g. for implementing .toString() override.
+ *
+ * @param description the content to be displayed inside the brackets.
+ * @param brackets a two-character string like "{}", default = "()".
+ * @param className the string to be displayed before the brackets; default = the class name of [this].
+ */
+fun Any.toLongString(description: String, brackets: String = "()", className: String? = null): String {
+    val actualClassName = className ?: this.javaClass.simpleName
+    val actualBrackets = if (brackets.length == 2) brackets else "<>"
+    return "$actualClassName${actualBrackets[0]}$description${actualBrackets[1]}"
+}
+
+private val bracketPairs = setOf("()", "[]", "<>", "{}")
+
+/**
+ * Extracts the essential information from an object (most usually a string), whose toString() call result
+ * has a similar format as the output of function [toLongString] .
+ * If the format is not similar, it simply returns this.toString() .
+ *
+ * For example, returns "42.0" if [this] is a string "Double(42.0)".
+ * Returns "John 42, Peter 31" for string "EmployeeList{John 42, Peter 31}".
+ *
+ * Typical usage: the toString() method of a large collection-like object should contain only a very short description
+ *  of each collection item. This is done, for example, in [itemsToString] ().
+ */
+fun Any?.toShortString(): String {
+    val longString = this.toString()
+    if (longString.isEmpty()) return "EMPTY STRING" // Should not happen
+
+    if (!longString.startsWithLetter()) return longString // The format does not resemble an output of [toLongString]
+
+    for (pair in bracketPairs) {
+        if (longString.last() == pair[1]) {
+            val after = longString.substringAfter(pair[0])
+            return if (after.length < 2) longString else after.substring(0, after.length - 1) // Omit the last char
+        }
+    }
+    return longString // The format does not resemble an output of [toLongString]
+}
