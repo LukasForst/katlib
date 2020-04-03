@@ -89,7 +89,7 @@ inline fun <T : Any> T.applyIf(shouldApply: Boolean, block: T.() -> Unit): T {
 
 /**
  * Creates a string like "className(description)", for example "Double(42.0)"
- * Useful either for implementing .toString() override.
+ * Useful e.g. for implementing .toString() override.
  *
  * @param description the content to be displayed inside the brackets.
  * @param brackets a two-character string like "{}", default = "()".
@@ -123,8 +123,7 @@ fun Any?.toShortString(): String {
     for (pair in bracketPairs) {
         if (longString.last() == pair[1]) {
             val after = longString.substringAfter(pair[0])
-            if (after.length < 2) return longString
-            return after.substring(0, after.length - 1) // Omit the last char
+            return if (after.length < 2) longString else after.substring(0, after.length - 1) // Omit the last char
         }
     }
     return longString // The format does not resemble an output of [toLongString]
