@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "ai.blindspot.ktoolz"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     jcenter()
@@ -26,8 +26,12 @@ detekt {
 }
 
 dependencies {
-    implementation(Libs.kotlinStdlib) // kotlin std
-    implementation(Libs.kotlinLogging) // logging DSL
+    implementation(Libs.kotlinLogging) // logging DSL - must be implementation
+
+    // all dependencies must me compileOnly as this is library
+    compileOnly(kotlin("stdlib-jdk8")) // kotlin std
+    compileOnly("com.fasterxml.jackson.core", "jackson-databind", "2.10.3")
+    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", "2.10.3")
 
     // testing
     testImplementation(TestLibs.kotlinTest) // kotlin idiomatic testing
@@ -37,7 +41,7 @@ dependencies {
     testImplementation(TestLibs.junitApi) // junit testing framework
     testImplementation(TestLibs.junitParams) // generated parameters for tests
 
-    testRuntime(TestLibs.junitEngine) // testing runtime
+    testRuntimeOnly(TestLibs.junitEngine) // testing runtime
 }
 
 /**
@@ -71,7 +75,6 @@ tasks {
     }
 
     withType<Test> {
-        @Suppress("UnstableApiUsage") // Required for running tests, however the api is still incubating
         useJUnitPlatform()
     }
 

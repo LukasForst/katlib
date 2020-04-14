@@ -3,7 +3,7 @@
  */
 object Versions {
     const val binTrayPlugin = "1.8.4"
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.71"
 
     const val kotlinLogging = "1.6.26"
 
