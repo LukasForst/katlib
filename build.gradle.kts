@@ -1,87 +1,64 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.jvm.tasks.Jar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    kotlin("jvm") version "1.3.72"
     `maven-publish`
-    jacoco // for test coverage reports
+    id("net.nemerosa.versioning") version "2.14.0"
+    id("com.jfrog.bintray") version "1.8.5"
 
-    kotlin("jvm") version Versions.kotlin
-
-    id("io.gitlab.arturbosch.detekt") version Versions.detekt
-    id("com.jfrog.bintray") version Versions.binTrayPlugin
 }
 
-group = "ai.blindspot.ktoolz"
-version = "1.0.6"
+group = "pw.forst.tooling"
+version = versioning.info.lastTag
+
 
 repositories {
     jcenter()
 }
 
-detekt {
-    parallel = true
-    input = files(subprojects.map { it.projectDir }, "buildSrc")
-    config = files(rootDir.resolve("detekt-config.yml"))
-}
-
 dependencies {
-    implementation(Libs.kotlinLogging) // logging DSL - must be implementation
+    implementation("io.github.microutils", "kotlin-logging", "1.8.3")
 
     // all dependencies must me compileOnly as this is library
     compileOnly(kotlin("stdlib-jdk8")) // kotlin std
-    compileOnly("com.fasterxml.jackson.core", "jackson-databind", "2.10.3")
-    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", "2.10.3")
+
+    val jacksonVersion = "2.11.2"
+    compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
+    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
 
     // testing
-    testImplementation(TestLibs.kotlinTest) // kotlin idiomatic testing
-    testImplementation(TestLibs.kotlinTestJunit5) // kotlin.test wrapper for Junit5
-    testImplementation(TestLibs.mockk) // mock framework
-    testImplementation(TestLibs.logbackClassic) // logging framework for the tests
-    testImplementation(TestLibs.junitApi) // junit testing framework
-    testImplementation(TestLibs.junitParams) // generated parameters for tests
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit5"))
+    testImplementation(kotlin("stdlib-jdk8"))
+    testImplementation("io.mockk", "mockk", "1.10.0") // mock framework
+    testImplementation("ch.qos.logback", "logback-classic", "1.3.0-alpha5") // logging framework for the tests
 
-    testRuntimeOnly(TestLibs.junitEngine) // testing runtime
+    val junitVerion = "5.6.2"
+    testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVerion) // junit testing framework
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVerion) // generated parameters for tests
+
+    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVerion) // testing runtime
 }
-
-/**
- * Folder with stored jacoco test coverage results
- */
-val jacocoReports = "$buildDir${File.separator}jacoco${File.separator}reports"
 
 tasks {
-    // when check is executed, detekt and test coverage verification must be run as well
-    check {
-        dependsOn(detekt, jacocoTestCoverageVerification) // fails when the code coverage is below value specified in Props.codeCoverageMinimum
-    }
-
-    // generate test reports for the Sonarqube and in the human-readable form
-    jacocoTestReport {
-        dependsOn(test)
-
-        @Suppress("UnstableApiUsage") // Required for test coverage reports, however the api is still incubating
-        reports {
-            csv.isEnabled = false
-            xml.isEnabled = true
-            xml.destination = file("$jacocoReports.xml")
-            html.isEnabled = true
-            html.destination = file(jacocoReports)
-        }
-    }
-
-    // set up verification for test coverage
-    jacocoTestCoverageVerification {
-        dependsOn(jacocoTestReport)
-    }
-
-    withType<Test> {
-        useJUnitPlatform()
-    }
-
-    withType<KotlinCompile> {
+    compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
+
+// ------------------------------------ Deployment Configuration  ------------------------------------
+val githubRepository = "LukasForst/katlib"
+val descriptionForPackage = "Kotlin Additional Library - usefull extension functions"
+val tags = arrayOf("kotlin", "extension functions")
+// everything bellow is set automatically
 
 // deployment configuration - deploy with sources and documentation
 val sourcesJar by tasks.creating(Jar::class) {
@@ -94,31 +71,53 @@ val javadocJar by tasks.creating(Jar::class) {
     from(tasks.javadoc)
 }
 
-val publicationName = "ktoolz"
+// name the publication as it is referenced
+val publication = "default-gradle-publication"
 publishing {
+    // create jar with sources and with javadoc
     publications {
-        register(publicationName, MavenPublication::class) {
+        register(publication, MavenPublication::class) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
         }
     }
+
+    // publish package to the github packages
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/$githubRepository")
+            credentials {
+                username = project.findProperty("gpr.user") as String?
+                    ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") as String?
+                    ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
+// upload to bintray
 bintray {
-    user = Props.bintrayUser.getOrDefault()
-    key = Props.bintrayApiKey.getOrDefault()
+    // env variables loaded from pipeline for publish
+    user = project.findProperty("bintray.user") as String?
+        ?: System.getenv("BINTRAY_USER")
+    key = project.findProperty("bintray.key") as String?
+        ?: System.getenv("BINTRAY_TOKEN")
     publish = true
-    setPublications(publicationName)
+    setPublications(publication)
     pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        repo = "maven"
-        name = "ktoolz"
-        userOrg = "blindspot-ai"
-        websiteUrl = "https://blindspot.ai"
-        githubRepo = "blindspot-ai/ktoolz"
-        vcsUrl = "https://github.com/blindspot-ai/ktoolz"
-        description = "Collection of Kotlin extension functions and utilities."
-        setLabels("kotlin")
+        // my repository for maven packages
+        repo = "jvm-packages"
+        name = project.name
+        // my user account at bintray
+        userOrg = "lukas-forst"
+        websiteUrl = "https://forst.pw"
+        githubRepo = githubRepository
+        vcsUrl = "https://github.com/$githubRepository"
+        description = descriptionForPackage
+        setLabels(*tags)
         setLicenses("MIT")
         desc = description
     })

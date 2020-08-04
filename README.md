@@ -1,5 +1,7 @@
-# ktoolz
+# Katlib
 [![GitHub version](https://badge.fury.io/gh/blindspot-ai%2Fktoolz.svg)](https://badge.fury.io/gh/blindspot-ai%2Fktoolz)
+
+Successor of Ktoolz.
 
 Collection of Kotlin extension functions and utilities. 
 
@@ -26,21 +28,3 @@ To import Ktoolz to Maven project use:
   <version>1.0.3</version>
 </dependency>
 ```
-
-
-
-## Deployment
-The Ktoolz library is currently hosted on the JCenter repository.
-To deploy the library to JCenter repository one must set up deployment secrets,
-the secrets should be stored in the file `ktoolz.properties`, that is not tracked by the git.
-The file has following structure:
-```properties
-bintray.user=<user>
-bintray.apiKey=<api.key>
-```
-To publish the library, one must execute `./gradlew bintrayUpload` or using the `Makefile` - `make publish`.
-
-To release new version of the Ktoolz simply call `make release VERSION=0.0.0` where `0.0.0` is the new version. 
-
-## Maintainers
-[Lukas Forst](https://github.com/LukasForst) and [Petr Eichler](https://github.com/Petr-Eichler)
