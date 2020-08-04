@@ -9,7 +9,7 @@ plugins {
 
 }
 
-group = "pw.forst.tooling"
+group = "pw.forst.tools"
 version = versioning.info.lastTag
 
 
