@@ -1,30 +1,29 @@
 # Katlib
-[![GitHub version](https://badge.fury.io/gh/blindspot-ai%2Fktoolz.svg)](https://badge.fury.io/gh/blindspot-ai%2Fktoolz)
 
-Successor of Ktoolz.
+Successor of [Ktoolz](https://github.com/blindspot-ai/ktoolz).
 
 Collection of Kotlin extension functions and utilities. 
 
-## Using Ktoolz
-Ktoolz is hosted on [JCenter](https://bintray.com) and therefore one must include to the project.
+## Using Katlib
+Katlib is hosted on [JCenter](https://bintray.com) and therefore one must include to the project.
 ```kotlin
 repositories {
     jcenter()
 }
 ```
-Then to import Ktoolz to Gradle project use:
+Then to import Katlib to Gradle project use:
 ```Kotlin
-implementation("ai.blindspot.ktoolz:ktoolz:1.0.3")
+implementation("pw.forst.tools", "katlib", "some-latest-version")
 ```
 Or with Groovy DSL
 ```groovy
-implementation 'ai.blindspot.ktoolz:ktoolz:1.0.3'
+implementation 'pw.forst.tools:katlib:some-latest-version'
 ```
-To import Ktoolz to Maven project use:
+To import Katlib to Maven project use:
 ```xml
 <dependency>
-  <groupId>ai.blindspot.ktoolz</groupId>
-  <artifactId>ktoolz</artifactId>
-  <version>1.0.3</version>
+  <groupId>pw.forst.tools</groupId>
+  <artifactId>katlib</artifactId>
+  <version>some-latest-version</version>
 </dependency>
 ```
