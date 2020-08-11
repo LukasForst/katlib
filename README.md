@@ -8,7 +8,7 @@ Collection of Kotlin extension functions and utilities.
 This library contains minimal dependencies - just `kotlin-logging` for logging. 
 
 ## Using Katlib
-Katlib is hosted on [JCenter](https://bintray.com) and therefore one must include to the project.
+Katlib is hosted on [JCenter](https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib) and therefore one must include to the project.
 ```kotlin
 repositories {
     jcenter()
