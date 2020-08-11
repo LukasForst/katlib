@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class SetExtensionsTest {
+internal class SetExtensionsTest {
 
     @Test
     fun minTest() {

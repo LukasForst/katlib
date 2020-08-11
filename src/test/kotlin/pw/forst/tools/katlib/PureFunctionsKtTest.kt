@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.util.UUID
 
-class PureFunctionsKtTest {
+internal class PureFunctionsKtTest {
 
     @Test
     fun `test isURL valid urls`() {

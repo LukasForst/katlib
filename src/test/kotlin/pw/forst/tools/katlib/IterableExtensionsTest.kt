@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
-class IterableExtensionsTest {
+internal class IterableExtensionsTest {
 
     @Test
     fun toNavigableSetTest() {

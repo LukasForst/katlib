@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 
-class SystemExtensionsTest {
+internal class SystemExtensionsTest {
 
     @Test
     fun `getEnv returns same value as System getenv`() {

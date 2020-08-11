@@ -9,7 +9,7 @@ import kotlin.streams.toList
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class DateExtensionsTest {
+internal class DateExtensionsTest {
 
     @Test
     fun testGetDateRangeTo() {

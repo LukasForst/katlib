@@ -3,7 +3,7 @@ package pw.forst.tools.katlib
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class SequenceExtensionsTest {
+internal class SequenceExtensionsTest {
 
     @Test
     fun testAssoc() {

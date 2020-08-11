@@ -1,0 +1,20 @@
+name: CI test
+
+on: push
+jobs:
+  build:
+    name: Build and publish library
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.3
+
+      - name: Build lib
+        run: ./gradlew assemble
+
+      - name: Run tests
+        run: ./gradlew test

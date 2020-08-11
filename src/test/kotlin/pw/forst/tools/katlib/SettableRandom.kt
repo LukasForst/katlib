@@ -5,7 +5,7 @@ import java.util.Random
 /**
  * Implementation of random class which returns specified values. This is useful mainly for test cases to ensure desired outputs.
  */
-class SettableRandom : Random(20) {
+internal class SettableRandom : Random(20) {
     private lateinit var nextDoubleValues: DoubleIterator
     private lateinit var nextGaussianValues: DoubleIterator
     private lateinit var nextIntValues: IntIterator

@@ -1,4 +1,4 @@
-name: CD publish pipeline
+name: Release pipeline
 
 on:
   release:
@@ -15,6 +15,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.3
+
+      - name: Build lib
+        run: ./gradlew assemble
+
+      - name: Run tests
+        run: ./gradlew test
 
       - name: Publish to GitHub Packages
         run: ./gradlew publish

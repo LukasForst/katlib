@@ -3,7 +3,7 @@ package pw.forst.tools.katlib
 import org.junit.jupiter.api.Test
 import kotlin.test.fail
 
-class BooleanExtensionsTest {
+internal class BooleanExtensionsTest {
     @Test
     fun `test whenTrue executed`() {
         true.whenTrue { return }

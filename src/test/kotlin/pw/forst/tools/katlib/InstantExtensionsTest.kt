@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import java.time.Instant
 import kotlin.test.assertEquals
 
-class InstantExtensionsTest {
+internal class InstantExtensionsTest {
     private fun assertDuration(aEpoch: Long, bEpoch: Long, expected: Long) {
         val a = Instant.ofEpochMilli(aEpoch)
         val b = Instant.ofEpochMilli(bEpoch)

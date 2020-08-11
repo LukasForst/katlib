@@ -5,7 +5,7 @@ import java.util.Random
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
-class MapExtensionsTest {
+internal class MapExtensionsTest {
     @Test
     fun testGetWeightedRandom() {
         val items = mapOf(Pair("-1", 0.0), Pair("0", 0.5), Pair("1", 0.75), Pair("2", 0.5), Pair("3", 0.25))
