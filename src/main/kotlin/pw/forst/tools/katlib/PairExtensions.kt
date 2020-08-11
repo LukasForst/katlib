@@ -3,19 +3,22 @@ package pw.forst.tools.katlib
 /**
  * Applies [block] on left part of pair in List.
  */
-inline fun <T, NT, V> Pair<List<T>, V>.mapLeft(block: (T) -> NT): Pair<List<NT>, V> =
+inline fun <T, NT, V> Pair<Iterable<T>, V>.mapLeft(block: (T) -> NT): Pair<Iterable<NT>, V> =
     Pair(this.first.map(block), this.second)
 
 /**
  * Applies [block] on right part of pair in List.
  */
-inline fun <T, V, NV> Pair<T, List<V>>.mapRight(block: (V) -> NV): Pair<T, List<NV>> =
+inline fun <T, V, NV> Pair<T, Iterable<V>>.mapRight(block: (V) -> NV): Pair<T, Iterable<NV>> =
     Pair(this.first, this.second.map(block))
 
 /**
  * Applies [leftBlock] on left part and [rightBlock] on right part.
  */
-inline fun <T, V, NT, NV> Pair<List<T>, List<V>>.mapPair(leftBlock: (T) -> NT, rightBlock: (V) -> NV): Pair<List<NT>, List<NV>> =
+inline fun <T, V, NT, NV> Pair<Iterable<T>, Iterable<V>>.mapPair(
+    leftBlock: (T) -> NT,
+    rightBlock: (V) -> NV
+): Pair<Iterable<NT>, Iterable<NV>> =
     Pair(this.first.map(leftBlock), this.second.map(rightBlock))
 
 /**

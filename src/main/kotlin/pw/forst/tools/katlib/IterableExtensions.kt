@@ -53,8 +53,9 @@ inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
 }
 
 /**
- * Sums all Lists of integers into single one by indexes (i.e. all the numbers with the same index are always summed together). If the lists have different
- * lengths, the final list has length corresponding to the shortest list in [this] iterable.
+ * Sums all Lists of integers into single one by indexes (i.e. all the numbers with the same index are always summed together).
+ * If the lists have different lengths,
+ * the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
     val minSize = this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
@@ -444,7 +445,7 @@ internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int = if (th
 /**
  * Returns three lists with separated values from list of triples.
  * */
-fun <A, B, C> List<Triple<A, B, C>>.flattenToLists(): Triple<List<A>, List<B>, List<C>> {
+fun <A, B, C> Iterable<Triple<A, B, C>>.flattenToLists(): Triple<List<A>, List<B>, List<C>> {
     val aList = mutableListOf<A>()
     val bList = mutableListOf<B>()
     val cList = mutableListOf<C>()

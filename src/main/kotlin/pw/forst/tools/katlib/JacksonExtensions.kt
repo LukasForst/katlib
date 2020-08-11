@@ -42,6 +42,14 @@ inline fun <reified T> parseJson(json: ByteArray, logParserException: Boolean = 
 fun <T : Any> createJson(value: T): String = jacksonMapper().writeValueAsString(value)
 
 /**
+ * Serializes given object to string.
+ */
+fun <T : Any> createPrettyJson(value: T): String = jacksonMapper()
+    .writerWithDefaultPrettyPrinter()
+    .writeValueAsString(value)
+
+
+/**
  * Serializes given object to byte array.
  */
 fun <T : Any> createJsonBytes(value: T): ByteArray = jacksonMapper().writeValueAsBytes(value)
