@@ -1,6 +1,9 @@
 name: CI test
 
-on: push
+on:
+  push:
+  pull_request:
+
 jobs:
   build:
     name: Build and run tests
