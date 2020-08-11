@@ -224,4 +224,24 @@ internal class IterableExtensionsTest {
         val result = listOf(10, 20).itemsToString("numbers", itemToString = itemToString )
         assertEquals("2 numbers: NUM10, NUM20", result)
     }
+
+    @Test
+    fun validateElements() {
+        val incrementingNumbers = listOf(2, 3, 4, 5, 6)
+        val differenceIsMaxOne = incrementingNumbers.validateElements { previousNumber, nextNumber ->
+            nextNumber - previousNumber == 1
+        }
+
+        assertEquals(true, differenceIsMaxOne)
+    }
+
+    @Test
+    fun flatMapIndexedNotNull() {
+        val numbers = listOf(-1, 2, 5)
+        val finalElement = numbers.flatMapIndexedNotNull { index, current ->
+            listOf(current).takeIf { index == 2 }
+        }
+
+        assertEquals(1, finalElement.size)
+    }
 }
