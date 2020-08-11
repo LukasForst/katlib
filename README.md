@@ -1,6 +1,7 @@
 # Katlib
 [![GitHub version](https://badge.fury.io/gh/LukasForst%2Fkatlib.svg)](https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib)
 ![CI test](https://github.com/LukasForst/katlib/workflows/CI%20test/badge.svg)
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.pw/)
 
 Successor of [Ktoolz](https://github.com/blindspot-ai/ktoolz).
 
@@ -31,11 +32,19 @@ To import Katlib to Maven project use:
 </dependency>
 ```
 
+## Documentation
+Available online - [katlib.forst.pw](https://katlib.forst.pw/)
+
+## Contribution
+Feel free to submig PR with your faviourite extension functions and other cool utilities!
+
 ## Examples
 The library contains a lot of useful (as well as useless) extensions and functions 
 that were gathered during my (and my colleges) Kotlin career. 
 Please see [tests](src/test/kotlin/pw/forst/tools/katlib) folder for all possible functions 
 and how to use them.
+Full documentation can be found [here](https://katlib.forst.pw/).
+
 Following functions are the most popular ones.
 
 
