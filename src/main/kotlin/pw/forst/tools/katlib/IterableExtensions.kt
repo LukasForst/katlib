@@ -533,11 +533,11 @@ fun <S, T : S> Iterable<T>.validateElements(validationFunction: (acc: S, T) -> B
     var isValid = true
 
     while (iterator.hasNext()) {
-        val a = iterator.next()
-        val elementsAreValid = validationFunction(accumulator, a)
+        val element = iterator.next()
+        val elementsAreValid = validationFunction(accumulator, element)
 
         if (elementsAreValid) {
-            accumulator = a
+            accumulator = element
         } else {
             isValid = false
             break
