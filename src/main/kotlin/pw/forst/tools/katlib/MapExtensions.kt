@@ -12,16 +12,20 @@ import java.util.Random
  */
 fun <T> Map<T, Double>.getWeightedRandom(rand: Random): T {
     val total = this.values.sum()
-    if (total == 0.0) return this.keys.getRandomElement(rand)
-    val r = rand.nextDouble() * total
-    var countWeight = 0.0
-    for ((item, weight) in this) {
-        countWeight += weight
-        if (countWeight > r) {
-            return item
+    return if (total == 0.0) {
+        this.keys.getRandomElement(rand)
+    } else {
+        val r = rand.nextDouble() * total
+        var countWeight = 0.0
+
+        for ((item, weight) in this) {
+            countWeight += weight
+            if (countWeight > r) {
+                return item
+            }
         }
+        this.keys.last()
     }
-    return this.keys.last()
 }
 
 
@@ -79,7 +83,10 @@ fun <K1, K2, V> Map<K1, Map<K2, V>>.swapKeys(): Map<K2, Map<K1, V>> = swapKeysTo
  * Swaps dimensions in two dimensional map. The returned map has keys from the second dimension as primary keys and primary keys are stored in the second
  * dimension. [topDestination] specifies which map should be used to store the new primary keys and [bottomDestination] is used to store the new secondary keys.
  */
-fun <K1, K2, V, M2 : MutableMap<K1, V>, M1 : MutableMap<K2, M2>> Map<K1, Map<K2, V>>.swapKeysTo(topDestination: M1, bottomDestination: () -> M2): M1 {
+fun <K1, K2, V, M2 : MutableMap<K1, V>, M1 : MutableMap<K2, M2>> Map<K1, Map<K2, V>>.swapKeysTo(
+    topDestination: M1,
+    bottomDestination: () -> M2
+): M1 {
     for ((key1, map) in this) {
         for ((key2, value) in map) {
             topDestination.getOrPut(key2, bottomDestination)[key1] = value
@@ -93,7 +100,8 @@ fun <K1, K2, V, M2 : MutableMap<K1, V>, M1 : MutableMap<K2, M2>> Map<K1, Map<K2,
  * map.
  */
 fun <K1, K2, K3, KR1, KR2, KR3, V> Map<K1, Map<K2, Map<K3, V>>>.swapKeys(transform: (K1, K2, K3) -> Triple<KR1, KR2, KR3>):
-        Map<KR1, Map<KR2, Map<KR3, V>>> = this.swapKeysTo(LinkedHashMap(), { LinkedHashMap<KR2, MutableMap<KR3, V>>() }, { LinkedHashMap() }, transform)
+        Map<KR1, Map<KR2, Map<KR3, V>>> =
+    this.swapKeysTo(LinkedHashMap(), { LinkedHashMap<KR2, MutableMap<KR3, V>>() }, { LinkedHashMap() }, transform)
 
 /**
  * Works similarly as [swapKeys] but the final map has three levels. [transform] specifies how the keys should be swapped (or modified) in the newly created
@@ -127,7 +135,10 @@ fun <K1, K2, V> Map<Pair<K1, K2>, V>.toTwoLevelMap(): Map<K1, Map<K2, V>> = toTw
  * Transforms map of pairs as a keys into two dimensional map where the first elements in the pair are used as primary keys and second elements as secondary
  * keys. [topDestination] specifies which map should be used to store the new primary keys and [bottomDestination] is used to store the new secondary keys.
  */
-fun <K1, K2, V, M2 : MutableMap<K2, V>, M1 : MutableMap<K1, M2>> Map<Pair<K1, K2>, V>.toTwoLevelMap(topDestination: M1, bottomDestination: () -> M2): M1 {
+fun <K1, K2, V, M2 : MutableMap<K2, V>, M1 : MutableMap<K1, M2>> Map<Pair<K1, K2>, V>.toTwoLevelMap(
+    topDestination: M1,
+    bottomDestination: () -> M2
+): M1 {
     for ((key, value) in this) {
         val (key1, key2) = key
         topDestination.getOrPut(key1, bottomDestination)[key2] = value

@@ -21,3 +21,6 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
+
+      - name: Check styling using Detekt
+        run: ./gradlew detekt
