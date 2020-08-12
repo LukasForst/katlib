@@ -6,6 +6,7 @@ plugins {
     `maven-publish`
     id("net.nemerosa.versioning") version "2.14.0"
     id("org.jetbrains.dokka") version "1.4.0-rc"
+    id("io.gitlab.arturbosch.detekt") version "1.11.0-RC2"
     id("com.jfrog.bintray") version "1.8.5"
 
 }
@@ -40,6 +41,12 @@ dependencies {
     testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVerion) // generated parameters for tests
 
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVerion) // testing runtime
+}
+
+detekt {
+    parallel = true
+    input = files("$rootDir/src")
+    config = files(rootDir.resolve("detekt-config.yml"))
 }
 
 tasks {

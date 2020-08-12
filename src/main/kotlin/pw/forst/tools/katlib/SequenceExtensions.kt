@@ -2,15 +2,23 @@ package pw.forst.tools.katlib
 
 
 /**
+ * Default values taken from Guava.
+ */
+@PublishedApi
+internal const val DEFAULT_COLLECTION_SIZE = 10
+
+@PublishedApi
+internal const val DEFAULT_COERCE_MINIMUM_VALUE = 16
+
+/**
  * Returns a [Map] containing key-value pairs provided by elements of the given collection.
  *
  * If any of two pairs would have the same key the last one gets added to the map and the method creates a warning.
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
-fun <K, V> Sequence<Pair<K, V>>.assoc(): Map<K, V> {
-    return assocTo(LinkedHashMap(collectionSizeOrDefault(10)))
-}
+fun <K, V> Sequence<Pair<K, V>>.assoc(): Map<K, V> =
+    assocTo(LinkedHashMap(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)))
 
 /**
  * Populates and returns the [destination] mutable map with key-value pairs
@@ -36,10 +44,8 @@ fun <K, V, M : MutableMap<in K, in V>> Sequence<Pair<K, V>>.assocTo(destination:
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
-inline fun <T, K, V> Sequence<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocTo(LinkedHashMap(capacity), transform)
-}
+inline fun <T, K, V> Sequence<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> =
+    assocTo(LinkedHashMap(defaultMapCapacity()), transform)
 
 /**
  * Returns a [Map] containing the elements from the given collection indexed by the key
@@ -49,10 +55,8 @@ inline fun <T, K, V> Sequence<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> 
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
-inline fun <T, K> Sequence<T>.assocBy(keySelector: (T) -> K): Map<K, T> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocByTo(LinkedHashMap(capacity), keySelector)
-}
+inline fun <T, K> Sequence<T>.assocBy(keySelector: (T) -> K): Map<K, T> =
+    assocByTo(LinkedHashMap(defaultMapCapacity()), keySelector)
 
 /**
  * Returns a [Map] containing the values provided by [valueTransform] and indexed by [keySelector] functions applied to elements of the given collection.
@@ -61,10 +65,8 @@ inline fun <T, K> Sequence<T>.assocBy(keySelector: (T) -> K): Map<K, T> {
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
-inline fun <T, K, V> Sequence<T>.assocBy(keySelector: (T) -> K, valueTransform: (T) -> V): Map<K, V> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocByTo(LinkedHashMap(capacity), keySelector, valueTransform)
-}
+inline fun <T, K, V> Sequence<T>.assocBy(keySelector: (T) -> K, valueTransform: (T) -> V): Map<K, V> =
+    assocByTo(LinkedHashMap(defaultMapCapacity()), keySelector, valueTransform)
 
 /**
  * Populates and returns the [destination] mutable map with key-value pairs,
@@ -126,7 +128,7 @@ inline fun <T, K, V, M : MutableMap<in K, in V>> Sequence<T>.assocTo(destination
  *
  */
 inline fun <K, V> Sequence<K>.assocWith(valueSelector: (K) -> V): Map<K, V> {
-    val result = LinkedHashMap<K, V>(mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16))
+    val result = LinkedHashMap<K, V>(defaultMapCapacity())
     return assocWithTo(result, valueSelector)
 }
 
@@ -145,6 +147,14 @@ inline fun <K, V, M : MutableMap<in K, in V>> Sequence<K>.assocWithTo(destinatio
     destination.checkUniqueness(size) { this.groupBy({ it }, valueSelector) }
     return destination
 }
+
+/**
+ * Computes default capacity for the given sequence.
+ */
+@PublishedApi
+internal fun <T> Sequence<T>.defaultMapCapacity() =
+    mapCapacity(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)).coerceAtLeast(DEFAULT_COERCE_MINIMUM_VALUE)
+
 
 /**
  * Returns the size of this iterable if it is known, or the specified [default] value otherwise.
