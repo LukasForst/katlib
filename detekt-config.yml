@@ -52,15 +52,15 @@ comments:
     active: false
     endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
   UndocumentedPublicClass:
-    active: false
+    active: true
     searchInNestedClass: true
     searchInInnerClass: true
     searchInInnerObject: true
     searchInInnerInterface: true
   UndocumentedPublicFunction:
-    active: false
+    active: true
   UndocumentedPublicProperty:
-    active: false
+    active: true
 
 complexity:
   active: true
@@ -166,7 +166,7 @@ empty-blocks:
 exceptions:
   active: true
   ExceptionRaisedInUnexpectedLocation:
-    active: false
+    active: true
     methodNames: [toString, hashCode, equals, finalize]
   InstanceOfCheckForException:
     active: false
@@ -245,17 +245,17 @@ formatting:
     autoCorrect: true
     insertFinalNewLine: true
   ImportOrdering:
-    active: false
+    active: true
     autoCorrect: true
     layout: 'idea'
   Indentation:
-    active: false
+    active: true
     autoCorrect: true
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 160
   ModifierOrdering:
     active: true
     autoCorrect: true
@@ -317,7 +317,7 @@ formatting:
     active: true
     autoCorrect: true
   SpacingAroundDoubleColon:
-    active: false
+    active: true
     autoCorrect: true
   SpacingAroundKeyword:
     active: true
@@ -332,10 +332,10 @@ formatting:
     active: true
     autoCorrect: true
   SpacingBetweenDeclarationsWithAnnotations:
-    active: false
+    active: true
     autoCorrect: true
   SpacingBetweenDeclarationsWithComments:
-    active: false
+    active: true
     autoCorrect: true
   StringTemplate:
     active: true
@@ -497,12 +497,12 @@ potential-bugs:
 style:
   active: true
   CollapsibleIfStatements:
-    active: false
+    active: true
   DataClassContainsFunctions:
-    active: false
+    active: true
     conversionFunctionPrefix: 'to'
   DataClassShouldBeImmutable:
-    active: false
+    active: true
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
@@ -523,7 +523,7 @@ style:
     imports: []
     forbiddenPatterns: ''
   ForbiddenMethodCall:
-    active: false
+    active: true
     methods: ['kotlin.io.println', 'kotlin.io.print']
   ForbiddenPublicDataClass:
     active: false
