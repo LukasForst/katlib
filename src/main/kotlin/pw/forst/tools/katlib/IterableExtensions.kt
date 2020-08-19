@@ -7,9 +7,6 @@ import kotlin.collections.LinkedHashSet
 import kotlin.collections.component1
 import kotlin.collections.component2
 
-@PublishedApi
-internal val iterableLogger = KLogging().logger("IterableExtensions")
-
 /**
  * Function that will return a random element from the iterable.
  */
@@ -58,8 +55,7 @@ inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
  * the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
-    val minSize =
-        this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
+    val minSize = requireNotNull(this.minValueBy { it.size }) { "Only nonempty collections are supported." }
     val result = MutableList(minSize) { 0 }
 
     for (index in 0 until minSize) {
@@ -75,8 +71,7 @@ fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
  * lengths, the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Double>>.sumDoublesByIndexes(): List<Double> {
-    val minSize =
-        this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
+    val minSize = requireNotNull(this.minValueBy { it.size }) { "Only nonempty collections are supported." }
     val result = MutableList(minSize) { 0.0 }
 
     for (index in 0 until minSize) {
@@ -138,8 +133,7 @@ inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R
 /**
  * Returns the most frequently occurring value of the given function or `null` if there are no elements.
  */
-fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? =
-    this.groupingBy(selector).eachCount().maxBy { it.value }?.key
+fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? = this.groupingBy(selector).eachCount().maxBy { it.value }?.key
 
 /**
  * Creates cartesian product between all the elements from [this] and [other] iterable. E.g. when [this] contains [1,2,3] and [other] contains ['a', 'b'], the
@@ -209,7 +203,9 @@ inline fun <T> Iterable<T>.singleOrEmpty(predicate: (T) -> Boolean): T? {
     var found = false
     for (element in this) {
         if (predicate(element)) {
-            if (found) throw IllegalArgumentException("Collection contains more than one matching element.")
+            if (found) {
+                throw IllegalArgumentException("Collection contains more than one matching element.")
+            }
             single = element
             found = true
         }
@@ -222,20 +218,27 @@ inline fun <T> Iterable<T>.singleOrEmpty(predicate: (T) -> Boolean): T? {
  * Returns single element, or `null` if the collection is empty.
  * Throws [IllegalArgumentException] when multiple elements are matching predicate.
  */
-fun <T> Iterable<T>.singleOrEmpty(): T? {
+fun <T> Iterable<T>.singleOrEmpty(): T? =
     when (this) {
-        is List -> return if (size == 0) null else if (size == 1) this[0] else throw IllegalArgumentException("Collection contains more than one element.")
+        is List ->
+            when (size) {
+                0 -> null
+                1 -> this[0]
+                else -> throw IllegalArgumentException("Collection contains more than one element.")
+            }
         else -> {
             val iterator = iterator()
-            if (!iterator.hasNext())
-                return null
-            val single = iterator.next()
-            if (iterator.hasNext())
-                throw IllegalArgumentException("Collection contains more than one element.")
-            return single
+            if (!iterator.hasNext()) {
+                null
+            } else {
+                val single = iterator.next()
+                if (iterator.hasNext()) {
+                    throw IllegalArgumentException("Collection contains more than one element.")
+                }
+                single
+            }
         }
     }
-}
 
 /**
  * Takes Iterable with pairs and returns pair of collections filled with values in each part of pair.
@@ -268,7 +271,7 @@ inline fun <T, R> Iterable<T>.setDifferenceBy(other: Iterable<T>, selector: (T) 
  * The returned map preserves the entry iteration order of the original collection.
  */
 fun <K, V> Iterable<Pair<K, V>>.assoc(): Map<K, V> {
-    return assocTo(LinkedHashMap(collectionSizeOrDefault(10)))
+    return assocTo(LinkedHashMap(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)))
 }
 
 /**
@@ -296,8 +299,7 @@ fun <K, V, M : MutableMap<in K, in V>> Iterable<Pair<K, V>>.assocTo(destination:
  * The returned map preserves the entry iteration order of the original collection.
  */
 inline fun <T, K, V> Iterable<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocTo(LinkedHashMap(capacity), transform)
+    return assocTo(LinkedHashMap(defaultMapCapacity()), transform)
 }
 
 
@@ -326,8 +328,7 @@ inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocTo(destination
  * The returned map preserves the entry iteration order of the original collection.
  */
 inline fun <T, K> Iterable<T>.assocBy(keySelector: (T) -> K): Map<K, T> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocByTo(LinkedHashMap(capacity), keySelector)
+    return assocByTo(LinkedHashMap(defaultMapCapacity()), keySelector)
 }
 
 /**
@@ -355,8 +356,7 @@ inline fun <T, K, M : MutableMap<in K, in T>> Iterable<T>.assocByTo(destination:
  * The returned map preserves the entry iteration order of the original collection.
  */
 inline fun <T, K, V> Iterable<T>.assocBy(keySelector: (T) -> K, valueTransform: (T) -> V): Map<K, V> {
-    val capacity = mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16)
-    return assocByTo(LinkedHashMap(capacity), keySelector, valueTransform)
+    return assocByTo(LinkedHashMap(defaultMapCapacity()), keySelector, valueTransform)
 }
 
 /**
@@ -366,11 +366,7 @@ inline fun <T, K, V> Iterable<T>.assocBy(keySelector: (T) -> K, valueTransform: 
  *
  * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
-inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
-    destination: M,
-    keySelector: (T) -> K,
-    valueTransform: (T) -> V
-): M {
+inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(destination: M, keySelector: (T) -> K, valueTransform: (T) -> V): M {
     var size = 0
     for (element in this) {
         destination.put(keySelector(element), valueTransform(element))
@@ -391,7 +387,7 @@ inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
  *
  */
 inline fun <K, V> Iterable<K>.assocWith(valueSelector: (K) -> V): Map<K, V> {
-    val result = LinkedHashMap<K, V>(mapCapacity(collectionSizeOrDefault(10)).coerceAtLeast(16))
+    val result = LinkedHashMap<K, V>(defaultMapCapacity())
     return assocWithTo(result, valueSelector)
 }
 
@@ -410,49 +406,6 @@ inline fun <K, V, M : MutableMap<in K, in V>> Iterable<K>.assocWithTo(destinatio
     destination.checkUniqueness(size) { this.groupBy({ it }, valueSelector) }
     return destination
 }
-
-/**
- * Checks that [this] map has [expectedSize] and if it is not the case (because value for some key was overwritten), warning with affected keys is generated.
- */
-@PublishedApi
-internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(
-    expectedSize: Int,
-    grouping: () -> Map<K, List<V>>
-) {
-    if (this.size == expectedSize) return
-    val duplicatedKeys = grouping().filterValues { it.size > 1 }
-    iterableLogger.warn(Throwable()) {
-        val entries =
-            duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
-        "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries."
-    }
-
-}
-
-internal const val INT_MAX_POWER_OF_TWO: Int = Int.MAX_VALUE / 2 + 1
-
-/**
- * Calculate the initial capacity of a map, based on Guava's com.google.common.collect.Maps approach. This is equivalent
- * to the Collection constructor for HashSet, (c.size()/.75f) + 1, but provides further optimisations for very small or
- * very large sizes, allows support non-collection classes, and provides consistency for all map based class construction.
- */
-@PublishedApi
-internal fun mapCapacity(expectedSize: Int): Int {
-    if (expectedSize < 3) {
-        return expectedSize + 1
-    }
-    if (expectedSize < INT_MAX_POWER_OF_TWO) {
-        return expectedSize + expectedSize / 3
-    }
-    return Int.MAX_VALUE // any large value
-}
-
-/**
- * Returns the size of this iterable if it is known, or the specified [default] value otherwise.
- */
-@PublishedApi
-internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int =
-    if (this is Collection<*>) this.size else default
 
 /**
  * Returns three lists with separated values from list of triples.
@@ -509,6 +462,59 @@ inline fun <TItem> Iterable<TItem>.itemsToString(
     }
     return sb.toString().restrictLengthWithEllipsis(totalLength)
 }
+
+// ---- internal helper functions
+
+@PublishedApi
+internal val iterableLogger = KLogging().logger("IterableExtensions")
+internal const val INT_MAX_POWER_OF_TWO: Int = Int.MAX_VALUE / 2 + 1
+
+/**
+ * Checks that [this] map has [expectedSize] and if it is not the case (because value for some key was overwritten), warning with affected keys is generated.
+ */
+@PublishedApi
+internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expectedSize: Int, grouping: () -> Map<K, List<V>>) {
+    if (this.size == expectedSize) {
+        return
+    }
+    val duplicatedKeys = grouping().filterValues { it.size > 1 }
+    iterableLogger.warn(Throwable()) {
+        @Suppress("MagicNumber") // specified carefully, don't need constant
+        val entries = duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
+        "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries."
+    }
+
+}
+
+
+/**
+ * Returns default capacity for the maps based on the Guava's approach.
+ */
+@PublishedApi
+internal fun <T> Iterable<T>.defaultMapCapacity() =
+    mapCapacity(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)).coerceAtLeast(DEFAULT_COERCE_MINIMUM_VALUE)
+
+
+/**
+ * Calculate the initial capacity of a map, based on Guava's com.google.common.collect.Maps approach. This is equivalent
+ * to the Collection constructor for HashSet, (c.size()/.75f) + 1, but provides further optimisations for very small or
+ * very large sizes, allows support non-collection classes, and provides consistency for all map based class construction.
+ */
+@PublishedApi
+@Suppress("MagicNumber") // see upper docs
+internal fun mapCapacity(expectedSize: Int): Int =
+    when {
+        expectedSize < 3 -> expectedSize + 1
+        expectedSize < INT_MAX_POWER_OF_TWO -> expectedSize + expectedSize / 3
+        else -> Int.MAX_VALUE // any large value
+    }
+
+/**
+ * Returns the size of this iterable if it is known, or the specified [default] value otherwise.
+ */
+@PublishedApi
+internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int =
+    if (this is Collection<*>) this.size else default
 
 /**
  * Returns a single list of all not null elements yielded from results of [transform]

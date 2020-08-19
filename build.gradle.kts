@@ -5,6 +5,8 @@ plugins {
     kotlin("jvm") version "1.3.72"
     `maven-publish`
     id("net.nemerosa.versioning") version "2.14.0"
+    id("org.jetbrains.dokka") version "1.4.0-rc"
+    id("io.gitlab.arturbosch.detekt") version "1.11.0-RC2"
     id("com.jfrog.bintray") version "1.8.5"
 
 }
@@ -41,6 +43,12 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVerion) // testing runtime
 }
 
+detekt {
+    parallel = true
+    input = files("$rootDir/src")
+    config = files(rootDir.resolve("detekt-config.yml"))
+}
+
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
@@ -51,6 +59,22 @@ tasks {
 
     test {
         useJUnitPlatform()
+    }
+
+    dokkaHtml {
+        outputDirectory = "$buildDir/docs"
+
+        dokkaSourceSets {
+            configureEach {
+                moduleDisplayName = "katlib"
+                displayName = "Katlib"
+
+                sourceLink {
+                    path = "src/main/kotlin"
+                    url = "https://github.com/LukasForst/katlib/blob/master/src/main/kotlin"
+                }
+            }
+        }
     }
 }
 

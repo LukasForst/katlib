@@ -1,6 +1,9 @@
 name: CI test
 
-on: push
+on:
+  push:
+  pull_request:
+
 jobs:
   build:
     name: Build and run tests
@@ -17,4 +20,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Run tests
-        run: ./gradlew test
+        run: ./gradlew test --info
+
+      - name: Check styling using Detekt
+        run: ./gradlew detekt --info

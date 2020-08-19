@@ -118,17 +118,21 @@ private val bracketPairs = setOf("()", "[]", "<>", "{}")
  */
 fun Any?.toShortString(): String {
     val longString = this.toString()
-    if (longString.isEmpty()) return "EMPTY STRING" // Should not happen
-
-    if (!longString.startsWithLetter()) return longString // The format does not resemble an output of [toLongString]
-
-    for (pair in bracketPairs) {
-        if (longString.last() == pair[1]) {
-            val after = longString.substringAfter(pair[0])
-            return if (after.length < 2) longString else after.substring(0, after.length - 1) // Omit the last char
+    return when {
+        longString.isEmpty() -> "EMPTY STRING" // Should not happen
+        !longString.startsWithLetter() -> longString // The format does not resemble an output of [toLongString]
+        else -> {
+            bracketPairs.firstOrNull { pair -> longString.last() == pair[1] }
+                ?.let { pair ->
+                    val after = longString.substringAfter(pair[0])
+                    if (after.length < 2) {
+                        longString
+                    } else {
+                        after.substring(0, after.length - 1) // Omit the last char
+                    }
+                } ?: longString // The format does not resemble an output of [toLongString]
         }
     }
-    return longString // The format does not resemble an output of [toLongString]
 }
 
 /**

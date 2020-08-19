@@ -22,6 +22,7 @@ fun jacksonMapper(): ObjectMapper = jacksonObjectMapper().apply {
 
 /**
  * Tries to create instance of T from provided [json], null is returned when it is not possible to parse it.
+ * If [logParserException] set to true and exception is raised during JSON parsing, it is logged.
  */
 inline fun <reified T> parseJson(json: String, logParserException: Boolean = true): T? =
     runCatching { jacksonMapper().readValue<T>(json) }
@@ -30,6 +31,7 @@ inline fun <reified T> parseJson(json: String, logParserException: Boolean = tru
 
 /**
  * Tries to create instance of T from provided [json], null is returned when it is not possible to parse it.
+ * If [logParserException] set to true and exception is raised during JSON parsing, it is logged.
  */
 inline fun <reified T> parseJson(json: ByteArray, logParserException: Boolean = true): T? =
     runCatching { jacksonMapper().readValue<T>(json) }
