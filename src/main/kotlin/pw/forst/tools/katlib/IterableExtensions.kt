@@ -518,11 +518,13 @@ fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -> Itera
     return flatMapIndexedTo(ArrayList(), transform)
 }
 
+/**
+ * Appends all elements yielded from results of [transform] function being invoked on each element of original collection, to the given [destination].
+ */
 inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
     destination: C,
     transform: (index: Int, T) -> Iterable<R>?
 ): C {
-
     forEachIndexed { index, element ->
         transform(index, element)?.let { elements ->
             destination.addAll(elements)
