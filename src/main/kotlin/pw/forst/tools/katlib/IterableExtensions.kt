@@ -1,11 +1,11 @@
 package pw.forst.tools.katlib
 
 import mu.KLogging
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.NavigableSet
-import java.util.Random
-import java.util.TreeSet
+import java.util.*
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.LinkedHashSet
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @PublishedApi
 internal val iterableLogger = KLogging().logger("IterableExtensions")
@@ -58,7 +58,8 @@ inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
  * the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
-    val minSize = this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
+    val minSize =
+        this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
     val result = MutableList(minSize) { 0 }
 
     for (index in 0 until minSize) {
@@ -74,7 +75,8 @@ fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
  * lengths, the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Double>>.sumDoublesByIndexes(): List<Double> {
-    val minSize = this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
+    val minSize =
+        this.minValueBy { it.size } ?: throw IllegalArgumentException("Only nonempty collections are supported.")
     val result = MutableList(minSize) { 0.0 }
 
     for (index in 0 until minSize) {
@@ -136,7 +138,8 @@ inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R
 /**
  * Returns the most frequently occurring value of the given function or `null` if there are no elements.
  */
-fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? = this.groupingBy(selector).eachCount().maxBy { it.value }?.key
+fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? =
+    this.groupingBy(selector).eachCount().maxBy { it.value }?.key
 
 /**
  * Creates cartesian product between all the elements from [this] and [other] iterable. E.g. when [this] contains [1,2,3] and [other] contains ['a', 'b'], the
@@ -363,7 +366,11 @@ inline fun <T, K, V> Iterable<T>.assocBy(keySelector: (T) -> K, valueTransform: 
  *
  * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
-inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(destination: M, keySelector: (T) -> K, valueTransform: (T) -> V): M {
+inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
+    destination: M,
+    keySelector: (T) -> K,
+    valueTransform: (T) -> V
+): M {
     var size = 0
     for (element in this) {
         destination.put(keySelector(element), valueTransform(element))
@@ -408,11 +415,15 @@ inline fun <K, V, M : MutableMap<in K, in V>> Iterable<K>.assocWithTo(destinatio
  * Checks that [this] map has [expectedSize] and if it is not the case (because value for some key was overwritten), warning with affected keys is generated.
  */
 @PublishedApi
-internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expectedSize: Int, grouping: () -> Map<K, List<V>>) {
+internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(
+    expectedSize: Int,
+    grouping: () -> Map<K, List<V>>
+) {
     if (this.size == expectedSize) return
     val duplicatedKeys = grouping().filterValues { it.size > 1 }
     iterableLogger.warn(Throwable()) {
-        val entries = duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
+        val entries =
+            duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
         "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries."
     }
 
@@ -440,7 +451,8 @@ internal fun mapCapacity(expectedSize: Int): Int {
  * Returns the size of this iterable if it is known, or the specified [default] value otherwise.
  */
 @PublishedApi
-internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int = if (this is Collection<*>) this.size else default
+internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int =
+    if (this is Collection<*>) this.size else default
 
 /**
  * Returns three lists with separated values from list of triples.
@@ -499,14 +511,17 @@ inline fun <TItem> Iterable<TItem>.itemsToString(
 }
 
 /**
- * Transforms an Iterable into nullable elements while only keeping the non-null elements.
+ * Returns a single list of all not null elements yielded from results of [transform]
+ * function being invoked on each element of original collection.
  */
-fun <T, R> Iterable<T>.flatMapIndexedNotNull(function: (index: Int, T) -> Iterable<R>?): List<R> {
-    return flatMapIndexedTo(ArrayList(), function)
+fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -> Iterable<R>?): List<R> {
+    return flatMapIndexedTo(ArrayList(), transform)
 }
 
-private inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(destination: C,
-                                                                                    transform: (index: Int, T) -> Iterable<R>?): C {
+inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
+    destination: C,
+    transform: (index: Int, T) -> Iterable<R>?
+): C {
 
     forEachIndexed { index, element ->
         transform(index, element)?.let { elements ->
@@ -518,14 +533,14 @@ private inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexe
 }
 
 /**
- * Verifies the relationship between every element of an Iterable.
+ * Validates the relationship between every element of an Iterable.
  *
  * Iterates through the elements invoking the validationFunction on each one.
  * Returns false on the first element that does not pass the validation function, otherwise true.
  *
  * @param validationFunction is the accumulator function that verifies the elements.
  */
-fun <S, T : S> Iterable<T>.validateElements(validationFunction: (acc: S, T) -> Boolean): Boolean {
+fun <S, T : S> Iterable<T>.foldValidated(validationFunction: (acc: S, T) -> Boolean): Boolean {
     val iterator = this.iterator()
     if (!iterator.hasNext()) return false
 
