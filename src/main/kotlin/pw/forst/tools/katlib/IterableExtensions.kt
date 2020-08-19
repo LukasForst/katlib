@@ -514,7 +514,7 @@ inline fun <TItem> Iterable<TItem>.itemsToString(
  * Returns a single list of all not null elements yielded from results of [transform]
  * function being invoked on each element of original collection.
  */
-fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -> Iterable<R>?): List<R> {
+inline fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -> Iterable<R>?): List<R> {
     return flatMapIndexedTo(ArrayList(), transform)
 }
 
@@ -542,7 +542,7 @@ inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
  *
  * @param validationFunction is the accumulator function that verifies the elements.
  */
-fun <S, T : S> Iterable<T>.foldValidated(validationFunction: (acc: S, T) -> Boolean): Boolean {
+inline fun <S, T : S> Iterable<T>.foldValidated(validationFunction: (acc: S, T) -> Boolean): Boolean {
     val iterator = this.iterator()
     if (!iterator.hasNext()) return false
 
