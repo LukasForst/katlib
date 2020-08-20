@@ -3,11 +3,9 @@ package pw.forst.tools.katlib
 import org.junit.jupiter.api.Test
 import java.util.Random
 import java.util.TreeSet
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
-import kotlin.test.fail
+import kotlin.Comparator
+import kotlin.collections.ArrayList
+import kotlin.test.*
 
 internal class IterableExtensionsTest {
 
@@ -218,10 +216,60 @@ internal class IterableExtensionsTest {
 
         assertEquals(expected, input.flattenToLists())
     }
+
     @Test
     fun itemsToString() {
-        val itemToString: (Int) -> String = {i -> "NUM$i"}
-        val result = listOf(10, 20).itemsToString("numbers", itemToString = itemToString )
+        val itemToString: (Int) -> String = { i -> "NUM$i" }
+        val result = listOf(10, 20).itemsToString("numbers", itemToString = itemToString)
         assertEquals("2 numbers: NUM10, NUM20", result)
+    }
+
+    @Test
+    fun foldValidatedShouldVerifyNumbersIncrementByOne() {
+        val incrementingNumbers = listOf(2, 3, 4, 5, 6)
+        val differenceIsMaxOne = incrementingNumbers.foldValidated { previousNumber, nextNumber ->
+            nextNumber - previousNumber == 1
+        }
+
+        assertEquals(true, differenceIsMaxOne)
+    }
+
+    @Test
+    fun foldValidatedShouldEarlyReturnOnFirstFalse() {
+        val names = listOf("Dan", "Opie", "Eli")
+
+        val processedNames = mutableListOf<String>().apply {
+            names.foldValidated { current, next ->
+                add(current)
+
+                current.toLowerCase().any { currentChar ->
+                    currentChar in next.toLowerCase()
+                }
+            }
+        }
+
+        val processingStoppedAfterFirstName = names[0] in processedNames && names[1] !in processedNames
+
+        assertEquals(true, processingStoppedAfterFirstName)
+    }
+
+    @Test
+    fun flatMapIndexedNotNull() {
+        val numbers = listOf(-1, 2, 5)
+        val finalElement = numbers.flatMapIndexedNotNull { index, current ->
+            listOf(current).takeIf { index == 2 }
+        }
+
+        assertEquals(1, finalElement.size)
+    }
+
+    @Test
+    fun flatMapIndexedNotNullFiltersOutNulls() {
+        val numbersWithNulls = listOf(2, 3, null, 8, 11, null)
+        val flattenedNumbersWithoutNulls = numbersWithNulls.flatMapIndexedNotNull { _, i ->
+            if (i != null) listOf(i) else null
+        }
+
+        assertEquals(false, flattenedNumbersWithoutNulls.size == numbersWithNulls.size)
     }
 }

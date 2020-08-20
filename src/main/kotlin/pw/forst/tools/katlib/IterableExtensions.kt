@@ -1,11 +1,11 @@
 package pw.forst.tools.katlib
 
 import mu.KLogging
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.NavigableSet
-import java.util.Random
-import java.util.TreeSet
+import java.util.*
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.LinkedHashSet
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 /**
  * Function that will return a random element from the iterable.
@@ -515,3 +515,57 @@ internal fun mapCapacity(expectedSize: Int): Int =
 @PublishedApi
 internal fun <T> Iterable<T>.collectionSizeOrDefault(default: Int): Int =
     if (this is Collection<*>) this.size else default
+
+/**
+ * Returns a single list of all not null elements yielded from results of [transform]
+ * function being invoked on each element of original collection.
+ */
+inline fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -> Iterable<R>?): List<R> {
+    return flatMapIndexedTo(ArrayList(), transform)
+}
+
+/**
+ * Appends all elements yielded from results of [transform] function being invoked on each element of original collection, to the given [destination].
+ */
+inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
+    destination: C,
+    transform: (index: Int, T) -> Iterable<R>?
+): C {
+    forEachIndexed { index, element ->
+        transform(index, element)?.let { elements ->
+            destination.addAll(elements)
+        }
+    }
+
+    return destination
+}
+
+/**
+ * Validates the relationship between every element of an Iterable.
+ *
+ * Iterates through the elements invoking the validationFunction on each one.
+ * Returns false on the first element that does not pass the validation function, otherwise true.
+ *
+ * @param validationFunction is the accumulator function that verifies the elements.
+ */
+inline fun <S, T : S> Iterable<T>.foldValidated(validationFunction: (acc: S, T) -> Boolean): Boolean {
+    val iterator = this.iterator()
+    if (!iterator.hasNext()) return false
+
+    var accumulator: T = iterator.next()
+    var isValid = true
+
+    while (iterator.hasNext()) {
+        val element = iterator.next()
+        val elementsAreValid = validationFunction(accumulator, element)
+
+        if (elementsAreValid) {
+            accumulator = element
+        } else {
+            isValid = false
+            break
+        }
+    }
+
+    return isValid
+}
