@@ -3,9 +3,11 @@ package pw.forst.tools.katlib
 import org.junit.jupiter.api.Test
 import java.util.Random
 import java.util.TreeSet
-import kotlin.Comparator
-import kotlin.collections.ArrayList
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 internal class IterableExtensionsTest {
 
@@ -19,6 +21,7 @@ internal class IterableExtensionsTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun testSumByLong() {
         val longs = listOf(10L, 20L, 30L)
         assertEquals(120L, longs.sumByLong { it * 2 })
@@ -27,6 +30,7 @@ internal class IterableExtensionsTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun testSumByLongSequence() {
         val longs = sequenceOf(10L, 20L, 30L)
         assertEquals(120L, longs.sumByLong { it * 2 })
