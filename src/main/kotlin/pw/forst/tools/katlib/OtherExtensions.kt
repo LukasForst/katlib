@@ -2,6 +2,7 @@ package pw.forst.tools.katlib
 
 import java.net.URL
 import java.util.Optional
+import java.util.Properties
 import java.util.UUID
 import kotlin.reflect.KClass
 
@@ -166,3 +167,11 @@ fun getEnv(variableName: String): String? = System.getenv(variableName)
  * Shortcut for [System.lineSeparator].
  */
 val newLine: String get() = System.lineSeparator()
+
+/**
+ * Loads properties file from the resources.
+ * Returns null if the properties were not loaded.
+ */
+inline fun <reified T : Any> T.propertiesFromResources(resourcesPath: String): Properties? =
+    javaClass.getResourceAsStream(resourcesPath)?.let { Properties().apply { load(it) } }
+

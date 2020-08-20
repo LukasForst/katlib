@@ -211,4 +211,18 @@ internal class OtherExtensionsTest {
     fun `test newLine returns System lineSeparator`() {
         assertEquals(System.lineSeparator(), newLine)
     }
+
+    @Test
+    fun `test load toplevel props`() {
+        val props = propertiesFromResources("/toplevel.properties")
+        assertNotNull(props)
+        assertEquals("yes", props.getProperty("loaded"))
+    }
+
+    @Test
+    fun `test load classLevel props`() {
+        val props = propertiesFromResources("classlevel.properties")
+        assertNotNull(props)
+        assertEquals("yes", props.getProperty("loaded"))
+    }
 }
