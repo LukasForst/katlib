@@ -12,7 +12,8 @@ plugins {
 }
 
 group = "pw.forst.tools"
-version = "0.0.1"
+version = (versioning.info.tag ?: versioning.info.lastTag) +
+        if (versioning.info.dirty) "-dirty" else ""
 
 
 repositories {
