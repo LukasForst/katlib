@@ -1,9 +1,11 @@
 package pw.forst.tools.katlib
 
 import mu.KLogging
-import java.util.*
-import kotlin.collections.LinkedHashMap
-import kotlin.collections.LinkedHashSet
+import java.util.ArrayList
+import java.util.Comparator
+import java.util.NavigableSet
+import java.util.Random
+import java.util.TreeSet
 import kotlin.collections.component1
 import kotlin.collections.component2
 
@@ -28,6 +30,7 @@ fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R): List<
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the collection.
  */
+@Deprecated("Since Kotlin 1.4.0, use sumOf")
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum: Long = 0
     for (element in this) {
@@ -41,6 +44,7 @@ inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
  *
  * The operation is _terminal_.
  */
+@Deprecated("Since Kotlin 1.4.0, use sumOf")
 inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L
     for (element in this) {
@@ -133,7 +137,8 @@ inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R
 /**
  * Returns the most frequently occurring value of the given function or `null` if there are no elements.
  */
-fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? = this.groupingBy(selector).eachCount().maxBy { it.value }?.key
+fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? =
+    this.groupingBy(selector).eachCount().maxByOrNull { it.value }?.key
 
 /**
  * Creates cartesian product between all the elements from [this] and [other] iterable. E.g. when [this] contains [1,2,3] and [other] contains ['a', 'b'], the
