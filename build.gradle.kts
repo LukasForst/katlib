@@ -2,17 +2,18 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.jvm.tasks.Jar
 
 plugins {
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.0"
     `maven-publish`
     id("net.nemerosa.versioning") version "2.14.0"
     id("org.jetbrains.dokka") version "1.4.0-rc"
-    id("io.gitlab.arturbosch.detekt") version "1.11.0-RC2"
+    id("io.gitlab.arturbosch.detekt") version "1.11.2"
     id("com.jfrog.bintray") version "1.8.5"
 
 }
 
 group = "pw.forst.tools"
-version = versioning.info.lastTag
+version = (versioning.info.tag ?: versioning.info.lastTag) +
+        if (versioning.info.dirty) "-dirty" else ""
 
 
 repositories {
@@ -20,7 +21,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.microutils", "kotlin-logging", "1.8.3")
+    implementation("io.github.microutils", "kotlin-logging", "1.8.3") {
+        // until kotlin-logging has support for kotlin 1.4
+        exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+        exclude("org.jetbrains.kotlin", "kotlin-stdlib-common")
+    }
 
     // all dependencies must me compileOnly as this is library
     compileOnly(kotlin("stdlib-jdk8")) // kotlin std
@@ -28,7 +33,8 @@ dependencies {
     val jacksonVersion = "2.11.2"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
-
+    // because jackson kotlin have a bit older lib
+    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.4.0")
     // testing
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
@@ -137,7 +143,7 @@ bintray {
         name = project.name
         // my user account at bintray
         userOrg = "lukas-forst"
-        websiteUrl = "https://forst.pw"
+        websiteUrl = "https://katlib.forst.pw"
         githubRepo = githubRepository
         vcsUrl = "https://github.com/$githubRepository"
         description = descriptionForPackage

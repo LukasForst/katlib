@@ -51,7 +51,7 @@ Following functions are the most popular ones.
 #### [Iterable Extensions](src/main/kotlin/pw/forst/tools/katlib/IterableExtensions.kt)
 * `Iterable<E>.getRandomElement` - returns the random element from the iterable
 * `Iterable<T>.reduction` - reduce producing list, useful for cumulative sums
-* `Iterable<T>.sumByLong` - sums iterable by long value with selector
+* `Iterable<T>.sumByLong` - sums iterable by long value with selector (*deprecated since Kotlin 1.4.0*)
 * `Iterable<List<Int>>.sumByIndexes` - sums all Lists of integers into single one by indexes
 * `Iterable<List<Double>>.sumDoublesByIndexes` - same as previous but with doubles
 * `Iterable<T>.maxValueBy` - returns the largest value of given iterable by provided selector
