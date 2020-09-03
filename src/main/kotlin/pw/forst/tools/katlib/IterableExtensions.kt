@@ -191,7 +191,6 @@ fun <T> Iterable<Iterable<T>?>.intersect(): Set<T> {
  */
 fun <T : Any, R : Any> Iterable<T?>.filterNotNullBy(selector: (T) -> R?): List<T> {
     val result = ArrayList<T>()
-    this.mapNotNull { }
     for (item in this) {
         if (item != null && selector(item) != null) result.add(item)
     }
