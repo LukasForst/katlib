@@ -5,3 +5,6 @@ test:
 	./gradlew test
 
 check: detekt test
+
+doc:
+	./gradlew dokkaHtml
