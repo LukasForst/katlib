@@ -17,7 +17,7 @@ fun <E> Iterable<E>.getRandomElement(rand: Random) = this.elementAt(rand.nextInt
 /**
  * Creates reduction of the given [Iterable]. This function can be used for example for cumulative sums.
  */
-fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R): List<R> {
+inline fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R): List<R> {
     val result = ArrayList<R>()
     var last = initial
     for (item in this) {
@@ -137,7 +137,7 @@ inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R
 /**
  * Returns the most frequently occurring value of the given function or `null` if there are no elements.
  */
-fun <T, R> Iterable<T>.dominantValueBy(selector: (T) -> R): R? =
+inline fun <T, R> Iterable<T>.dominantValueBy(crossinline selector: (T) -> R): R? =
     this.groupingBy(selector).eachCount().maxByOrNull { it.value }?.key
 
 /**
@@ -189,7 +189,7 @@ fun <T> Iterable<Iterable<T>?>.intersect(): Set<T> {
 /**
  * Returns a list containing only the non-null results of applying the given transform function to each element in the original collection.
  */
-fun <T : Any, R : Any> Iterable<T?>.filterNotNullBy(selector: (T) -> R?): List<T> {
+inline fun <T : Any, R : Any> Iterable<T?>.filterNotNullBy(selector: (T) -> R?): List<T> {
     val result = ArrayList<T>()
     for (item in this) {
         if (item != null && selector(item) != null) result.add(item)

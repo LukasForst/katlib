@@ -1,5 +1,7 @@
 package pw.forst.tools.katlib
 
+import java.util.UUID
+
 /**
  * Shortens the string to [maxLength]; in such case, appends the [ellipsis] (typically "…" ).
  *
@@ -9,9 +11,14 @@ fun String.restrictLengthWithEllipsis(maxLength: Int, ellipsis: String = "…"):
     if (this.length <= maxLength) this
     else this.substring(0, maxLength - ellipsis.length) + ellipsis
 
+private val regexStartsWithLetter = "^[a-zA-Z]".toRegex()
+
 /**
  * Returns true if the string starts with a latin letter a-z or A-Z
  */
 fun String.startsWithLetter() = this.contains(regexStartsWithLetter)
 
-private val regexStartsWithLetter = "^[a-zA-Z]".toRegex()
+/**
+ * Converts given string to UUID.
+ */
+fun String.toUuid(): UUID = UUID.fromString(this)

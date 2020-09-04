@@ -1,11 +1,12 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.jvm.tasks.Jar
+import java.net.URL
 
 plugins {
     kotlin("jvm") version "1.4.0"
     `maven-publish`
     id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.4.0-rc"
+    id("org.jetbrains.dokka") version "1.4.0"
     id("io.gitlab.arturbosch.detekt") version "1.11.2"
     id("com.jfrog.bintray") version "1.8.5"
 
@@ -68,16 +69,17 @@ tasks {
     }
 
     dokkaHtml {
-        outputDirectory = "$buildDir/docs"
+        outputDirectory.set(File("$buildDir/docs"))
 
         dokkaSourceSets {
             configureEach {
-                moduleDisplayName = "katlib"
-                displayName = "Katlib"
+                moduleDisplayName.set("katlib")
+                displayName.set("Katlib")
 
                 sourceLink {
-                    path = "src/main/kotlin"
-                    url = "https://github.com/LukasForst/katlib/blob/master/src/main/kotlin"
+                    localDirectory.set(file("src/main/kotlin"))
+                    remoteUrl.set(URL("https://github.com/LukasForst/katlib/tree/master/src/main/kotlin"))
+                    remoteLineSuffix.set("#L")
                 }
             }
         }

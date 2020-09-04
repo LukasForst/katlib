@@ -1,6 +1,7 @@
 package pw.forst.tools.katlib
 
 import java.net.URL
+import java.nio.ByteBuffer
 import java.util.Optional
 import java.util.Properties
 import java.util.UUID
@@ -175,3 +176,34 @@ val newLine: String get() = System.lineSeparator()
 inline fun <reified T : Any> T.propertiesFromResources(resourcesPath: String): Properties? =
     javaClass.getResourceAsStream(resourcesPath)?.let { Properties().apply { load(it) } }
 
+/**
+ * Read [ByteArray] as two longs and combine the to UUID.
+ *
+ * Expects following order: [UUID.mostSigBits] and then [UUID.leastSigBits].
+ */
+fun ByteArray.toUuid(): UUID {
+    require(size == Long.SIZE_BYTES * 2) {
+        "Expected only two longs in the array! Expected size: ${Long.SIZE_BYTES * 2} but was $size"
+    }
+
+    return ByteBuffer.wrap(this).let {
+        UUID(it.long, it.long)
+    }
+}
+
+/**
+ * Read [ByteArray] as two longs and combine the to UUID.
+ *
+ * Expects following order: [UUID.leastSigBits] - [UUID.mostSigBits].
+ */
+fun ByteArray.toUuidFlipped(): UUID {
+    require(size == Long.SIZE_BYTES * 2) {
+        "Expected only two longs in the array! Expected size: ${Long.SIZE_BYTES * 2} but was $size"
+    }
+
+    return ByteBuffer.wrap(this).let {
+        val leastSignificant = it.long
+        val mostSignificant = it.long
+        UUID(mostSignificant, leastSignificant)
+    }
+}

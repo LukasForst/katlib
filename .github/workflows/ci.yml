@@ -5,16 +5,20 @@ on:
   pull_request:
 
 jobs:
-  build:
-    name: Build and run tests
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    name: Build & Test - Java ${{ matrix.java }} on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        java: [ 8, 11, 14 ]
 
     steps:
       - uses: actions/checkout@v2
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11.0.3
+          java-version: ${{ matrix.java }}
 
       - name: Build lib
         run: ./gradlew assemble

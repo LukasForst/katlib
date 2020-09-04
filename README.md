@@ -136,6 +136,7 @@ fun someFunctionIndicatingSuccess(): Boolean =
 ```kotlin
 assertEquals("ABCD…", "ABCDEFHG".restrictLengthWithEllipsis(5, "..."))
 ``` 
+* `toUuid` - converts string to UUID
 
 #### [Instant Extensions](src/main/kotlin/pw/forst/tools/katlib/InstantExtensions.kt)
 * `durationToInMilli` - returns absolute difference between two `Instant` values in milliseconds
@@ -170,3 +171,5 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 * `iSURL` - returns true if give string is URL (with some limitations, see docs)
 * `getEnv` - shortcut for `System.getenv`
 * `newLine` - shortcut for `System.lineSeparator`
+* `ByteArray.toUuid` - Read ByteArray as two longs and combine the to UUID
+
