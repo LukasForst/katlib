@@ -1,6 +1,7 @@
 package pw.forst.tools.katlib
 
 import org.junit.jupiter.api.Test
+import java.nio.ByteBuffer
 import java.util.Optional
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -56,10 +57,18 @@ internal class OtherExtensionsTest {
     @Test
     fun testWhenNull() {
         val notNull: Int? = 1
-        assertEquals(1, notNull.whenNull { fail("Value is not null, this thing should not be called") }, "Original value should be returned.")
+        assertEquals(
+            1,
+            notNull.whenNull { fail("Value is not null, this thing should not be called") },
+            "Original value should be returned."
+        )
 
         val nonNullable = 1
-        assertEquals(1, nonNullable.whenNull { fail("Value is not null, this thing should not be called") }, "Original value should be returned.")
+        assertEquals(
+            1,
+            nonNullable.whenNull { fail("Value is not null, this thing should not be called") },
+            "Original value should be returned."
+        )
 
         var response = false
         val value: Int? = null
@@ -224,5 +233,31 @@ internal class OtherExtensionsTest {
         val props = propertiesFromResources("classlevel.properties")
         assertNotNull(props)
         assertEquals("yes", props.getProperty("loaded"))
+    }
+
+    @Test
+    fun `test toUuid`() {
+        (0..10).map { UUID.randomUUID() }
+            .map { uuid ->
+                val array = ByteBuffer.allocate(Long.SIZE_BYTES * 2).apply {
+                    putLong(uuid.mostSignificantBits)
+                    putLong(uuid.leastSignificantBits)
+                }.array()
+
+                assertEquals(uuid, array.toUuid())
+            }
+    }
+
+    @Test
+    fun `test toUuidFlipped`() {
+        (0..10).map { UUID.randomUUID() }
+            .map { uuid ->
+                val array = ByteBuffer.allocate(Long.SIZE_BYTES * 2).apply {
+                    putLong(uuid.leastSignificantBits)
+                    putLong(uuid.mostSignificantBits)
+                }.array()
+
+                assertEquals(uuid, array.toUuidFlipped())
+            }
     }
 }
