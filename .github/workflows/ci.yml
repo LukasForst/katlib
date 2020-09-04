@@ -18,7 +18,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
-          java-version: {{ matrix.java }}
+          java-version: ${{ matrix.java }}
 
       - name: Build lib
         run: ./gradlew assemble
