@@ -6,15 +6,15 @@ plugins {
     kotlin("jvm") version "1.4.21"
     `maven-publish`
     id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.4.10.2"
+    id("org.jetbrains.dokka") version "1.4.20"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.jfrog.bintray") version "1.8.5"
 
 }
 
 group = "pw.forst.tools"
-version = (versioning.info.tag ?: versioning.info.lastTag) +
-        if (versioning.info.dirty) "-dirty" else ""
+version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) +
+        if (versioning.info?.dirty == true) "-dirty" else "development"
 
 
 repositories {
