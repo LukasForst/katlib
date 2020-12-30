@@ -573,3 +573,79 @@ inline fun <S, T : S> Iterable<T>.foldValidated(validationFunction: (acc: S, T) 
 
     return isValid
 }
+
+/**
+ * Returns true if the iterable is empty. If this is a Collection, uses isEmpty, otherwise creates iterator
+ * and verifies whether it has next value.
+ */
+fun <T> Iterable<T>.isEmpty(): Boolean = if (this is Collection<*>) this.isEmpty() else !this.iterator().hasNext()
+
+/**
+ * List cartesian production.
+ *
+ * @see: https://stackoverflow.com/a/53763936/41071
+ */
+fun <T> Iterable<Iterable<T>>.cartesianProduct(): List<List<T>> =
+    if (isEmpty()) {
+        emptyList()
+    } else {
+        fold(listOf(listOf())) { acc, set -> acc.flatMap { list -> set.map { element -> list + element } } }
+    }
+
+
+/**
+ * Lazy cartesian production.
+ */
+fun <T> Iterable<Iterable<T>>.lazyCartesianProduct(): Sequence<List<T>> =
+    if (isEmpty()) emptySequence() else lazyCartesianProductAcc(this, emptyList())
+
+
+private fun <T> lazyCartesianProductAcc(l: Iterable<Iterable<T>>, acc: List<T>): Sequence<List<T>> = sequence {
+    if (l.isEmpty()) {
+        yield(acc)
+    } else {
+        val rest = l.drop(1)
+        val variants = l.first().asSequence().flatMap { lazyCartesianProductAcc(rest, acc + it) }
+        yieldAll(variants)
+    }
+}
+
+/**
+ * Zip alternative for three collections.
+ */
+inline fun <A, B, C, V> Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transform: (a: A, b: B, c: C) -> V): List<V> {
+    @Suppress("MagicNumber") // this is default implementation from the Kotlin collections
+    val collectionSizeDefault = 10
+
+    val first = iterator()
+    val second = b.iterator()
+    val third = c.iterator()
+
+    val list = ArrayList<V>(
+        minOf(
+            collectionSizeOrDefault(collectionSizeDefault),
+            b.collectionSizeOrDefault(collectionSizeDefault),
+            c.collectionSizeOrDefault(collectionSizeDefault)
+        )
+    )
+    while (first.hasNext() && second.hasNext() && third.hasNext()) {
+        list.add(transform(first.next(), second.next(), third.next()))
+    }
+
+    return list
+}
+
+
+/**
+ * Sum collection by float as this is missing in the stdlib...
+ *
+ * Not naming it sumOf in order to have easier imports.
+ */
+inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
+    var sum = 0f
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+

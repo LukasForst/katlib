@@ -3,6 +3,8 @@ package pw.forst.tools.katlib
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class StringExtensionsTest {
 
@@ -30,4 +32,19 @@ internal class StringExtensionsTest {
             assertEquals(uuid, uuid.toString().toUuid())
         }
     }
+
+    @Test
+    fun `should test valid email address`() {
+        assertTrue("testee@example.org".isEmail())
+        assertTrue("testee+me1@example.org".isEmail())
+        assertTrue("testee.me1@example.org".isEmail())
+        assertTrue("testee@example.co.uk".isEmail())
+
+        assertFalse("@example.org".isEmail())
+        assertFalse("example.org".isEmail())
+        assertFalse("example@org".isEmail())
+        assertFalse("example".isEmail())
+        assertFalse("".isEmail())
+    }
+
 }

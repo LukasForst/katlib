@@ -9,7 +9,6 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.20"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.jfrog.bintray") version "1.8.5"
-
 }
 
 group = "pw.forst.tools"
