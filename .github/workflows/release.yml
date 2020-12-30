@@ -2,7 +2,7 @@ name: Release pipeline
 
 on:
   release:
-    types: published
+    types: [published]
 
 jobs:
   build:

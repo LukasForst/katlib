@@ -5,6 +5,7 @@ import java.util.Random
 import java.util.TreeSet
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
@@ -275,5 +276,77 @@ internal class IterableExtensionsTest {
         }
 
         assertEquals(false, flattenedNumbersWithoutNulls.size == numbersWithNulls.size)
+    }
+
+    @Test
+    fun `test cartesianProduct on list list`() {
+        val input = listOf(
+            listOf(1, 3, 5),
+            listOf(2),
+            listOf(4, 6)
+        )
+        val expected = listOf(
+            listOf(1, 2, 4),
+            listOf(1, 2, 6),
+            listOf(3, 2, 4),
+            listOf(3, 2, 6),
+            listOf(5, 2, 4),
+            listOf(5, 2, 6)
+        )
+        val actual = input.cartesianProduct()
+        assertEquals(expected, actual)
+
+        val actualLazy = input.lazyCartesianProduct()
+        assertEquals(expected, actualLazy.toList())
+    }
+
+    @Test
+    fun `test cartesianProduct with empty list`() {
+        val input = listOf(
+            listOf(1, 3, 5),
+            listOf(),
+            listOf(4, 6)
+        )
+        val expected = listOf<List<Int>>()
+        val actual = input.cartesianProduct()
+        assertEquals(expected, actual)
+
+        val actualLazy = input.lazyCartesianProduct()
+        assertEquals(expected, actualLazy.toList())
+    }
+
+    @Test
+    fun `test Iterable isEmpty`() {
+        assertFalse { Iterable { listOf(1, 2, 3).iterator() }.isEmpty() }
+        assertFalse { (listOf(1, 2, 3) as Iterable<Int>).isEmpty() }
+        assertTrue { Iterable { emptyList<Int>().iterator() }.isEmpty() }
+    }
+
+    @Test
+    fun `test zip for three collections`() {
+        val a = (0..3).toList()
+        val b = (4..7).toList()
+        val c = (8..10).toList()
+
+        assertEquals(4, a.size)
+        assertEquals(4, b.size)
+        assertEquals(3, c.size)
+
+        val expected = (0..2).map { "$it|${it + 4}|${it + 8}" }
+        assertEquals(3, expected.size)
+
+        val result = a.zip(b, c) { eA, eB, eC -> "$eA|$eB|$eC" }
+
+        assertEquals(3, result.size)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test sumByFloat`() {
+        val floats = listOf(10f, 20f, 30f)
+        assertEquals(120f, floats.sumByFloat { it * 2f })
+
+        val empty = listOf<Float>()
+        assertEquals(0f, empty.sumByFloat { it * 2f })
     }
 }

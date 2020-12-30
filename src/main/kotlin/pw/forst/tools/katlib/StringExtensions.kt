@@ -1,6 +1,7 @@
 package pw.forst.tools.katlib
 
 import java.util.UUID
+import java.util.regex.Pattern
 
 /**
  * Shortens the string to [maxLength]; in such case, appends the [ellipsis] (typically "…" ).
@@ -22,3 +23,21 @@ fun String.startsWithLetter() = this.contains(regexStartsWithLetter)
  * Converts given string to UUID.
  */
 fun String.toUuid(): UUID = UUID.fromString(this)
+
+/**
+ * Checks if string is valid email address.
+ *
+ * This is just a basic checking, please use Apache Validator for more complex cases.
+ */
+fun String.isEmail(): Boolean = emailRegex.matcher(this).matches()
+
+// Taken from Android/Kotlin lib
+private val emailRegex = Pattern.compile(
+    "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+            "\\@" +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+            "(" +
+            "\\." +
+            "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+            ")+"
+)

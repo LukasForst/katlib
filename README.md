@@ -69,6 +69,12 @@ Following functions are the most popular ones.
 * `Iterable<Pair<K, V>>.assoc` - returns map from key value pairs but logs case when key is replaced by same key with different value
 * `Iterable<Triple<A, B, C>>.flattenToLists` - returns three lists constructed from triples
 * `Iterable<T>.toNavigableSet` - creates NavigableSet
+* `Iterable<T>.isEmpty` - determines whether the iterable is empty or not
+* `Iterable<Iterable<T>>.cartesianProduct` - cartesian product between all the elements from nested iterables
+* `Iterable<Iterable<T>>.lazyCartesianProduct` - cartesian product between all the elements from nested iterables as sequence
+* `Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transform: (a: A, b: B, c: C) -> V)` - zip with three collections instead of two
+* `Iterable<T>.sumByFloat(selector: (T) -> Float)` - sums iterable by float selector, because `sumOf` from stdlib does not have
+  implementation for Floats
  
 #### [Map Extensions](src/main/kotlin/pw/forst/tools/katlib/MapExtensions.kt)
 * `Map<T, Double>.getWeightedRandom` - randomly selects item with respect to the current weight distribution
@@ -164,12 +170,17 @@ validate(
 ```
 * `Pair<A?, B?>.propagateNull(): Pair<A, B>?` - if left or right is null, returns null, otherwise pair
 * `T.applyIf` - applies given block only if should apply block returns true
+
 ```kotlin
 byteBuffer.applyIf(shouldReadInt) { getInt() }
 ```
+
 * `isUUID` - returns true if given string is UUID
 * `iSURL` - returns true if give string is URL (with some limitations, see docs)
 * `getEnv` - shortcut for `System.getenv`
 * `newLine` - shortcut for `System.lineSeparator`
 * `ByteArray.toUuid` - Read ByteArray as two longs and combine the to UUID
 
+#### [Services](src/main/kotlin/pw/forst/tools/katlib/Services.kt)
+
+* `TimeProvider` - Interface providing access to current time via `now` method, very useful when mocking
