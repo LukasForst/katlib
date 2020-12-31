@@ -1,5 +1,5 @@
 # Katlib
-[![Bintray version](https://api.bintray.com/packages/lukas-forst/jvm-packages/katlib/images/download.svg](https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib)
+[![Bintray version](https://api.bintray.com/packages/lukas-forst/jvm-packages/katlib/images/download.svg)(https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib)
 ![CI test](https://github.com/LukasForst/katlib/workflows/CI%20test/badge.svg)
 [![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.pw/)
 
