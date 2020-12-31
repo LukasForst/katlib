@@ -12,8 +12,7 @@ plugins {
 }
 
 group = "pw.forst.tools"
-version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) +
-        if (versioning.info?.dirty == true) "-dirty" else "development"
+version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "development"
 
 
 repositories {
