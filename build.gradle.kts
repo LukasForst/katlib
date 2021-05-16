@@ -7,6 +7,7 @@ plugins {
 
     `maven-publish`
     signing
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
     id("net.nemerosa.versioning") version "2.14.0"
     id("org.jetbrains.dokka") version "1.4.32"
@@ -93,7 +94,7 @@ val publication = "mavenJava"
 publishing {
     // create jar with sources and with javadoc
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>(publication) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
@@ -123,20 +124,6 @@ publishing {
             }
         }
     }
-
-    repositories {
-        maven {
-            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-            authentication {
-                credentials {
-                    username = project.findProperty("ossrh.username") as String? ?: System.getenv("OSSRH_USERNAME")
-                    password = project.findProperty("ossrh.password") as String? ?: System.getenv("OSSRH_PASSWORD")
-                }
-            }
-        }
-    }
 }
 
 signing {
@@ -146,4 +133,15 @@ signing {
 
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications[publication])
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(project.findProperty("ossrh.username") as String? ?: System.getenv("OSSRH_USERNAME"))
+            password.set(project.findProperty("ossrh.password") as String? ?: System.getenv("OSSRH_PASSWORD"))
+        }
+    }
 }
