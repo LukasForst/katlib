@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Publish to Maven Central
-        run: ./gradlew bintrayUpload
+        run: ./gradlew publish
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
