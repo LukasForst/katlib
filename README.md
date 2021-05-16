@@ -1,6 +1,6 @@
 # Katlib
-
 ![CI test](https://github.com/LukasForst/katlib/workflows/CI%20test/badge.svg)
+[![Release pipeline](https://github.com/LukasForst/katlib/actions/workflows/release.yml/badge.svg)](https://github.com/LukasForst/katlib/actions/workflows/release.yml)
 [![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.pw/)
 
 Successor of [Ktoolz](https://github.com/blindspot-ai/ktoolz).
@@ -10,9 +10,8 @@ Collection of Kotlin extension functions and utilities. This library does not ha
 ## Using Katlib
 
 Katlib is available on the Maven Central.
-
-```
 Then to import Katlib to Gradle project use:
+
 ```Kotlin
 implementation("pw.forst", "katlib", "some-latest-version")
 ```
