@@ -2,7 +2,7 @@
 
 // the compiler sometimes needs more information about the types
 
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import java.util.Random
 

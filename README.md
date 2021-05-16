@@ -1,54 +1,57 @@
 # Katlib
-[![Bintray version](https://api.bintray.com/packages/lukas-forst/jvm-packages/katlib/images/download.svg)](https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib)
+
 ![CI test](https://github.com/LukasForst/katlib/workflows/CI%20test/badge.svg)
 [![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.pw/)
 
 Successor of [Ktoolz](https://github.com/blindspot-ai/ktoolz).
 
-Collection of Kotlin extension functions and utilities. 
-This library contains minimal dependencies - just `kotlin-logging` for logging. 
+Collection of Kotlin extension functions and utilities. This library does not have any dependency.
 
 ## Using Katlib
-Katlib is hosted on [JCenter](https://bintray.com/beta/#/lukas-forst/jvm-packages/katlib) and therefore one must include to the project.
-```kotlin
-repositories {
-    jcenter()
-}
+
+Katlib is available on the Maven Central.
+
 ```
 Then to import Katlib to Gradle project use:
 ```Kotlin
-implementation("pw.forst.tools", "katlib", "some-latest-version")
+implementation("pw.forst", "katlib", "some-latest-version")
 ```
+
 Or with Groovy DSL
+
 ```groovy
-implementation 'pw.forst.tools:katlib:some-latest-version'
+implementation 'pw.forst:katlib:some-latest-version'
 ```
+
 To import Katlib to Maven project use:
+
 ```xml
+
 <dependency>
-  <groupId>pw.forst.tools</groupId>
-  <artifactId>katlib</artifactId>
-  <version>some-latest-version</version>
+    <groupId>pw.forst</groupId>
+    <artifactId>katlib</artifactId>
+    <version>some-latest-version</version>
 </dependency>
 ```
 
 ## Documentation
+
 Available online - [katlib.forst.pw](https://katlib.forst.pw/)
 
 ## Contribution
+
 Feel free to submig PR with your faviourite extension functions and other cool utilities!
 
 ## Examples
-The library contains a lot of useful (as well as useless) extensions and functions 
-that were gathered during my (and my colleges) Kotlin career. 
-Please see [tests](src/test/kotlin/pw/forst/tools/katlib) folder for all possible functions 
-and how to use them.
-Full documentation can be found [here](https://katlib.forst.pw/).
+
+The library contains a lot of useful (as well as useless) extensions and functions that were gathered during my (and my colleges) Kotlin
+career. Please see [tests](src/test/kotlin/pw/forst/katlib) folder for all possible functions and how to use them. Full documentation can be
+found [here](https://katlib.forst.pw/).
 
 Following functions are the most popular ones.
 
+#### [Iterable Extensions](src/main/kotlin/pw/forst/katlib/IterableExtensions.kt)
 
-#### [Iterable Extensions](src/main/kotlin/pw/forst/tools/katlib/IterableExtensions.kt)
 * `Iterable<E>.getRandomElement` - returns the random element from the iterable
 * `Iterable<T>.reduction` - reduce producing list, useful for cumulative sums
 * `Iterable<T>.sumByLong` - sums iterable by long value with selector (*deprecated since Kotlin 1.4.0*)
@@ -75,49 +78,61 @@ Following functions are the most popular ones.
 * `Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transform: (a: A, b: B, c: C) -> V)` - zip with three collections instead of two
 * `Iterable<T>.sumByFloat(selector: (T) -> Float)` - sums iterable by float selector, because `sumOf` from stdlib does not have
   implementation for Floats
- 
-#### [Map Extensions](src/main/kotlin/pw/forst/tools/katlib/MapExtensions.kt)
+
+#### [Map Extensions](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
+
 * `Map<T, Double>.getWeightedRandom` - randomly selects item with respect to the current weight distribution
-* `Map<K, V>.mergeReduce` - two maps together using the given reduce function 
+* `Map<K, V>.mergeReduce` - two maps together using the given reduce function
 * `Map<K, V1>.join` - joins two maps together using the given join function
 * `Map<K1, Map<K2, V>>.swapKeys(): Map<K2, Map<K1, V>>` - swaps keys in two-dimensional maps
-* there are multiple `swapKeys` implementations for up to three-dimensional maps, just browse [the code](src/main/kotlin/pw/forst/tools/katlib/MapExtensions.kt)
+* there are multiple `swapKeys` implementations for up to three-dimensional maps, just
+  browse [the code](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
 * `Map<Pair<K1, K2>, V>.toTwoLevelMap(): Map<K1, Map<K2, V>>` - creates two-dimensional map from the map of pairs
 * `Map<Triple<K1, K2, K3>, V>.toThreeLevelMap(): Map<K1, Map<K2, Map<K3, V>>>` - creates three-dimensional map from the map of triples
 * `Map<K1, Map<K2, V>>.getSecondLevelValues(): Set<V>` - collects all the values from the bottom level into set
 * `Map<K1, Map<K2, Map<K3, V>>>.getThirdLevelValues(): Set<V>` - collects all the values from the bottom level into set
 * `Iterable<Map<K, V>>.merge(): Map<K, List<V>>` - for each key, merges all the values into one common list
 
-#### [Set Extensions](src/main/kotlin/pw/forst/tools/katlib/SetExtensions.kt)
+#### [Set Extensions](src/main/kotlin/pw/forst/katlib/SetExtensions.kt)
+
 * `SortedSet.min` - returns minimum of the set or null if empty
 * `SortedSet.max` - returns maximum of the set or null
- 
-#### [Pair Extensions](src/main/kotlin/pw/forst/tools/katlib/PairExtensions.kt)
+
+#### [Pair Extensions](src/main/kotlin/pw/forst/katlib/PairExtensions.kt)
+
 * `mapLeft/Right/Pair` - applies given block to left/right/all iterable element/s of the pair
+
 ```kotlin
 val pair = Pair(listOf(1, 2, 3), 0)
 assertEquals(Pair(listOf(11, 12, 13), 0), pair.mapLeft { it + 10 })
 ```
+
 * `letLeft/Right/Pair` - applies given block to left/right/all element/s of the pair
+
 ```kotlin
 val pair = Pair(10, 20)
 assertEquals(Pair("10", 20), pair.letLeft { it.toString() })
 ```
 
-#### [Date Extensions](src/main/kotlin/pw/forst/tools/katlib/DateExtensions.kt)
+#### [Date Extensions](src/main/kotlin/pw/forst/katlib/DateExtensions.kt)
+
 * `getDateRangeTo` - returns list of dates between two `LocalDate`
 * `getDaysInInterval` - returns number of days between two `LocalDate` (inclusive)
 * `getDayDifference` - returns number of days between two `LocalDate` (exclusive)
 * `getWeekOfYear` - returns week of year for given `LocalDate` and optionaly `Locale`
- 
-#### [Jackson Extensions](src/main/kotlin/pw/forst/tools/katlib/JacksonExtensions.kt)
+
+#### [Jackson Extensions](src/main/kotlin/pw/forst/katlib/JacksonExtensions.kt)
+
 To use these, one must include dependency on Jackson
+
 ```kotlin
 implementation("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
 implementation("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
 ```
+
 * `jacksonMapper` - creates jackson mapper with some reasonable settings
 * `parseJson` - parses JSON from the string/bytes, returns either instance of null, can log exception if some occurs
+
 ```kotlin
 val obj: MyDataClass? = parseJson<MyDataClass>(myJson)
 ```
@@ -126,8 +141,9 @@ val obj: MyDataClass? = parseJson<MyDataClass>(myJson)
 * `createJsonBytes` - creates JSON in bytes from given object
 * `prettyPrintJson` - returns pretty printed JSON value as string
 
-#### [Boolean Extensions](src/main/kotlin/pw/forst/tools/katlib/BooleanExtensions.kt)
-`whenTrue` and `whenFalse` - useful extensions mainly used for logging when the onliners are used.  
+#### [Boolean Extensions](src/main/kotlin/pw/forst/katlib/BooleanExtensions.kt)
+`whenTrue` and `whenFalse` - useful extensions mainly used for logging when the oneliners are used.
+
 ```kotlin
 fun someFunctionIndicatingSuccess(): Boolean = 
     someComputationReturningBoolean()
@@ -136,7 +152,7 @@ fun someFunctionIndicatingSuccess(): Boolean =
     }
 ```
 
-#### [String Extensions](src/main/kotlin/pw/forst/tools/katlib/StringExtensions.kt)
+#### [String Extensions](src/main/kotlin/pw/forst/katlib/StringExtensions.kt)
 * `startsWithLetter` - returns true fi string starts with latin letter a-z or A-Z
 * `restrictLengthWithEllipsis` - shortens the string to given max length, appends ellipsis
 ```kotlin
@@ -144,15 +160,16 @@ assertEquals("ABCD…", "ABCDEFHG".restrictLengthWithEllipsis(5, "..."))
 ``` 
 * `toUuid` - converts string to UUID
 
-#### [Instant Extensions](src/main/kotlin/pw/forst/tools/katlib/InstantExtensions.kt)
+#### [Instant Extensions](src/main/kotlin/pw/forst/katlib/InstantExtensions.kt)
 * `durationToInMilli` - returns absolute difference between two `Instant` values in milliseconds
 
-#### [Crypto Extensions](src/main/kotlin/pw/forst/tools/katlib/CryptoExtensions.kt)
+#### [Crypto Extensions](src/main/kotlin/pw/forst/katlib/CryptoExtensions.kt)
 * `hashWith256` - produces `SHA-256` of given string/file/bytes.
 
-#### [Miscellaneous Extensions](src/main/kotlin/pw/forst/tools/katlib/OtherExtensions.kt)
+#### [Miscellaneous Extensions](src/main/kotlin/pw/forst/katlib/OtherExtensions.kt)
+
 * `Optional<T>.orNull(): T?` - from optional to Kotlin optional
-* `T.whenNull` - executes block when `this` is null, usefull for logging
+* `T.whenNull` - executes block when `this` is null, useful for logging
 ```kotlin
 fun someFunction(): String? =
     produceOptionalString()
@@ -161,7 +178,7 @@ fun someFunction(): String? =
 * `T.asList` - from `this creates one element list
 * `ClosedRange<T>.intersects` - intersection between ranges
 * `T.with` - bundles two objects to list
-* `validate` - executes invalid block if validating block returns false, usefull for validation
+* `validate` - executes invalid block if validating block returns false, useful for validation
 ```kotlin
 validate(
     { someText.startsWith("something") && someText.endsWith("else") }, 
@@ -181,6 +198,6 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 * `newLine` - shortcut for `System.lineSeparator`
 * `ByteArray.toUuid` - Read ByteArray as two longs and combine the to UUID
 
-#### [Services](src/main/kotlin/pw/forst/tools/katlib/Services.kt)
+#### [Services](src/main/kotlin/pw/forst/katlib/Services.kt)
 
 * `TimeProvider` - Interface providing access to current time via `now` method, very useful when mocking

@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 /**
  * Applies [block] on left part of pair in List.

@@ -1,16 +1,16 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import mu.KLogging
+import java.util.logging.Logger
 
 /**
  * Logger for this file.
  */
 @PublishedApi
-internal val jsonLogger = KLogging().logger("JsonExtensions")
+internal val jsonLogger = Logger.getLogger("pw.forst.katlib.JacksonExtension")
 
 /**
  * Standard [ObjectMapper] configured in a way the platform operates.
@@ -26,8 +26,7 @@ fun jacksonMapper(): ObjectMapper = jacksonObjectMapper().apply {
  */
 inline fun <reified T> parseJson(json: String, logParserException: Boolean = true): T? =
     runCatching { jacksonMapper().readValue<T>(json) }
-        .onFailure { if (logParserException) jsonLogger.warn(it) { "Exception raised during JSON parsing:$newLine$json" } }
-        .getOrNull()
+        .getOrLog(json, logParserException)
 
 /**
  * Tries to create instance of T from provided [json], null is returned when it is not possible to parse it.
@@ -35,7 +34,11 @@ inline fun <reified T> parseJson(json: String, logParserException: Boolean = tru
  */
 inline fun <reified T> parseJson(json: ByteArray, logParserException: Boolean = true): T? =
     runCatching { jacksonMapper().readValue<T>(json) }
-        .onFailure { if (logParserException) jsonLogger.warn(it) { "Exception raised during JSON parsing:$newLine$json" } }
+        .getOrLog(json.decodeToString(), logParserException)
+
+@PublishedApi
+internal fun <R> Result<R>.getOrLog(json: String, logParserException: Boolean) =
+    onFailure { if (logParserException) jsonLogger.warning("Exception raised during JSON parsing:$newLine${it.message}$newLine$json$newLine") }
         .getOrNull()
 
 /**

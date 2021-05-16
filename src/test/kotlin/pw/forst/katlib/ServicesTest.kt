@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import io.mockk.every
 import io.mockk.mockk
