@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import java.util.UUID
 import java.util.regex.Pattern
@@ -31,7 +31,8 @@ fun String.toUuid(): UUID = UUID.fromString(this)
  */
 fun String.isEmail(): Boolean = emailRegex.matcher(this).matches()
 
-// Taken from Android/Kotlin lib
+// Taken from Android/Kotlin lib, thus suppression
+@Suppress("RegExpRedundantEscape", "RegExpDuplicateCharacterInClass")
 private val emailRegex = Pattern.compile(
     "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
             "\\@" +

@@ -1,5 +1,7 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.net.URL
 import java.nio.ByteBuffer
 import java.util.Optional
@@ -206,4 +208,14 @@ fun ByteArray.toUuidFlipped(): UUID {
         val mostSignificant = it.long
         UUID(mostSignificant, leastSignificant)
     }
+}
+
+/**
+ * Converts stacktrace to the string. Uses [Throwable.printStackTrace] and returns it as string.
+ */
+fun Throwable.stacktraceToString(): String {
+    val sw = StringWriter()
+    val pw = PrintWriter(sw)
+    this.printStackTrace(pw)
+    return sw.toString()
 }

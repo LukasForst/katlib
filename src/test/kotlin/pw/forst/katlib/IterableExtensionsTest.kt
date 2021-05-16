@@ -1,6 +1,7 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import org.junit.jupiter.api.Test
+import java.util.Locale
 import java.util.Random
 import java.util.TreeSet
 import kotlin.test.assertEquals
@@ -247,8 +248,8 @@ internal class IterableExtensionsTest {
             names.foldValidated { current, next ->
                 add(current)
 
-                current.toLowerCase().any { currentChar ->
-                    currentChar in next.toLowerCase()
+                current.lowercase(Locale.getDefault()).any { currentChar ->
+                    currentChar in next.lowercase(Locale.getDefault())
                 }
             }
         }

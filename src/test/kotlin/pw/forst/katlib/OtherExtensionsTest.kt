@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import org.junit.jupiter.api.Test
 import java.nio.ByteBuffer
@@ -56,7 +56,7 @@ internal class OtherExtensionsTest {
 
     @Test
     fun testWhenNull() {
-        val notNull: Int? = 1
+        val notNull = 1
         assertEquals(
             1,
             notNull.whenNull { fail("Value is not null, this thing should not be called") },

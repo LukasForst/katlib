@@ -1,13 +1,12 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
-import mu.KLogging
-import java.util.ArrayList
-import java.util.Comparator
 import java.util.NavigableSet
 import java.util.Random
 import java.util.TreeSet
+import java.util.logging.Logger
 import kotlin.collections.component1
 import kotlin.collections.component2
+
 
 /**
  * Function that will return a random element from the iterable.
@@ -470,7 +469,7 @@ inline fun <TItem> Iterable<TItem>.itemsToString(
 // ---- internal helper functions
 
 @PublishedApi
-internal val iterableLogger = KLogging().logger("IterableExtensions")
+internal val iterableLogger = Logger.getLogger("pw.forst.katlib.IterableExtensions")
 internal const val INT_MAX_POWER_OF_TWO: Int = Int.MAX_VALUE / 2 + 1
 
 /**
@@ -482,12 +481,12 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
         return
     }
     val duplicatedKeys = grouping().filterValues { it.size > 1 }
-    iterableLogger.warn(Throwable()) {
+    val stack = Throwable().stacktraceToString()
+    iterableLogger.warning {
         @Suppress("MagicNumber") // specified carefully, don't need constant
         val entries = duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
-        "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries."
+        "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries.$newLine$stack"
     }
-
 }
 
 

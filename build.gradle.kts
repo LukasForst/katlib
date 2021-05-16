@@ -1,39 +1,40 @@
-import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.jvm.tasks.Jar
 import java.net.URL
 
+
 plugins {
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.5.0"
+
     `maven-publish`
+    signing
+
     id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.4.20"
-    id("io.gitlab.arturbosch.detekt") version "1.15.0"
-    id("com.jfrog.bintray") version "1.8.5"
+    id("org.jetbrains.dokka") version "1.4.32"
+    id("io.gitlab.arturbosch.detekt") version "1.17.0"
 }
 
-group = "pw.forst.tools"
-version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "development"
-
+group = "pw.forst"
+base.archivesBaseName = "katlib"
+version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation("io.github.microutils", "kotlin-logging", "2.0.4")
-
-    val jacksonVersion = "2.12.0"
+    val jacksonVersion = "2.12.3"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
+    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.0")
 
     // testing
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk", "mockk", "1.10.4") // mock framework
+    testImplementation("io.mockk", "mockk", "1.11.0") // mock framework
     testImplementation("ch.qos.logback", "logback-classic", "1.3.0-alpha5") // logging framework for the tests
 
-    val junitVerion = "5.7.0"
+    val junitVerion = "5.7.1"
     testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVerion) // junit testing framework
     testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVerion) // generated parameters for tests
 
@@ -76,11 +77,6 @@ tasks {
 }
 
 // ------------------------------------ Deployment Configuration  ------------------------------------
-val githubRepository = "LukasForst/katlib"
-val descriptionForPackage = "Kotlin Additional Library - usefull extension functions"
-val tags = arrayOf("kotlin", "extension functions")
-// everything bellow is set automatically
-
 // deployment configuration - deploy with sources and documentation
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
@@ -93,53 +89,61 @@ val javadocJar by tasks.creating(Jar::class) {
 }
 
 // name the publication as it is referenced
-val publication = "default-gradle-publication"
+val publication = "mavenJava"
 publishing {
     // create jar with sources and with javadoc
     publications {
-        register(publication, MavenPublication::class) {
+        create<MavenPublication>("mavenJava") {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
+
+            pom {
+                name.set("Katlib")
+                description.set("Kotlin Additional Library - useful extension functions")
+                url.set("https://katlib.forst.pw")
+                packaging = "jar"
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://mit-license.org/license.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("lukasforst")
+                        name.set("Lukas Forst")
+                        email.set("lukas@forst.pw")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/LukasForst/katlib.git")
+                    url.set("https://github.com/LukasForst/katlib")
+                }
+            }
         }
     }
 
-    // publish package to the github packages
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/$githubRepository")
-            credentials {
-                username = project.findProperty("gpr.user") as String?
-                    ?: System.getenv("GITHUB_USERNAME")
-                password = project.findProperty("gpr.key") as String?
-                    ?: System.getenv("GITHUB_TOKEN")
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            authentication {
+                credentials {
+                    username = project.findProperty("ossrh.username") as String? ?: System.getenv("OSSRH_USERNAME")
+                    password = project.findProperty("ossrh.password") as String? ?: System.getenv("OSSRH_PASSWORD")
+                }
             }
         }
     }
 }
 
-// upload to bintray
-bintray {
-    // env variables loaded from pipeline for publish
-    user = project.findProperty("bintray.user") as String?
-        ?: System.getenv("BINTRAY_USER")
-    key = project.findProperty("bintray.key") as String?
-        ?: System.getenv("BINTRAY_TOKEN")
-    publish = true
-    setPublications(publication)
-    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
-        // my repository for maven packages
-        repo = "jvm-packages"
-        name = project.name
-        // my user account at bintray
-        userOrg = "lukas-forst"
-        websiteUrl = "https://katlib.forst.pw"
-        githubRepo = githubRepository
-        vcsUrl = "https://github.com/$githubRepository"
-        description = descriptionForPackage
-        setLabels(*tags)
-        setLicenses("MIT")
-        desc = description
-    })
+signing {
+    val signingKeyId = project.findProperty("gpg.keyId") as String? ?: System.getenv("GPG_KEY_ID")
+    val signingKey = project.findProperty("gpg.key") as String? ?: System.getenv("GPG_KEY")
+    val signingPassword = project.findProperty("gpg.keyPassword") as String? ?: System.getenv("GPG_KEY_PASSWORD")
+
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications[publication])
 }

@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 /**
  * Executes [block] iff this (result of previous method) is true. Returns given Boolean.

@@ -1,4 +1,4 @@
-package pw.forst.tools.katlib
+package pw.forst.katlib
 
 import java.time.Instant
 import java.time.OffsetDateTime
