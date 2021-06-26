@@ -1,5 +1,6 @@
 package pw.forst.katlib
 
+import java.net.URL
 import java.util.UUID
 import java.util.regex.Pattern
 
@@ -23,6 +24,21 @@ fun String.startsWithLetter() = this.contains(regexStartsWithLetter)
  * Converts given string to UUID.
  */
 fun String.toUuid(): UUID = UUID.fromString(this)
+
+/**
+ * See documentation for [isUuid].
+ */
+fun String.isUuid(): Boolean = isUuid(this)
+
+/**
+ * See documentation for [isUrl].
+ */
+fun String.isUrl(): Boolean = isUrl(this)
+
+/**
+ * Creates [URL] instance from [this] string.
+ */
+fun String.toUrl(): URL = URL(this)
 
 /**
  * Checks if string is valid email address.

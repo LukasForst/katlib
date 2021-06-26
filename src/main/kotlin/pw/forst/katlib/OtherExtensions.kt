@@ -94,6 +94,15 @@ inline fun <T : Any> T.applyIf(shouldApply: Boolean, block: T.() -> Unit): T {
 }
 
 /**
+ * Applies given [block] if the [value] is not null, supplies non-nullable value to the block as
+ * an input.
+ */
+inline fun <T : Any, V : Any> T.applyIfNotNull(value: V?, block: T.(V) -> Unit): T {
+    if (value != null) block(value)
+    return this
+}
+
+/**
  * Creates a string like "className(description)", for example "Double(42.0)"
  * Useful e.g. for implementing .toString() override.
  *
@@ -140,12 +149,24 @@ fun Any?.toShortString(): String {
 }
 
 /**
+ * See documentation for [isUuid].
+ */
+@Deprecated("It is better to use Uuid instead of UUID.", replaceWith = ReplaceWith("isUuid(candidateUuid)"))
+fun isUUID(candidateUuid: String): Boolean = isUuid(candidateUuid)
+
+/**
  * Check whether a given string is a valid UUID.
  *
- * @param candidateUUID A candidate UUID to be checked.
- * @return true iff [candidateUUID] is a valid UUID.
+ * @param candidateUuid A candidate UUID to be checked.
+ * @return true iff [candidateUuid] is a valid UUID.
  */
-fun isUUID(candidateUUID: String): Boolean = runCatching { UUID.fromString(candidateUUID) }.isSuccess
+fun isUuid(candidateUuid: String): Boolean = runCatching { UUID.fromString(candidateUuid) }.isSuccess
+
+/**
+ * See documentation for [isUrl].
+ */
+@Deprecated("It is better to use Url instead of URL.", replaceWith = ReplaceWith("isUrl(candidateUrl)"))
+fun isURL(candidateUrl: String): Boolean = isUrl(candidateUrl)
 
 /**
  * Check whether a given string is a valid URL.
@@ -159,12 +180,17 @@ fun isUUID(candidateUUID: String): Boolean = runCatching { UUID.fromString(candi
  * @param candidateUrl A candidate URL to be checked.
  * @return true iff [candidateUrl] is a valid URL.
  */
-fun isURL(candidateUrl: String): Boolean = runCatching { URL(candidateUrl).toURI() }.isSuccess
+fun isUrl(candidateUrl: String): Boolean = runCatching { URL(candidateUrl).toURI() }.isSuccess
 
 /**
  * Retrieves environment variable from the system.
  */
 fun getEnv(variableName: String): String? = System.getenv(variableName)
+
+/**
+ * Retrieves environment variable from the system, if the value is not found, [recoverBlock] is executed.
+ */
+inline fun getEnv(variableName: String, recoverBlock: () -> String): String = System.getenv(variableName) ?: recoverBlock()
 
 /**
  * Shortcut for [System.lineSeparator].
@@ -213,9 +239,11 @@ fun ByteArray.toUuidFlipped(): UUID {
 /**
  * Converts stacktrace to the string. Uses [Throwable.printStackTrace] and returns it as string.
  */
+@Deprecated("Use standard kotlin implementation stackTraceToString.")
 fun Throwable.stacktraceToString(): String {
     val sw = StringWriter()
     val pw = PrintWriter(sw)
-    this.printStackTrace(pw)
+    printStackTrace(pw)
+    pw.flush()
     return sw.toString()
 }

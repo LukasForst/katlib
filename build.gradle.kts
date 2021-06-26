@@ -3,7 +3,7 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.20"
 
     `maven-publish`
     signing
@@ -26,7 +26,7 @@ dependencies {
     val jacksonVersion = "2.12.3"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
-    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.0")
+    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.20")
 
     // testing
     testImplementation(kotlin("test"))
