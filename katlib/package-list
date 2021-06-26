@@ -3,6 +3,7 @@ $dokka.linkExtension:html
 $dokka.location:pw.forst.katlib////PointingToDeclaration/katlib/pw.forst.katlib/index.html
 $dokka.location:pw.forst.katlib//applyIf/TypeParam(bounds=[kotlin.Any])#kotlin.Boolean#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/apply-if.html
 $dokka.location:pw.forst.katlib//applyIf/TypeParam(bounds=[kotlin.Any])#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),kotlin.Boolean]#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/apply-if.html
+$dokka.location:pw.forst.katlib//applyIfNotNull/TypeParam(bounds=[kotlin.Any])#TypeParam(bounds=[kotlin.Any])?#kotlin.Function2[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any]),kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/apply-if-not-null.html
 $dokka.location:pw.forst.katlib//asList/TypeParam(bounds=[kotlin.Any])#/PointingToDeclaration/katlib/pw.forst.katlib/as-list.html
 $dokka.location:pw.forst.katlib//assoc/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),kotlin.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]]/PointingToDeclaration/katlib/pw.forst.katlib/assoc.html
 $dokka.location:pw.forst.katlib//assoc/kotlin.collections.Iterable[kotlin.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]]#/PointingToDeclaration/katlib/pw.forst.katlib/assoc.html
@@ -44,6 +45,7 @@ $dokka.location:pw.forst.katlib//getDateRangeTo/java.time.LocalDate#java.time.Lo
 $dokka.location:pw.forst.katlib//getDateRangeToAsStream/java.time.LocalDate#java.time.LocalDate/PointingToDeclaration/katlib/pw.forst.katlib/get-date-range-to-as-stream.html
 $dokka.location:pw.forst.katlib//getDayDifference/java.time.LocalDate#java.time.LocalDate/PointingToDeclaration/katlib/pw.forst.katlib/get-day-difference.html
 $dokka.location:pw.forst.katlib//getDaysInInterval/java.time.LocalDate#java.time.LocalDate/PointingToDeclaration/katlib/pw.forst.katlib/get-days-in-interval.html
+$dokka.location:pw.forst.katlib//getEnv/#kotlin.String#kotlin.Function0[kotlin.String]/PointingToDeclaration/katlib/pw.forst.katlib/get-env.html
 $dokka.location:pw.forst.katlib//getEnv/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/get-env.html
 $dokka.location:pw.forst.katlib//getInvertedDateRangeToAsStream/java.time.LocalDate#java.time.LocalDate/PointingToDeclaration/katlib/pw.forst.katlib/get-inverted-date-range-to-as-stream.html
 $dokka.location:pw.forst.katlib//getKeysInWeightedRandomOrder/kotlin.collections.Map[TypeParam(bounds=[kotlin.Any?]),kotlin.Double]#kotlin.Double#java.util.Random/PointingToDeclaration/katlib/pw.forst.katlib/get-keys-in-weighted-random-order.html
@@ -63,6 +65,10 @@ $dokka.location:pw.forst.katlib//isEmail/kotlin.String#/PointingToDeclaration/k
 $dokka.location:pw.forst.katlib//isEmpty/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/katlib/pw.forst.katlib/is-empty.html
 $dokka.location:pw.forst.katlib//isURL/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/is-u-r-l.html
 $dokka.location:pw.forst.katlib//isUUID/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/is-u-u-i-d.html
+$dokka.location:pw.forst.katlib//isUrl/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/is-url.html
+$dokka.location:pw.forst.katlib//isUrl/kotlin.String#/PointingToDeclaration/katlib/pw.forst.katlib/is-url.html
+$dokka.location:pw.forst.katlib//isUuid/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/is-uuid.html
+$dokka.location:pw.forst.katlib//isUuid/kotlin.String#/PointingToDeclaration/katlib/pw.forst.katlib/is-uuid.html
 $dokka.location:pw.forst.katlib//itemsToString/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.String#kotlin.String#kotlin.Int#kotlin.Int#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),kotlin.String]/PointingToDeclaration/katlib/pw.forst.katlib/items-to-string.html
 $dokka.location:pw.forst.katlib//jacksonMapper/#/PointingToDeclaration/katlib/pw.forst.katlib/jackson-mapper.html
 $dokka.location:pw.forst.katlib//join/kotlin.collections.Map[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#kotlin.collections.Map[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#kotlin.Function2[TypeParam(bounds=[kotlin.Any?])?,TypeParam(bounds=[kotlin.Any?])?,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/katlib/pw.forst.katlib/join.html
@@ -118,6 +124,7 @@ $dokka.location:pw.forst.katlib//toTwoLevelMap/kotlin.collections.List[kotlin.Pa
 $dokka.location:pw.forst.katlib//toTwoLevelMap/kotlin.collections.List[kotlin.Pair[kotlin.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])],TypeParam(bounds=[kotlin.Any?])]]#TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]])]])#kotlin.Function0[TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]])]/PointingToDeclaration/katlib/pw.forst.katlib/to-two-level-map.html
 $dokka.location:pw.forst.katlib//toTwoLevelMap/kotlin.collections.Map[kotlin.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])],TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/katlib/pw.forst.katlib/to-two-level-map.html
 $dokka.location:pw.forst.katlib//toTwoLevelMap/kotlin.collections.Map[kotlin.Pair[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])],TypeParam(bounds=[kotlin.Any?])]#TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]])]])#kotlin.Function0[TypeParam(bounds=[kotlin.collections.MutableMap[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]])]/PointingToDeclaration/katlib/pw.forst.katlib/to-two-level-map.html
+$dokka.location:pw.forst.katlib//toUrl/kotlin.String#/PointingToDeclaration/katlib/pw.forst.katlib/to-url.html
 $dokka.location:pw.forst.katlib//toUtcLocalDate/java.util.Date#/PointingToDeclaration/katlib/pw.forst.katlib/to-utc-local-date.html
 $dokka.location:pw.forst.katlib//toUuid/kotlin.ByteArray#/PointingToDeclaration/katlib/pw.forst.katlib/to-uuid.html
 $dokka.location:pw.forst.katlib//toUuid/kotlin.String#/PointingToDeclaration/katlib/pw.forst.katlib/to-uuid.html
