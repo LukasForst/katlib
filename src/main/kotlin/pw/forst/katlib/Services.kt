@@ -10,7 +10,7 @@ import java.time.temporal.Temporal
  *
  * This class is needed in order to test methods that require usage of current time stamp.
  */
-interface TimeProvider<T : Temporal> {
+fun interface TimeProvider<T : Temporal> {
 
     /**
      * Returns value representing current time stamp as defined in the implementation of [T].

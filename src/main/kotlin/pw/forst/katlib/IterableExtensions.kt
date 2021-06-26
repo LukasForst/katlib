@@ -481,7 +481,7 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
         return
     }
     val duplicatedKeys = grouping().filterValues { it.size > 1 }
-    val stack = Throwable().stacktraceToString()
+    val stack = Throwable().stackTraceToString()
     iterableLogger.warning {
         @Suppress("MagicNumber") // specified carefully, don't need constant
         val entries = duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
