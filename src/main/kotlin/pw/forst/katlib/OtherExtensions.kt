@@ -239,7 +239,10 @@ fun ByteArray.toUuidFlipped(): UUID {
 /**
  * Converts stacktrace to the string. Uses [Throwable.printStackTrace] and returns it as string.
  */
-@Deprecated("Use standard kotlin implementation stackTraceToString.")
+@Deprecated(
+    "Use standard kotlin implementation stackTraceToString available since kotlin 1.4.",
+    replaceWith = ReplaceWith("stackTraceToString()")
+)
 fun Throwable.stacktraceToString(): String {
     val sw = StringWriter()
     val pw = PrintWriter(sw)
