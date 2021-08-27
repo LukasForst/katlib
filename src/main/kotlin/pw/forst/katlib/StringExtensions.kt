@@ -10,13 +10,16 @@ import java.util.regex.Pattern
  * For example, returns "ABCD…" when called for "ABCDEFHG".(5, "…")
  */
 fun String.restrictLengthWithEllipsis(maxLength: Int, ellipsis: String = "…"): String =
-    if (this.length <= maxLength) this
-    else this.substring(0, maxLength - ellipsis.length) + ellipsis
+    if (this.length <= maxLength) {
+        this
+    } else {
+        this.substring(0, maxLength - ellipsis.length) + ellipsis
+    }
 
 private val regexStartsWithLetter = "^[a-zA-Z]".toRegex()
 
 /**
- * Returns true if the string starts with a latin letter a-z or A-Z
+ * Returns true if the string starts with a latin letter a-z or A-Z.
  */
 fun String.startsWithLetter() = this.contains(regexStartsWithLetter)
 

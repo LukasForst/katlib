@@ -51,7 +51,7 @@ inline fun <T, K, V> Sequence<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> 
  * Returns a [Map] containing the elements from the given collection indexed by the key
  * returned from [keySelector] function applied to each element.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
@@ -59,9 +59,10 @@ inline fun <T, K> Sequence<T>.assocBy(keySelector: (T) -> K): Map<K, T> =
     assocByTo(LinkedHashMap(defaultMapCapacity()), keySelector)
 
 /**
- * Returns a [Map] containing the values provided by [valueTransform] and indexed by [keySelector] functions applied to elements of the given collection.
+ * Returns a [Map] containing the values provided by [valueTransform] and indexed by [keySelector]
+ * functions applied to elements of the given collection.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
@@ -73,7 +74,7 @@ inline fun <T, K, V> Sequence<T>.assocBy(keySelector: (T) -> K, valueTransform: 
  * where key is provided by the [keySelector] function applied to each element of the given collection
  * and value is the element itself.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
 inline fun <T, K, M : MutableMap<in K, in T>> Sequence<T>.assocByTo(destination: M, keySelector: (T) -> K): M {
     var size = 0
@@ -87,12 +88,16 @@ inline fun <T, K, M : MutableMap<in K, in T>> Sequence<T>.assocByTo(destination:
 
 /**
  * Populates and returns the [destination] mutable map with key-value pairs,
- * where key is provided by the [keySelector] function and
+ * where key is provided by the [keySelector] function
  * and value is provided by the [valueTransform] function applied to elements of the given collection.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
-inline fun <T, K, V, M : MutableMap<in K, in V>> Sequence<T>.assocByTo(destination: M, keySelector: (T) -> K, valueTransform: (T) -> V): M {
+inline fun <T, K, V, M : MutableMap<in K, in V>> Sequence<T>.assocByTo(
+    destination: M,
+    keySelector: (T) -> K,
+    valueTransform: (T) -> V
+): M {
     var size = 0
     for (element in this) {
         destination.put(keySelector(element), valueTransform(element))

@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
 class ServicesTest {
     @Test
     fun `test mock TimeProvider`() {
-        val time = Instant.ofEpochSecond(1000000L)
+        val time = Instant.ofEpochSecond(1_000_000L)
 
         val timeProviderMock = mockk<TimeProvider<Instant>>()
         every { timeProviderMock.now() } returns time

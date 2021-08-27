@@ -3,15 +3,15 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.5.20"
+    kotlin("jvm") version "1.5.30"
 
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
     id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.4.32"
-    id("io.gitlab.arturbosch.detekt") version "1.17.0"
+    id("org.jetbrains.dokka") version "1.5.0"
+    id("io.gitlab.arturbosch.detekt") version "1.18.0"
 }
 
 group = "pw.forst"
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.12.3"
+    val jacksonVersion = "2.12.4"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
     compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.20")
@@ -49,8 +49,14 @@ detekt {
 }
 
 tasks {
+    compileJava {
+        targetCompatibility = "1.8"
+    }
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestJava {
+        targetCompatibility = "1.8"
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"

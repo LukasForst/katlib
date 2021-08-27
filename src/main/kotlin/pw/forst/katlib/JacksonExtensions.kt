@@ -38,8 +38,11 @@ inline fun <reified T> parseJson(json: ByteArray, logParserException: Boolean = 
 
 @PublishedApi
 internal fun <R> Result<R>.getOrLog(json: String, logParserException: Boolean) =
-    onFailure { if (logParserException) jsonLogger.warning("Exception raised during JSON parsing:$newLine${it.message}$newLine$json$newLine") }
-        .getOrNull()
+    onFailure {
+        if (logParserException) {
+            jsonLogger.warning("Exception raised during JSON parsing:$newLine${it.message}$newLine$json$newLine")
+        }
+    }.getOrNull()
 
 /**
  * Serializes given object to string.

@@ -70,8 +70,8 @@ fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
 }
 
 /**
- * Sums all Lists of integers into single one by indexes (i.e. all the numbers with the same index are always summed together). If the lists have different
- * lengths, the final list has length corresponding to the shortest list in [this] iterable.
+ * Sums all Lists of integers into single one by indexes (i.e. all the numbers with the same index are always summed together).
+ * If the lists have different lengths, the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Double>>.sumDoublesByIndexes(): List<Double> {
     val minSize = requireNotNull(this.minValueBy { it.size }) { "Only nonempty collections are supported." }
@@ -140,7 +140,8 @@ inline fun <T, R> Iterable<T>.dominantValueBy(crossinline selector: (T) -> R): R
     this.groupingBy(selector).eachCount().maxByOrNull { it.value }?.key
 
 /**
- * Creates cartesian product between all the elements from [this] and [other] iterable. E.g. when [this] contains [1,2,3] and [other] contains ['a', 'b'], the
+ * Creates cartesian product between all the elements from [this] and [other] iterable.
+ * E.g. when [this] contains [1,2,3] and [other] contains ['a', 'b'], the
  * result will be {Pair(1,'a'), Pair(1,'b'), Pair(2,'a'), Pair(2,'b'), Pair(3,'a'), Pair(3,'b')}.
  */
 fun <T1, T2> Iterable<T1>.cartesianProduct(other: Iterable<T2>): Set<Pair<T1, T2>> {
@@ -326,7 +327,7 @@ inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocTo(destination
  * Returns a [Map] containing the elements from the given collection indexed by the key
  * returned from [keySelector] function applied to each element.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
@@ -339,7 +340,7 @@ inline fun <T, K> Iterable<T>.assocBy(keySelector: (T) -> K): Map<K, T> {
  * where key is provided by the [keySelector] function applied to each element of the given collection
  * and value is the element itself.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
 inline fun <T, K, M : MutableMap<in K, in T>> Iterable<T>.assocByTo(destination: M, keySelector: (T) -> K): M {
     var size = 0
@@ -352,9 +353,10 @@ inline fun <T, K, M : MutableMap<in K, in T>> Iterable<T>.assocByTo(destination:
 }
 
 /**
- * Returns a [Map] containing the values provided by [valueTransform] and indexed by [keySelector] functions applied to elements of the given collection.
+ * Returns a [Map] containing the values provided by [valueTransform] and indexed by [keySelector]
+ * functions applied to elements of the given collection.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  *
  * The returned map preserves the entry iteration order of the original collection.
  */
@@ -364,12 +366,15 @@ inline fun <T, K, V> Iterable<T>.assocBy(keySelector: (T) -> K, valueTransform: 
 
 /**
  * Populates and returns the [destination] mutable map with key-value pairs,
- * where key is provided by the [keySelector] function and
+ * where key is provided by the [keySelector] function
  * and value is provided by the [valueTransform] function applied to elements of the given collection.
  *
- * If any two elements would have the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
+ * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
-inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(destination: M, keySelector: (T) -> K, valueTransform: (T) -> V): M {
+inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
+    destination: M, keySelector: (T) -> K,
+    valueTransform: (T) -> V
+): M {
     var size = 0
     for (element in this) {
         destination.put(keySelector(element), valueTransform(element))
@@ -473,7 +478,8 @@ internal val iterableLogger = Logger.getLogger("pw.forst.katlib.IterableExtensio
 internal const val INT_MAX_POWER_OF_TWO: Int = Int.MAX_VALUE / 2 + 1
 
 /**
- * Checks that [this] map has [expectedSize] and if it is not the case (because value for some key was overwritten), warning with affected keys is generated.
+ * Checks that [this] map has [expectedSize] and if it is not the case (because value for some key was overwritten),
+ * warning with affected keys is generated.
  */
 @PublishedApi
 internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expectedSize: Int, grouping: () -> Map<K, List<V>>) {
@@ -528,7 +534,8 @@ inline fun <T, R> Iterable<T>.flatMapIndexedNotNull(transform: (index: Int, T) -
 }
 
 /**
- * Appends all elements yielded from results of [transform] function being invoked on each element of original collection, to the given [destination].
+ * Appends all elements yielded from results of [transform] function being invoked on each element of original collection,
+ * to the given [destination].
  */
 inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
     destination: C,
@@ -544,7 +551,7 @@ inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.flatMapIndexedTo(
 }
 
 /**
- * Validates the relationship between every element of an Iterable.
+ * Validates the relationship between every element of Iterable.
  *
  * Iterates through the elements invoking the validationFunction on each one.
  * Returns false on the first element that does not pass the validation function, otherwise true.
