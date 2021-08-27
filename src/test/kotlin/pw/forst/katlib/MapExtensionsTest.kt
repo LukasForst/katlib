@@ -219,7 +219,9 @@ internal class MapExtensionsTest {
         val map1 = mapOf(1 to listOf("a", "b"), 2 to listOf("b"), 3 to listOf("c"))
         val map2 = mapOf(2 to listOf("d"), 3 to listOf("c", "d", "e"), 4 to listOf("f"))
         val map3 = mapOf(2 to listOf("x"), 3 to listOf("y"), 4 to listOf("z", "k"))
-        val expected = mapOf(1 to listOf("a", "b"), 2 to listOf("b", "d", "x"), 3 to listOf("c", "c", "d", "e", "y"), 4 to listOf("f", "z", "k"))
+        val expected = mapOf(
+            1 to listOf("a", "b"), 2 to listOf("b", "d", "x"), 3 to listOf("c", "c", "d", "e", "y"), 4 to listOf("f", "z", "k")
+        )
         assertEquals(expected, listOf(map1, map2, map3).flatMerge())
     }
 }
