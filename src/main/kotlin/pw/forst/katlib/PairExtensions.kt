@@ -25,7 +25,7 @@ inline fun <T, V, NT, NV> Pair<Iterable<T>, Iterable<V>>.mapPair(
  * Applies [block] on left part of pair.
  */
 inline fun <T, NT, V> Pair<T, V>.letLeft(block: (T) -> NT): Pair<NT, V> =
-    letPair(block, { it })
+    letPair(block) { it }
 
 /**
  * Applies [block] on right part of pair.

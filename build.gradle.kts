@@ -3,19 +3,19 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.6.10"
 
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("net.nemerosa.versioning") version "2.14.0"
-    id("org.jetbrains.dokka") version "1.5.0"
-    id("io.gitlab.arturbosch.detekt") version "1.18.0"
+    id("net.nemerosa.versioning") version "2.15.1"
+    id("org.jetbrains.dokka") version "1.6.0"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
 group = "pw.forst"
-base.archivesBaseName = "katlib"
+base.archivesName.set("katlib")
 version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 
 repositories {
@@ -23,28 +23,28 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.12.4"
+    val jacksonVersion = "2.13.0"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
-    compileOnly("org.jetbrains.kotlin", "kotlin-reflect", "1.5.20")
+    compileOnly(kotlin("reflect"))
 
     // testing
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk", "mockk", "1.11.0") // mock framework
-    testImplementation("ch.qos.logback", "logback-classic", "1.3.0-alpha5") // logging framework for the tests
+    testImplementation("io.mockk", "mockk", "1.12.1") // mock framework
+    testImplementation("ch.qos.logback", "logback-classic", "1.2.9") // logging framework for the tests
 
-    val junitVerion = "5.7.1"
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVerion) // junit testing framework
-    testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVerion) // generated parameters for tests
+    val junitVersion = "5.8.1"
+    testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVersion) // junit testing framework
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVersion) // generated parameters for tests
 
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVerion) // testing runtime
+    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVersion) // testing runtime
 }
 
 detekt {
     parallel = true
-    input = files("$rootDir/src")
+    source = files("$rootDir/src")
     config = files(rootDir.resolve("detekt-config.yml"))
 }
 
@@ -108,7 +108,7 @@ publishing {
             pom {
                 name.set("Katlib")
                 description.set("Kotlin Additional Library - useful extension functions")
-                url.set("https://katlib.forst.pw")
+                url.set("https://katlib.forst.dev")
                 packaging = "jar"
                 licenses {
                     license {
@@ -120,7 +120,7 @@ publishing {
                     developer {
                         id.set("lukasforst")
                         name.set("Lukas Forst")
-                        email.set("lukas@forst.pw")
+                        email.set("lukas@forst.dev")
                     }
                 }
                 scm {
