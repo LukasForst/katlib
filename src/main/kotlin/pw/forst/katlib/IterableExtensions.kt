@@ -487,6 +487,7 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
         return
     }
     val duplicatedKeys = grouping().filterValues { it.size > 1 }
+    @Suppress("ThrowingExceptionsWithoutMessageOrCause") // this is not true, we're not throwing it, we need only stacktrace
     val stack = Throwable().stackTraceToString()
     iterableLogger.warning {
         @Suppress("MagicNumber") // specified carefully, don't need constant
