@@ -217,3 +217,16 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 #### [Services](src/main/kotlin/pw/forst/katlib/Services.kt)
 
 * `TemporalProvider` - Interface providing access to current time via `now` method, very useful when mocking
+
+#### [Array Extensions](src/main/kotlin/pw/forst/katlib/ArrayExtensions.kt)
+
+* `buildArray(builderAction: MutableList<E>.() -> Unit): Array<E>` - builds a new Array by populating a MutableList using the given builderAction and returning an Array with the same elements
+* `Array<out T>.map(transform: (T) -> R): Array<R>` - Returns an array containing the results of applying the given transform function to each element in the original array
+* `Array<out T>.mapIndexed(transform: (index: Int, T) -> R): Array<R>` - returns an array containing the results of applying the given transform function to each element and its index in the original array
+* `Array<out T>.filter(predicate: (T) -> Boolean): Array<T>` - returns an array containing only elements matching the given predicate
+* `Array<out T>.filterNot(predicate: (T) -> Boolean): Array<T>` - returns an array containing all elements not matching the given predicate
+* `Array<out T>.filterIndexed(predicate: (index: Int, T) -> Boolean): Array<T>` - returns an array containing only elements matching the given predicate
+* `Array<*>.filterIsInstance(): Array<R>` - returns an array containing all elements that are instances of specified type parameter R
+* `Array<out T?>.filterNotNull(): Array<T>` - returns an array containing all elements that are not `null`
+* `Array<out T>.minus(element: T): Array<T>` - returns an array containing all elements of the original collection without the first occurrence of the given element
+* `Array<out T>.minus(elements: Array<out T>): Array<T>` - returns an array containing all elements of the original collection except the elements contained in the given elements array
