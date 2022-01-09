@@ -82,6 +82,8 @@ Following functions are the most popular ones.
 * `Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transform: (a: A, b: B, c: C) -> V)` - zip with three collections instead of two
 * `Iterable<T>.sumByFloat(selector: (T) -> Float)` - sums iterable by float selector, because `sumOf` from stdlib does not have
   implementation for Floats
+* `Iterable<T>.withEach(action: T.() -> Unit)` - performs the given action with each element as a receiver
+* `Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit)` - performs the given action with each element as a receiver, providing sequential index with the element
 
 #### [Map Extensions](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
 

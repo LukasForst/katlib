@@ -643,3 +643,13 @@ inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
     return sum
 }
 
+/**
+ * Performs the given action with each element as a receiver.
+ */
+inline fun <T> Iterable<T>.withEach(action: T.() -> Unit) = forEach { it.action() }
+
+/**
+ * Performs the given [action] with each element as a receiver, providing sequential index with the element.
+ * @param [action] function that takes the index of an element and performs the action on the element.
+ */
+inline fun <T> Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit) = forEachIndexed{ index, it -> it.action(index)}
