@@ -1,9 +1,11 @@
+@file:Suppress("DEPRECATION") // we want to keep tests even for deprecated code
+
 package pw.forst.katlib
 
 import org.junit.jupiter.api.Test
 import java.util.Locale
-import java.util.Random
 import java.util.TreeSet
+import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -51,7 +53,7 @@ internal class IterableExtensionsTest {
         assertEquals("1", items.getRandomElement(rand))
         assertEquals("4", items.getRandomElement(rand))
         try {
-            repeat(100) { items.getRandomElement(Random()) }
+            repeat(100) { items.getRandomElement(Random) }
         } catch (e: Exception) {
             fail("this method should not throw with default random class. Exception is $e")
         }

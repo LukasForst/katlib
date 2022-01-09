@@ -61,3 +61,13 @@ private val emailRegex = Pattern.compile(
             "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
             ")+"
 )
+
+/**
+ * Returns base64 representation of this string.
+ */
+fun String.toBase64(): String = this.encodeToByteArray().toBase64()
+
+/**
+ * Compares two strings ignoring case.
+ */
+infix fun String?.equalsIgnoreCase(other: String?): Boolean = this.equals(other, ignoreCase = true)

@@ -1,6 +1,7 @@
 package pw.forst.katlib
 
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.temporal.Temporal
@@ -19,9 +20,27 @@ fun interface TimeProvider<T : Temporal> {
 }
 
 /**
- *  Implementation of [TimeProvider] providing access to [Instant.now] method.
+ * This name makes a bit more sense as we're constraining to temporal.
  */
-object InstantTimeProvider : TimeProvider<Instant> {
+typealias TemporalProvider<T> = TimeProvider<T>
+
+/**
+ * Implementation of [TimeProvider] providing access to [Instant.now] method.
+ */
+object InstantTimeProvider : TemporalProvider<Instant> {
 
     override fun now(): Instant = OffsetDateTime.now(ZoneOffset.UTC).toInstant()
+}
+
+/**
+ * Shorter name for [InstantTimeProvider].
+ */
+typealias InstantProvider = InstantTimeProvider
+
+/**
+ * Implementation of [TimeProvider] providing access to [LocalDateTime.now] method.
+ */
+object LocalDateTimeProvider : TemporalProvider<LocalDateTime> {
+
+    override fun now(): LocalDateTime = LocalDateTime.now()
 }

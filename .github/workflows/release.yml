@@ -18,11 +18,11 @@ jobs:
       - name: Build lib
         run: ./gradlew assemble
 
-      - name: Run tests
-        run: ./gradlew test --info
-
       - name: Check styling using Detekt
         run: ./gradlew detekt --info
+
+      - name: Run tests
+        run: ./gradlew test --info
 
   publish:
     needs: [ test ]

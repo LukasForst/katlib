@@ -82,7 +82,10 @@ inline fun <reified T : Any> kClass(): KClass<T> = T::class
  * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApplyBlock] lambda returns true.
  * Returns `this` value.
  */
-inline fun <T : Any> T.applyIf(shouldApplyBlock: (T) -> Boolean, block: T.() -> Unit): T = applyIf(shouldApplyBlock(this), block)
+inline fun <T : Any> T.applyIf(shouldApplyBlock: (T) -> Boolean, block: T.() -> Unit): T = applyIf(
+    shouldApply = shouldApplyBlock(this),
+    block = block
+)
 
 /**
  * Calls the specified function [block] with `this` value as its receiver if and only if the [shouldApply] parameter is true.
