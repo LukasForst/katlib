@@ -1,7 +1,8 @@
 # Katlib
+
 ![CI test](https://github.com/LukasForst/katlib/workflows/CI%20test/badge.svg)
 [![Release pipeline](https://github.com/LukasForst/katlib/actions/workflows/release.yml/badge.svg)](https://github.com/LukasForst/katlib/actions/workflows/release.yml)
-[![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.pw/)
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreeb)](https://katlib.forst.dev/)
 
 Successor of [Ktoolz](https://github.com/blindspot-ai/ktoolz).
 
@@ -9,17 +10,16 @@ Collection of Kotlin extension functions and utilities. This library does not ha
 
 ## Using Katlib
 
-Katlib is available on the Maven Central.
-Then to import Katlib to Gradle project use:
+Katlib is available on the Maven Central. Then to import Katlib to Gradle project use:
 
 ```Kotlin
-implementation("pw.forst", "katlib", "some-latest-version")
+implementation("pw.forst", "katlib", "2.1.0")
 ```
 
 Or with Groovy DSL
 
 ```groovy
-implementation 'pw.forst:katlib:some-latest-version'
+implementation 'pw.forst:katlib:2.1.0'
 ```
 
 To import Katlib to Maven project use:
@@ -29,35 +29,40 @@ To import Katlib to Maven project use:
 <dependency>
     <groupId>pw.forst</groupId>
     <artifactId>katlib</artifactId>
-    <version>some-latest-version</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
 ## Documentation
 
-Available online - [katlib.forst.pw](https://katlib.forst.pw/)
+Available online - [katlib.forst.dev](https://katlib.forst.dev/)
 
 ## Contribution
 
-Feel free to submig PR with your faviourite extension functions and other cool utilities!
+Feel free to submit PR with your favourite extension functions and other cool utilities!
 
 ## Examples
 
 The library contains a lot of useful (as well as useless) extensions and functions that were gathered during my (and my colleges) Kotlin
 career. Please see [tests](src/test/kotlin/pw/forst/katlib) folder for all possible functions and how to use them. Full documentation can be
-found [here](https://katlib.forst.pw/).
+found [here](https://katlib.forst.dev/).
+
+Please note that some functions seems like duplicates of the standard library - usually it is not like that as they provide similar
+functionality on different interface. For example there's `List.random` but not `Iterable.random` - random on `Iterable` is then implemented
+in this library. Some functions are also essentially type aliases (for example `equalsIgnoreCase`) for standard library as I was having hard
+time finding correct name.
+
+However, in some cases there might be duplicates, as development of this library started in 2018 and a lot of functions came to standard
+library in Kotlin 1.4. - so if you find some duplicates, let me know or create PR that deprecates them in the code.
 
 Following functions are the most popular ones.
 
 #### [Iterable Extensions](src/main/kotlin/pw/forst/katlib/IterableExtensions.kt)
 
-* `Iterable<E>.getRandomElement` - returns the random element from the iterable
-* `Iterable<T>.reduction` - reduce producing list, useful for cumulative sums
-* `Iterable<T>.sumByLong` - sums iterable by long value with selector (*deprecated since Kotlin 1.4.0*)
+* `Iterable<E>.random` - returns the random element from the iterable
+* `Iterable<T>.reduction` - reduce producing list allowing you to set initial value, useful for cumulative sums
 * `Iterable<List<Int>>.sumByIndexes` - sums all Lists of integers into single one by indexes
 * `Iterable<List<Double>>.sumDoublesByIndexes` - same as previous but with doubles
-* `Iterable<T>.maxValueBy` - returns the largest value of given iterable by provided selector
-* `Iterable<T>.minValueBy` - same as previous, but smallest value
 * `Iterable<T>.mapToSet` - creates set from iterable, transforms with given function
 * `Iterable<T>.dominantValueBy` - returns the most frequently occurring value of the given function
 * `Iterable<T1>.cartesianProduct` - cartesian product between all the elements from two iterables
@@ -135,55 +140,67 @@ implementation("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonV
 ```kotlin
 val obj: MyDataClass? = parseJson<MyDataClass>(myJson)
 ```
+
 * `createJson` - creates JSON from given object
 * `createPrettyJson` - creates JSON with pretty print
 * `createJsonBytes` - creates JSON in bytes from given object
 * `prettyPrintJson` - returns pretty printed JSON value as string
 
 #### [Boolean Extensions](src/main/kotlin/pw/forst/katlib/BooleanExtensions.kt)
+
 `whenTrue` and `whenFalse` - useful extensions mainly used for logging when the oneliners are used.
 
 ```kotlin
-fun someFunctionIndicatingSuccess(): Boolean = 
+fun someFunctionIndicatingSuccess(): Boolean =
     someComputationReturningBoolean()
-    .whenFalse { 
-        logger.warning { "someComputationReturningBoolean returned false! Computation probably failed" } 
-    }
+        .whenFalse {
+            logger.warning { "someComputationReturningBoolean returned false! Computation probably failed" }
+        }
 ```
 
 #### [String Extensions](src/main/kotlin/pw/forst/katlib/StringExtensions.kt)
+
 * `startsWithLetter` - returns true fi string starts with latin letter a-z or A-Z
 * `restrictLengthWithEllipsis` - shortens the string to given max length, appends ellipsis
+
 ```kotlin
 assertEquals("ABCD…", "ABCDEFHG".restrictLengthWithEllipsis(5, "..."))
 ``` 
+
 * `toUuid` - converts string to UUID
 
 #### [Instant Extensions](src/main/kotlin/pw/forst/katlib/InstantExtensions.kt)
+
 * `durationToInMilli` - returns absolute difference between two `Instant` values in milliseconds
 
 #### [Crypto Extensions](src/main/kotlin/pw/forst/katlib/CryptoExtensions.kt)
-* `hashWith256` - produces `SHA-256` of given string/file/bytes.
+
+* `hashWithSha256` - produces `SHA-256` of given string/file/bytes
+* `computeMd5` - computes MD5 from given byte array, returns base64 encoded data
 
 #### [Miscellaneous Extensions](src/main/kotlin/pw/forst/katlib/OtherExtensions.kt)
 
 * `Optional<T>.orNull(): T?` - from optional to Kotlin optional
 * `T.whenNull` - executes block when `this` is null, useful for logging
+
 ```kotlin
 fun someFunction(): String? =
     produceOptionalString()
         .whenNull { logger.warn { "produceOptionalString returned null value!" } }
 ```
+
 * `T.asList` - from `this creates one element list
 * `ClosedRange<T>.intersects` - intersection between ranges
 * `T.with` - bundles two objects to list
 * `validate` - executes invalid block if validating block returns false, useful for validation
+
 ```kotlin
 validate(
-    { someText.startsWith("something") && someText.endsWith("else") }, 
+    { someText.startsWith("something") && someText.endsWith("else") },
     { throw IllegalStateException() }
 )
 ```
+
 * `Pair<A?, B?>.propagateNull(): Pair<A, B>?` - if left or right is null, returns null, otherwise pair
 * `T.applyIf` - applies given block only if should apply block returns true
 
@@ -191,12 +208,12 @@ validate(
 byteBuffer.applyIf(shouldReadInt) { getInt() }
 ```
 
-* `isUUID` - returns true if given string is UUID
-* `iSURL` - returns true if give string is URL (with some limitations, see docs)
+* `isUuid` - returns true if given string is UUID
+* `isUrl` - returns true if give string is URL (with some limitations, see docs)
 * `getEnv` - shortcut for `System.getenv`
 * `newLine` - shortcut for `System.lineSeparator`
 * `ByteArray.toUuid` - Read ByteArray as two longs and combine the to UUID
 
 #### [Services](src/main/kotlin/pw/forst/katlib/Services.kt)
 
-* `TimeProvider` - Interface providing access to current time via `now` method, very useful when mocking
+* `TemporalProvider` - Interface providing access to current time via `now` method, very useful when mocking

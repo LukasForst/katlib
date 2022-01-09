@@ -4,7 +4,7 @@
 
 package pw.forst.katlib
 
-import java.util.Random
+import kotlin.random.Random
 
 
 /**
@@ -77,13 +77,13 @@ inline fun <K, V1, V2, VR, M : MutableMap<K, VR>> Map<K, V1>.joinTo(destination:
 }
 
 /**
- * Swaps dimensions in two dimensional map. The returned map has keys from the second dimension as primary keys
+ * Swaps dimensions in two-dimensional map. The returned map has keys from the second dimension as primary keys
  * and primary keys are used in the second dimension.
  */
 fun <K1, K2, V> Map<K1, Map<K2, V>>.swapKeys(): Map<K2, Map<K1, V>> = swapKeysTo(LinkedHashMap()) { LinkedHashMap<K1, V>() }
 
 /**
- * Swaps dimensions in two dimensional map. The returned map has keys from the second dimension as primary keys
+ * Swaps dimensions in two-dimensional map. The returned map has keys from the second dimension as primary keys
  * and primary keys are stored in the second dimension. [topDestination] specifies which map should be used to store the new primary keys
  * and [bottomDestination] is used to store the new secondary keys.
  */

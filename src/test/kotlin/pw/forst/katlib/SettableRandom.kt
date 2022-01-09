@@ -1,24 +1,23 @@
 package pw.forst.katlib
 
-import java.util.Random
+import kotlin.random.Random
 
 /**
  * Implementation of random class which returns specified values. This is useful mainly for test cases to ensure desired outputs.
  */
-internal class SettableRandom : Random(20) {
+internal class SettableRandom : Random() {
     private lateinit var nextDoubleValues: DoubleIterator
-    private lateinit var nextGaussianValues: DoubleIterator
     private lateinit var nextIntValues: IntIterator
+
+    override fun nextBits(bitCount: Int): Int {
+        return nextIntValues.nextInt()
+    }
 
     override fun nextDouble(): Double {
         return nextDoubleValues.nextDouble()
     }
 
-    override fun nextGaussian(): Double {
-        return nextGaussianValues.nextDouble()
-    }
-
-    override fun nextInt(bound: Int): Int {
+    override fun nextInt(until: Int): Int {
         return nextIntValues.nextInt()
     }
 

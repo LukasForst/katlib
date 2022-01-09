@@ -1,11 +1,12 @@
 package pw.forst.katlib
 
 import java.util.NavigableSet
-import java.util.Random
+
 import java.util.TreeSet
 import java.util.logging.Logger
 import kotlin.collections.component1
 import kotlin.collections.component2
+import kotlin.random.Random
 
 
 /**
@@ -14,7 +15,14 @@ import kotlin.collections.component2
 fun <E> Iterable<E>.getRandomElement(rand: Random) = this.elementAt(rand.nextInt(this.count()))
 
 /**
+ * Function that will return a random element from the iterable.
+ */
+fun <E> Iterable<E>.random(random: Random = Random) = this.getRandomElement(random)
+
+/**
  * Creates reduction of the given [Iterable]. This function can be used for example for cumulative sums.
+ *
+ * [Iterable.reduce] does not allow you to set initial value.
  */
 inline fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R): List<R> {
     val result = ArrayList<R>()
@@ -29,7 +37,7 @@ inline fun <T, R> Iterable<T>.reduction(initial: R, operation: (acc: R, T) -> R)
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the collection.
  */
-@Deprecated("Since Kotlin 1.4.0, use sumOf")
+@Deprecated("Since Kotlin 1.4.0, use sumOf", replaceWith = ReplaceWith("sumOf"))
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum: Long = 0
     for (element in this) {
@@ -43,7 +51,7 @@ inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
  *
  * The operation is _terminal_.
  */
-@Deprecated("Since Kotlin 1.4.0, use sumOf")
+@Deprecated("Since Kotlin 1.4.0, use sumOf", replaceWith = ReplaceWith("sumOf"))
 inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L
     for (element in this) {
@@ -58,7 +66,7 @@ inline fun <T> Sequence<T>.sumByLong(selector: (T) -> Long): Long {
  * the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
-    val minSize = requireNotNull(this.minValueBy { it.size }) { "Only nonempty collections are supported." }
+    val minSize = requireNotNull(this.minOf { it.size }) { "Only nonempty collections are supported." }
     val result = MutableList(minSize) { 0 }
 
     for (index in 0 until minSize) {
@@ -74,7 +82,7 @@ fun Iterable<List<Int>>.sumByIndexes(): List<Int> {
  * If the lists have different lengths, the final list has length corresponding to the shortest list in [this] iterable.
  */
 fun Iterable<List<Double>>.sumDoublesByIndexes(): List<Double> {
-    val minSize = requireNotNull(this.minValueBy { it.size }) { "Only nonempty collections are supported." }
+    val minSize = requireNotNull(this.minOf { it.size }) { "Only nonempty collections are supported." }
     val result = MutableList(minSize) { 0.0 }
 
     for (index in 0 until minSize) {
@@ -88,50 +96,28 @@ fun Iterable<List<Double>>.sumDoublesByIndexes(): List<Double> {
 /**
  * Returns the largest value of the given function or `null` if there are no elements.
  */
-inline fun <T, R : Comparable<R>> Iterable<T>.maxValueBy(selector: (T) -> R): R? {
-    val iterator = iterator()
-    if (!iterator.hasNext()) return null
-    var maxValue = selector(iterator.next())
-    while (iterator.hasNext()) {
-        val v = selector(iterator.next())
-        if (maxValue < v) {
-            maxValue = v
-        }
-    }
-    return maxValue
-}
+@Deprecated("Deprecated since Kotlin 1.4, replace by maxOf", replaceWith = ReplaceWith("maxOf"))
+inline fun <T, R : Comparable<R>> Iterable<T>.maxValueBy(selector: (T) -> R): R? = this.maxOfOrNull(selector)
 
 /**
  * Returns the smallest value of the given function or `null` if there are no elements.
  */
-inline fun <T, R : Comparable<R>> Iterable<T>.minValueBy(selector: (T) -> R): R? {
-    val iterator = iterator()
-    if (!iterator.hasNext()) return null
-    var minValue = selector(iterator.next())
-    while (iterator.hasNext()) {
-        val v = selector(iterator.next())
-        if (minValue > v) {
-            minValue = v
-        }
-    }
-    return minValue
-}
+@Deprecated("Deprecated since Kotlin 1.4, replace by minOfOrNull", replaceWith = ReplaceWith("minOfOrNull"))
+inline fun <T, R : Comparable<R>> Iterable<T>.minValueBy(selector: (T) -> R): R? = this.minOfOrNull(selector)
 
 /**
  * Applies the given [transform] function to each element of the original collection
  * and returns results as Set.
  */
-inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R): Set<R> {
-    return mapTo(LinkedHashSet(), transform)
-}
+inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R): Set<R> =
+    mapTo(LinkedHashSet(), transform)
 
 /**
  * Applies the given [transform] function to each element of the original collection
  * and returns results as Set.
  */
-inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R> {
-    return flatMapTo(LinkedHashSet(), transform)
-}
+inline fun <T, R> Iterable<T>.flatMapToSet(transform: (T) -> Iterable<R>): Set<R> =
+    flatMapTo(LinkedHashSet(), transform)
 
 /**
  * Returns the most frequently occurring value of the given function or `null` if there are no elements.
@@ -245,7 +231,7 @@ fun <T> Iterable<T>.singleOrEmpty(): T? =
     }
 
 /**
- * Takes Iterable with pairs and returns pair of collections filled with values in each part of pair.
+ * Takes Iterable with pairs and returns a pair of collections filled with values in each part of pair.
  * */
 fun <T, V> Iterable<Pair<T, V>>.splitPairCollection(): Pair<List<T>, List<V>> {
     val ts = mutableListOf<T>()
@@ -487,6 +473,7 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
         return
     }
     val duplicatedKeys = grouping().filterValues { it.size > 1 }
+
     @Suppress("ThrowingExceptionsWithoutMessageOrCause") // this is not true, we're not throwing it, we need only stacktrace
     val stack = Throwable().stackTraceToString()
     iterableLogger.warning {
@@ -644,7 +631,7 @@ inline fun <A, B, C, V> Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transfor
 
 
 /**
- * Sum collection by float as this is missing in the stdlib...
+ * Sum collection by float as this is missing in the stdlib even after version 1.4.0.
  *
  * Not naming it sumOf in order to have easier imports.
  */

@@ -1,7 +1,7 @@
 package pw.forst.katlib
 
 import org.junit.jupiter.api.Test
-import java.util.Random
+import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
@@ -19,7 +19,7 @@ internal class MapExtensionsTest {
         assertEquals("2", items.getWeightedRandom(rand))
         assertEquals("3", items.getWeightedRandom(rand))
         try {
-            repeat(100) { items.getWeightedRandom(Random()) }
+            repeat(100) { items.getWeightedRandom(Random) }
         } catch (e: Exception) {
             fail("this method should not throw with default random class. Exception is $e")
         }

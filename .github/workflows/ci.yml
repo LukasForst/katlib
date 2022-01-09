@@ -5,13 +5,22 @@ on:
   pull_request:
 
 jobs:
+  code-smell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v4.1.0
+        with:
+          linter: jetbrains/qodana-jvm
+
   test:
     runs-on: ${{ matrix.os }}
     name: Build & Test - Java ${{ matrix.java }} on ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
-        java: [ 8, 11, 16 ]
+        os: [ windows-latest, ubuntu-latest ]
+        java: [ 8, 11, 17 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,8 +32,8 @@ jobs:
       - name: Build lib
         run: ./gradlew assemble
 
-      - name: Run tests
-        run: ./gradlew test --info
-
       - name: Check styling using Detekt
         run: ./gradlew detekt --info
+
+      - name: Run tests
+        run: ./gradlew test --info

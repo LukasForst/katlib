@@ -10,7 +10,7 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
     id("net.nemerosa.versioning") version "2.15.1"
-    id("org.jetbrains.dokka") version "1.6.0"
+    id("org.jetbrains.dokka") version "1.6.10"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.13.0"
+    val jacksonVersion = "2.13.1"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
     compileOnly(kotlin("reflect"))
@@ -32,7 +32,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk", "mockk", "1.12.1") // mock framework
+    testImplementation("io.mockk", "mockk", "1.12.2") // mock framework
     testImplementation("ch.qos.logback", "logback-classic", "1.2.9") // logging framework for the tests
 
     val junitVersion = "5.8.1"

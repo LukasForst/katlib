@@ -15,11 +15,16 @@ import kotlin.streams.toList
 
 /**
  * Returns list of days from [this] date to [to] date (both inclusive).
+ *
+ * `datesUntil` has exclusive bound.
  */
 fun LocalDate.getDateRangeTo(to: LocalDate): List<LocalDate> = this.getDateRangeToAsStream(to).toList()
 
+
 /**
  * Returns stream of days from [this] date to [to] date (both inclusive).
+ *
+ * `datesUntil` has exclusive bound.
  */
 fun LocalDate.getDateRangeToAsStream(to: LocalDate): Stream<LocalDate> =
     Stream
@@ -35,7 +40,6 @@ fun LocalDate.getInvertedDateRangeToAsStream(to: LocalDate): Stream<LocalDate> =
     Stream
         .iterate(this) { d -> d.minusDays(1) }
         .limit(to.until(this, ChronoUnit.DAYS) + 1)
-
 
 /**
  * Returns week of year for [this].

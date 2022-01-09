@@ -15,10 +15,15 @@ internal val jsonLogger = Logger.getLogger("pw.forst.katlib.JacksonExtension")
 /**
  * Standard [ObjectMapper] configured in a way the platform operates.
  */
-fun jacksonMapper(): ObjectMapper = jacksonObjectMapper().apply {
+fun jacksonMapper(): ObjectMapper = jacksonMapper {
     configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
     configure(DeserializationFeature.ACCEPT_FLOAT_AS_INT, false)
 }
+
+/**
+ * [ObjectMapper] with registered Kotlin plugin and given settings.
+ */
+fun jacksonMapper(objectMapperSettings: ObjectMapper.() -> Unit): ObjectMapper = jacksonObjectMapper().apply(objectMapperSettings)
 
 /**
  * Tries to create instance of T from provided [json], null is returned when it is not possible to parse it.
