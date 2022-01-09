@@ -2,7 +2,6 @@ package pw.forst.katlib
 
 import kotlin.random.Random
 
-
 /**
  * Implementation of random class which returns specified values. This is useful mainly for test cases to ensure desired outputs.
  */
