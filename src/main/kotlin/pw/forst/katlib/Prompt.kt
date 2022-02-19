@@ -1,7 +1,7 @@
 package pw.forst.katlib
 
 /**
- * Prompts user with @param [promptText] and applies @param [transform] to it.
+ * Prints @param [promptText], reads input from console and applies @param [transform] to it.
  * If @param [transform] throws an exception on user input, @param [exceptionHandler] will be invoked,
  * and prompt will be repeated.
  *
@@ -11,7 +11,7 @@ package pw.forst.katlib
  * 	"input number:",
  * 	{ "this is not a number" },
  * )
- * { it.toDouble() }
+ * { it.toFloat() }
  * ```
  * @return user input with transform applied
  */
