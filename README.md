@@ -13,13 +13,13 @@ Collection of Kotlin extension functions and utilities. This library does not ha
 Katlib is available on the Maven Central. Then to import Katlib to Gradle project use:
 
 ```Kotlin
-implementation("pw.forst", "katlib", "2.1.1")
+implementation("dev.forst", "katlib", "2.2.0")
 ```
 
 Or with Groovy DSL
 
 ```groovy
-implementation 'pw.forst:katlib:2.1.1'
+implementation 'dev.forst:katlib:2.2.0'
 ```
 
 To import Katlib to Maven project use:
@@ -27,7 +27,7 @@ To import Katlib to Maven project use:
 ```xml
 
 <dependency>
-    <groupId>pw.forst</groupId>
+    <groupId>dev.forst</groupId>
     <artifactId>katlib</artifactId>
     <version>2.1.1</version>
 </dependency>
@@ -44,8 +44,8 @@ Feel free to submit PR with your favourite extension functions and other cool ut
 ## Examples
 
 The library contains a lot of useful (as well as useless) extensions and functions that were gathered during my (and my colleges) Kotlin
-career. Please see [tests](src/test/kotlin/pw/forst/katlib) folder for all possible functions and how to use them. Full documentation can be
-found [here](https://katlib.forst.dev/).
+career. Please see [tests](src/test/kotlin/dev/forst/katlib) folder for all possible functions and how to use them. Full documentation can
+be found [here](https://katlib.forst.dev/).
 
 Please note that some functions seems like duplicates of the standard library - usually it is not like that as they provide similar
 functionality on different interface. For example there's `List.random` but not `Iterable.random` - random on `Iterable` is then implemented
@@ -57,7 +57,7 @@ library in Kotlin 1.4. - so if you find some duplicates, let me know or create P
 
 Following functions are the most popular ones.
 
-#### [Iterable Extensions](src/main/kotlin/pw/forst/katlib/IterableExtensions.kt)
+#### [Iterable Extensions](src/main/kotlin/dev/forst/katlib/IterableExtensions.kt)
 
 * `Iterable<E>.random` - returns the random element from the iterable
 * `Iterable<T>.reduction` - reduce producing list allowing you to set initial value, useful for cumulative sums
@@ -85,26 +85,26 @@ Following functions are the most popular ones.
 * `Iterable<T>.withEach(action: T.() -> Unit)` - performs the given action with each element as a receiver
 * `Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit)` - performs the given action with each element as a receiver, providing sequential index with the element
 
-#### [Map Extensions](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
+#### [Map Extensions](src/main/kotlin/dev/forst/katlib/MapExtensions.kt)
 
 * `Map<T, Double>.getWeightedRandom` - randomly selects item with respect to the current weight distribution
 * `Map<K, V>.mergeReduce` - two maps together using the given reduce function
 * `Map<K, V1>.join` - joins two maps together using the given join function
 * `Map<K1, Map<K2, V>>.swapKeys(): Map<K2, Map<K1, V>>` - swaps keys in two-dimensional maps
 * there are multiple `swapKeys` implementations for up to three-dimensional maps, just
-  browse [the code](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
+  browse [the code](src/main/kotlin/dev/forst/katlib/MapExtensions.kt)
 * `Map<Pair<K1, K2>, V>.toTwoLevelMap(): Map<K1, Map<K2, V>>` - creates two-dimensional map from the map of pairs
 * `Map<Triple<K1, K2, K3>, V>.toThreeLevelMap(): Map<K1, Map<K2, Map<K3, V>>>` - creates three-dimensional map from the map of triples
 * `Map<K1, Map<K2, V>>.getSecondLevelValues(): Set<V>` - collects all the values from the bottom level into set
 * `Map<K1, Map<K2, Map<K3, V>>>.getThirdLevelValues(): Set<V>` - collects all the values from the bottom level into set
 * `Iterable<Map<K, V>>.merge(): Map<K, List<V>>` - for each key, merges all the values into one common list
 
-#### [Set Extensions](src/main/kotlin/pw/forst/katlib/SetExtensions.kt)
+#### [Set Extensions](src/main/kotlin/dev/forst/katlib/SetExtensions.kt)
 
 * `SortedSet.min` - returns minimum of the set or null if empty
 * `SortedSet.max` - returns maximum of the set or null
 
-#### [Pair Extensions](src/main/kotlin/pw/forst/katlib/PairExtensions.kt)
+#### [Pair Extensions](src/main/kotlin/dev/forst/katlib/PairExtensions.kt)
 
 * `mapLeft/Right/Pair` - applies given block to left/right/all iterable element/s of the pair
 
@@ -120,14 +120,14 @@ val pair = Pair(10, 20)
 assertEquals(Pair("10", 20), pair.letLeft { it.toString() })
 ```
 
-#### [Date Extensions](src/main/kotlin/pw/forst/katlib/DateExtensions.kt)
+#### [Date Extensions](src/main/kotlin/dev/forst/katlib/DateExtensions.kt)
 
 * `getDateRangeTo` - returns list of dates between two `LocalDate`
 * `getDaysInInterval` - returns number of days between two `LocalDate` (inclusive)
 * `getDayDifference` - returns number of days between two `LocalDate` (exclusive)
 * `getWeekOfYear` - returns week of year for given `LocalDate` and optionaly `Locale`
 
-#### [Jackson Extensions](src/main/kotlin/pw/forst/katlib/JacksonExtensions.kt)
+#### [Jackson Extensions](src/main/kotlin/dev/forst/katlib/JacksonExtensions.kt)
 
 To use these, one must include dependency on Jackson
 
@@ -148,7 +148,7 @@ val obj: MyDataClass? = parseJson<MyDataClass>(myJson)
 * `createJsonBytes` - creates JSON in bytes from given object
 * `prettyPrintJson` - returns pretty printed JSON value as string
 
-#### [Boolean Extensions](src/main/kotlin/pw/forst/katlib/BooleanExtensions.kt)
+#### [Boolean Extensions](src/main/kotlin/dev/forst/katlib/BooleanExtensions.kt)
 
 `whenTrue` and `whenFalse` - useful extensions mainly used for logging when the oneliners are used.
 
@@ -160,7 +160,7 @@ fun someFunctionIndicatingSuccess(): Boolean =
         }
 ```
 
-#### [String Extensions](src/main/kotlin/pw/forst/katlib/StringExtensions.kt)
+#### [String Extensions](src/main/kotlin/dev/forst/katlib/StringExtensions.kt)
 
 * `startsWithLetter` - returns true fi string starts with latin letter a-z or A-Z
 * `restrictLengthWithEllipsis` - shortens the string to given max length, appends ellipsis
@@ -171,16 +171,16 @@ assertEquals("ABCD…", "ABCDEFHG".restrictLengthWithEllipsis(5, "..."))
 
 * `toUuid` - converts string to UUID
 
-#### [Instant Extensions](src/main/kotlin/pw/forst/katlib/InstantExtensions.kt)
+#### [Instant Extensions](src/main/kotlin/dev/forst/katlib/InstantExtensions.kt)
 
 * `durationToInMilli` - returns absolute difference between two `Instant` values in milliseconds
 
-#### [Crypto Extensions](src/main/kotlin/pw/forst/katlib/CryptoExtensions.kt)
+#### [Crypto Extensions](src/main/kotlin/dev/forst/katlib/CryptoExtensions.kt)
 
 * `hashWithSha256` - produces `SHA-256` of given string/file/bytes
 * `computeMd5` - computes MD5 from given byte array, returns base64 encoded data
 
-#### [Miscellaneous Extensions](src/main/kotlin/pw/forst/katlib/OtherExtensions.kt)
+#### [Miscellaneous Extensions](src/main/kotlin/dev/forst/katlib/OtherExtensions.kt)
 
 * `Optional<T>.orNull(): T?` - from optional to Kotlin optional
 * `T.whenNull` - executes block when `this` is null, useful for logging
@@ -216,11 +216,11 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 * `newLine` - shortcut for `System.lineSeparator`
 * `ByteArray.toUuid` - Read ByteArray as two longs and combine the to UUID
 
-#### [Services](src/main/kotlin/pw/forst/katlib/Services.kt)
+#### [Services](src/main/kotlin/dev/forst/katlib/Services.kt)
 
 * `TemporalProvider` - Interface providing access to current time via `now` method, very useful when mocking
 
-#### [Array Extensions](src/main/kotlin/pw/forst/katlib/ArrayExtensions.kt)
+#### [Array Extensions](src/main/kotlin/dev/forst/katlib/ArrayExtensions.kt)
 
 * `buildArray(builderAction: MutableList<E>.() -> Unit): Array<E>` - builds a new Array by populating a MutableList using the given builderAction and returning an Array with the same elements
 * `Array<out T>.map(transform: (T) -> R): Array<R>` - Returns an array containing the results of applying the given transform function to each element in the original array
@@ -233,6 +233,6 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 * `Array<out T>.minus(element: T): Array<T>` - returns an array containing all elements of the original collection without the first occurrence of the given element
 * `Array<out T>.minus(elements: Array<out T>): Array<T>` - returns an array containing all elements of the original collection except the elements contained in the given elements array
 
-#### [Prompt](src/main/kotlin/pw/forst/katlib/Prompt.kt)
+#### [Prompt](src/main/kotlin/dev/forst/katlib/Prompt.kt)
 
 * `prompt(promptText: String, exceptionHandler: (e: Exception) -> String? = { null }, transform: (input: String) -> R): R` - prompts user and applies transform to input, invokes exceptionHandler if transform threw an Exception, and repeats prompt
