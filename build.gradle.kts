@@ -3,7 +3,7 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
 
     `maven-publish`
     signing
@@ -14,7 +14,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
-group = "pw.forst"
+group = "dev.forst"
 base.archivesName.set("katlib")
 version = (versioning.info?.tag ?: versioning.info?.lastTag ?: versioning.info?.build) ?: "SNAPSHOT"
 
@@ -23,19 +23,20 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.13.1"
+    val jacksonVersion = "2.13.2"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
     compileOnly(kotlin("reflect"))
+    compileOnly(kotlin("stdlib-jdk8"))
 
     // testing
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk", "mockk", "1.12.2") // mock framework
+    testImplementation("io.mockk", "mockk", "1.12.3") // mock framework
     testImplementation("ch.qos.logback", "logback-classic", "1.2.9") // logging framework for the tests
 
-    val junitVersion = "5.8.1"
+    val junitVersion = "5.8.2"
     testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVersion) // junit testing framework
     testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVersion) // generated parameters for tests
 
