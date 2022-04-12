@@ -108,6 +108,7 @@ $dokka.location:pw.forst.katlib//orNull/java.util.Optional[TypeParam(bounds=[kot
 $dokka.location:pw.forst.katlib//parseJson/#kotlin.ByteArray#kotlin.Boolean/PointingToDeclaration/katlib/pw.forst.katlib/parse-json.html
 $dokka.location:pw.forst.katlib//parseJson/#kotlin.String#kotlin.Boolean/PointingToDeclaration/katlib/pw.forst.katlib/parse-json.html
 $dokka.location:pw.forst.katlib//prettyPrintJson/#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/pretty-print-json.html
+$dokka.location:pw.forst.katlib//prompt/#kotlin.String#kotlin.Function1[java.lang.Exception,kotlin.String?]#kotlin.Function1[kotlin.String,TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/katlib/pw.forst.katlib/prompt.html
 $dokka.location:pw.forst.katlib//propagateNull/kotlin.Pair[TypeParam(bounds=[kotlin.Any])?,TypeParam(bounds=[kotlin.Any])?]#/PointingToDeclaration/katlib/pw.forst.katlib/propagate-null.html
 $dokka.location:pw.forst.katlib//propertiesFromResources/TypeParam(bounds=[kotlin.Any])#kotlin.String/PointingToDeclaration/katlib/pw.forst.katlib/properties-from-resources.html
 $dokka.location:pw.forst.katlib//random/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.random.Random/PointingToDeclaration/katlib/pw.forst.katlib/random.html
@@ -154,6 +155,8 @@ $dokka.location:pw.forst.katlib//whenFalse/kotlin.Boolean#kotlin.Function0[kotli
 $dokka.location:pw.forst.katlib//whenNull/TypeParam(bounds=[kotlin.Any?])#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/when-null.html
 $dokka.location:pw.forst.katlib//whenTrue/kotlin.Boolean#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/when-true.html
 $dokka.location:pw.forst.katlib//with/TypeParam(bounds=[kotlin.Any])#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/katlib/pw.forst.katlib/with.html
+$dokka.location:pw.forst.katlib//withEach/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/with-each.html
+$dokka.location:pw.forst.katlib//withEachIndexed/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function2[TypeParam(bounds=[kotlin.Any?]),kotlin.Int,kotlin.Unit]/PointingToDeclaration/katlib/pw.forst.katlib/with-each-indexed.html
 $dokka.location:pw.forst.katlib//zip/kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.collections.Iterable[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function3[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/katlib/pw.forst.katlib/zip.html
 $dokka.location:pw.forst.katlib/InstantTimeProvider///PointingToDeclaration/katlib/pw.forst.katlib/-instant-time-provider/index.html
 $dokka.location:pw.forst.katlib/InstantTimeProvider/now/#/PointingToDeclaration/katlib/pw.forst.katlib/-instant-time-provider/now.html
