@@ -82,6 +82,8 @@ Following functions are the most popular ones.
 * `Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transform: (a: A, b: B, c: C) -> V)` - zip with three collections instead of two
 * `Iterable<T>.sumByFloat(selector: (T) -> Float)` - sums iterable by float selector, because `sumOf` from stdlib does not have
   implementation for Floats
+* `Iterable<T>.withEach(action: T.() -> Unit)` - performs the given action with each element as a receiver
+* `Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit)` - performs the given action with each element as a receiver, providing sequential index with the element
 
 #### [Map Extensions](src/main/kotlin/pw/forst/katlib/MapExtensions.kt)
 
@@ -230,3 +232,7 @@ byteBuffer.applyIf(shouldReadInt) { getInt() }
 * `Array<out T?>.filterNotNull(): Array<T>` - returns an array containing all elements that are not `null`
 * `Array<out T>.minus(element: T): Array<T>` - returns an array containing all elements of the original collection without the first occurrence of the given element
 * `Array<out T>.minus(elements: Array<out T>): Array<T>` - returns an array containing all elements of the original collection except the elements contained in the given elements array
+
+#### [Prompt](src/main/kotlin/pw/forst/katlib/Prompt.kt)
+
+* `prompt(promptText: String, exceptionHandler: (e: Exception) -> String? = { null }, transform: (input: String) -> R): R` - prompts user and applies transform to input, invokes exceptionHandler if transform threw an Exception, and repeats prompt

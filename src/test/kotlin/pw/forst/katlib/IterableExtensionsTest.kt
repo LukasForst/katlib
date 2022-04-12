@@ -352,4 +352,21 @@ internal class IterableExtensionsTest {
         val empty = listOf<Float>()
         assertEquals(0f, empty.sumByFloat { it * 2f })
     }
+
+    @Test
+    fun `test withEach`() {
+        val pairs = List(100){ Pair(it, it * 2) }
+        pairs.withEach {
+            assertEquals(first * 2, second)
+        }
+    }
+
+    @Test
+    fun `test withEachIndexed`()
+    {
+        val pairs = List(100){ it }
+        pairs.withEachIndexed { index ->
+            assertEquals(index, this)
+        }
+    }
 }
