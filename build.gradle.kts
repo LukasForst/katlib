@@ -3,14 +3,14 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.0"
 
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
     id("net.nemerosa.versioning") version "2.15.1"
-    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.dokka") version "1.7.0"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.13.2"
+    val jacksonVersion = "2.13.3"
     compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
     compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
     compileOnly(kotlin("reflect"))
