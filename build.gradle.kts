@@ -9,7 +9,8 @@ plugins {
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("net.nemerosa.versioning") version "3.0.0"
+    // 3.0.0 requires JVM 11, but we want to keep this compatible with JVM 8
+    id("net.nemerosa.versioning") version "2.15.1"
     id("org.jetbrains.dokka") version "1.7.20"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
