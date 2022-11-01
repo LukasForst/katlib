@@ -11,7 +11,7 @@ plugins {
 
     id("net.nemerosa.versioning") version "2.15.1"
     id("org.jetbrains.dokka") version "1.7.20"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 group = "dev.forst"
