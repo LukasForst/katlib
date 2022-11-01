@@ -30,5 +30,4 @@ internal class SettableRandom : Random() {
         nextIntValues = values.iterator()
         return this
     }
-
 }

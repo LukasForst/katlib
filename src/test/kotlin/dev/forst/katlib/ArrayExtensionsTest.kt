@@ -66,19 +66,17 @@ class ArrayExtensionsTest {
 	}
 
 	@Test
-	fun `Array minus element Test`()
-	{
-		val arrayA = Array(100) { it }
-		val arrayB = Array(100) { it + 200}
-		val combinedArray = arrayA + arrayB
-		assertContentEquals(arrayA, combinedArray - arrayB)
-	}
+    fun `Array minus element Test`() {
+        val arrayA = Array(100) { it }
+        val arrayB = Array(100) { it + 200 }
+        val combinedArray = arrayA + arrayB
+        assertContentEquals(arrayA, combinedArray - arrayB)
+    }
 
-	@Test
-	fun `Array minus elements Test`()
-	{
-		val arrayA = Array(5){it}
-		val arrayB = Array(4){it}
-		assertContentEquals(arrayA - 4, arrayB)
-	}
+    @Test
+    fun `Array minus elements Test`() {
+        val arrayA = Array(5) { it }
+        val arrayB = Array(4) { it }
+        assertContentEquals(arrayA - 4, arrayB)
+    }
 }

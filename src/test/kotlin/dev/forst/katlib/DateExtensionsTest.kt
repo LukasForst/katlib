@@ -105,7 +105,6 @@ internal class DateExtensionsTest {
         val week2Date = LocalDate.of(2022, 1, 10)
         assertEquals(week2Date, year.setWeekOfYearMonday(2))
 
-
         val week52Date = LocalDate.of(2022, 12, 26)
         assertEquals(week52Date, year.setWeekOfYearMonday(52))
 
@@ -136,5 +135,4 @@ internal class DateExtensionsTest {
 
         assertEquals(expectedLocalDate, date.toUtcLocalDate())
     }
-
 }

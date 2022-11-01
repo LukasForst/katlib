@@ -20,13 +20,15 @@ jobs:
     strategy:
       matrix:
         os: [ windows-latest, ubuntu-latest ]
-        java: [ 8, 11, 17 ]
+        java: [ 8, 17 ]
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
       - name: Build lib

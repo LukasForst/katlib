@@ -46,5 +46,4 @@ internal class InstantExtensionsTest {
     fun `durationToInMilli smaller to bigger test`() {
         assertDurationTo(100, 101, 1)
     }
-
 }

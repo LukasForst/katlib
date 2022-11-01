@@ -9,9 +9,9 @@ plugins {
     signing
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("net.nemerosa.versioning") version "2.15.1"
+    id("net.nemerosa.versioning") version "3.0.0"
     id("org.jetbrains.dokka") version "1.7.20"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 group = "dev.forst"
@@ -23,9 +23,11 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.13.3"
-    compileOnly("com.fasterxml.jackson.core", "jackson-databind", jacksonVersion)
-    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", jacksonVersion)
+    // compile only detekt plugin
+    detektPlugins("io.gitlab.arturbosch.detekt", "detekt-formatting", "1.21.0")
+
+    compileOnly("com.fasterxml.jackson.core", "jackson-databind", "2.13.4.2")
+    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", "2.13.4")
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
 
@@ -36,11 +38,9 @@ dependencies {
     testImplementation("io.mockk", "mockk", "1.12.3") // mock framework
     testImplementation("ch.qos.logback", "logback-classic", "1.2.9") // logging framework for the tests
 
-    val junitVersion = "5.8.2"
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVersion) // junit testing framework
-    testImplementation("org.junit.jupiter", "junit-jupiter-params", junitVersion) // generated parameters for tests
-
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVersion) // testing runtime
+    testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.1") // junit testing framework
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.9.1") // generated parameters for tests
+    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.1") // testing runtime
 }
 
 detekt {
