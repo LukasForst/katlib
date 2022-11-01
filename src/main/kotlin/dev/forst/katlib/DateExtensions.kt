@@ -12,14 +12,12 @@ import java.util.Locale
 import java.util.stream.Stream
 import kotlin.streams.toList
 
-
 /**
  * Returns list of days from [this] date to [to] date (both inclusive).
  *
  * `datesUntil` has exclusive bound.
  */
 fun LocalDate.getDateRangeTo(to: LocalDate): List<LocalDate> = this.getDateRangeToAsStream(to).toList()
-
 
 /**
  * Returns stream of days from [this] date to [to] date (both inclusive).

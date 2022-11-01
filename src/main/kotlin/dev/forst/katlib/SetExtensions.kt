@@ -2,7 +2,6 @@ package dev.forst.katlib
 
 import java.util.SortedSet
 
-
 /**
  * Returns the first item in this sorted set.
  */

@@ -6,7 +6,6 @@ package dev.forst.katlib
 
 import kotlin.random.Random
 
-
 /**
  * Randomly selects item with respect to the current weight distribution.
  */
@@ -27,7 +26,6 @@ fun <T> Map<T, Double>.getWeightedRandom(rand: Random): T {
         this.keys.last()
     }
 }
-
 
 /**
  * Randomly sorts the items with respect to the current weight distribution.
@@ -249,5 +247,3 @@ fun <K, V : Any> Iterable<Map<K, List<V>>>.flatMerge(): Map<K, List<V>> {
     val keys = this.map { it.keys }.union()
     return keys.assocWith { key -> this.flatMap { map -> map[key] ?: emptyList() } }
 }
-
-

@@ -63,7 +63,6 @@ internal class MapExtensionsTest {
         assertEquals(mapOf("a" to 2, "b" to 10, "c" to 3, "d" to 0, "e" to 4), sumReduction)
     }
 
-
     @Test
     fun testJoin() {
         val map1 = mapOf("a" to 5, "b" to 10, "c" to 11)
@@ -101,7 +100,6 @@ internal class MapExtensionsTest {
 
         val swappedk2withk1 = map.swapKeys { k1, k2, k3 -> Triple(k2, k1, k3) }
 
-
         val expectedk2withk1 = mapOf(
             1 to mapOf("a" to mapOf(4.5 to false, 4.2 to true)),
             8 to mapOf("b" to mapOf(1.5 to false, 7.2 to true)),
@@ -124,7 +122,6 @@ internal class MapExtensionsTest {
 
         assertEquals(expectedk3withk1, swappedk3withk1)
     }
-
 
     @Test
     fun testToTwoDimensionalMap() {
@@ -220,7 +217,10 @@ internal class MapExtensionsTest {
         val map2 = mapOf(2 to listOf("d"), 3 to listOf("c", "d", "e"), 4 to listOf("f"))
         val map3 = mapOf(2 to listOf("x"), 3 to listOf("y"), 4 to listOf("z", "k"))
         val expected = mapOf(
-            1 to listOf("a", "b"), 2 to listOf("b", "d", "x"), 3 to listOf("c", "c", "d", "e", "y"), 4 to listOf("f", "z", "k")
+            1 to listOf("a", "b"),
+            2 to listOf("b", "d", "x"),
+            3 to listOf("c", "c", "d", "e", "y"),
+            4 to listOf("f", "z", "k")
         )
         assertEquals(expected, listOf(map1, map2, map3).flatMerge())
     }

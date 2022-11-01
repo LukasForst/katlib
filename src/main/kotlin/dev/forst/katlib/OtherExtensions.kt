@@ -22,12 +22,10 @@ inline fun <T : Any?> T.whenNull(block: () -> Unit): T {
     return this
 }
 
-
 /**
  * Creates a single element list from [this].
  */
 fun <T : Any> T.asList() = listOf(this)
-
 
 /**
  * Returns true when there is at least one element x for which *x in this* and *x in other* returns true.
@@ -59,7 +57,7 @@ inline fun <T> T.validate(isValidSelector: (T) -> Boolean, invalidBlock: (T) -> 
  */
 fun <A : Any, B : Any> Pair<A?, B?>.propagateNull(): Pair<A, B>? {
     if (first != null && second != null) {
-        @Suppress("UNCHECKED_CAST") //the cast is safe because it is checked that both values are not null
+        @Suppress("UNCHECKED_CAST") // the cast is safe because it is checked that both values are not null
         return this as Pair<A, B>
     }
 

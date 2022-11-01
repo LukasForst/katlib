@@ -61,7 +61,6 @@ fun <T : Any> createPrettyJson(value: T): String = jacksonMapper()
     .writerWithDefaultPrettyPrinter()
     .writeValueAsString(value)
 
-
 /**
  * Serializes given object to byte array.
  */

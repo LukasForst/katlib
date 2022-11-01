@@ -1,6 +1,5 @@
 package dev.forst.katlib
 
-
 /**
  * Default values taken from Guava.
  */
@@ -159,7 +158,6 @@ inline fun <K, V, M : MutableMap<in K, in V>> Sequence<K>.assocWithTo(destinatio
 @PublishedApi
 internal fun <T> Sequence<T>.defaultMapCapacity() =
     mapCapacity(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)).coerceAtLeast(DEFAULT_COERCE_MINIMUM_VALUE)
-
 
 /**
  * Returns the size of this iterable if it is known, or the specified [default] value otherwise.

@@ -8,7 +8,6 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.random.Random
 
-
 /**
  * Function that will return a random element from the iterable.
  */
@@ -203,7 +202,6 @@ inline fun <T> Iterable<T>.singleOrEmpty(predicate: (T) -> Boolean): T? {
     return single
 }
 
-
 /**
  * Returns single element, or `null` if the collection is empty.
  * Throws [IllegalArgumentException] when multiple elements are matching predicate.
@@ -252,7 +250,6 @@ inline fun <T, R> Iterable<T>.setDifferenceBy(other: Iterable<T>, selector: (T) 
         .filterValues { it.size == 1 && it.single().second }
         .map { (_, value) -> value.single().first }
 
-
 /**
  * Returns a [Map] containing key-value pairs provided by elements of the given collection.
  *
@@ -291,7 +288,6 @@ fun <K, V, M : MutableMap<in K, in V>> Iterable<Pair<K, V>>.assocTo(destination:
 inline fun <T, K, V> Iterable<T>.assoc(transform: (T) -> Pair<K, V>): Map<K, V> {
     return assocTo(LinkedHashMap(defaultMapCapacity()), transform)
 }
-
 
 /**
  * Populates and returns the [destination] mutable map with key-value pairs
@@ -358,7 +354,8 @@ inline fun <T, K, V> Iterable<T>.assocBy(keySelector: (T) -> K, valueTransform: 
  * If any two elements had the same key returned by [keySelector] the last one gets added to the map and the method creates a warning.
  */
 inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
-    destination: M, keySelector: (T) -> K,
+    destination: M,
+    keySelector: (T) -> K,
     valueTransform: (T) -> V
 ): M {
     var size = 0
@@ -369,7 +366,6 @@ inline fun <T, K, V, M : MutableMap<in K, in V>> Iterable<T>.assocByTo(
     destination.checkUniqueness(size) { this.groupBy(keySelector, valueTransform) }
     return destination
 }
-
 
 /**
  * Returns a [Map] where keys are elements from the given collection and values are
@@ -443,7 +439,7 @@ inline fun <TItem> Iterable<TItem>.itemsToString(
     itemToString: (TItem) -> String = { item -> item.toShortString() }
 ): String {
     val sb = StringBuilder("${this.count()} $itemsType")
-    var currentSeparator = ": "  // before the first item
+    var currentSeparator = ": " // before the first item
     for (item in this) {
         sb.append(currentSeparator)
         currentSeparator = separator // before other than first item
@@ -478,11 +474,10 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
     val stack = Throwable().stackTraceToString()
     iterableLogger.warning {
         @Suppress("MagicNumber") // specified carefully, don't need constant
-        val entries = duplicatedKeys.entries.toString().take(500) //ensures that huge collections will not consume too much space
+        val entries = duplicatedKeys.entries.toString().take(500) // ensures that huge collections will not consume too much space
         "The map should contain $expectedSize entries but the actual size is ${this.size}. The affected entries are $entries.$newLine$stack"
     }
 }
-
 
 /**
  * Returns default capacity for the maps based on the Guava's approach.
@@ -490,7 +485,6 @@ internal inline fun <K, V, M : MutableMap<in K, in V>> M.checkUniqueness(expecte
 @PublishedApi
 internal fun <T> Iterable<T>.defaultMapCapacity() =
     mapCapacity(collectionSizeOrDefault(DEFAULT_COLLECTION_SIZE)).coerceAtLeast(DEFAULT_COERCE_MINIMUM_VALUE)
-
 
 /**
  * Calculate the initial capacity of a map, based on Guava's com.google.common.collect.Maps approach. This is equivalent
@@ -586,13 +580,11 @@ fun <T> Iterable<Iterable<T>>.cartesianProduct(): List<List<T>> =
         fold(listOf(listOf())) { acc, set -> acc.flatMap { list -> set.map { element -> list + element } } }
     }
 
-
 /**
  * Lazy cartesian production.
  */
 fun <T> Iterable<Iterable<T>>.lazyCartesianProduct(): Sequence<List<T>> =
     if (isEmpty()) emptySequence() else lazyCartesianProductAcc(this, emptyList())
-
 
 private fun <T> lazyCartesianProductAcc(l: Iterable<Iterable<T>>, acc: List<T>): Sequence<List<T>> = sequence {
     if (l.isEmpty()) {
@@ -629,7 +621,6 @@ inline fun <A, B, C, V> Iterable<A>.zip(b: Iterable<B>, c: Iterable<C>, transfor
     return list
 }
 
-
 /**
  * Sum collection by float as this is missing in the stdlib even after version 1.4.0.
  *
@@ -652,4 +643,4 @@ inline fun <T> Iterable<T>.withEach(action: T.() -> Unit) = forEach { it.action(
  * Performs the given [action] with each element as a receiver, providing sequential index with the element.
  * @param [action] function that takes the index of an element and performs the action on the element.
  */
-inline fun <T> Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit) = forEachIndexed{ index, it -> it.action(index)}
+inline fun <T> Iterable<T>.withEachIndexed(action: T.(index: Int) -> Unit) = forEachIndexed { index, it -> it.action(index) }

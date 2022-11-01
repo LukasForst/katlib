@@ -355,16 +355,15 @@ internal class IterableExtensionsTest {
 
     @Test
     fun `test withEach`() {
-        val pairs = List(100){ Pair(it, it * 2) }
+        val pairs = List(100) { Pair(it, it * 2) }
         pairs.withEach {
             assertEquals(first * 2, second)
         }
     }
 
     @Test
-    fun `test withEachIndexed`()
-    {
-        val pairs = List(100){ it }
+    fun `test withEachIndexed`() {
+        val pairs = List(100) { it }
         pairs.withEachIndexed { index ->
             assertEquals(index, this)
         }
