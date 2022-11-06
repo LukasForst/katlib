@@ -10,6 +10,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # we want to run tests on JVM 8, so we will stay on 1.3.x version
+      - dependency-name: "ch.qos.logback:logback-classic"
+      # 3.x.y requires JVM 11, but we want to keep this compatible with JVM 8
+      - dependency-name: "net.nemerosa.versioning"
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"

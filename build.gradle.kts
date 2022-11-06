@@ -25,10 +25,10 @@ repositories {
 
 dependencies {
     // compile only detekt plugin
-    detektPlugins("io.gitlab.arturbosch.detekt", "detekt-formatting", "1.21.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
 
-    compileOnly("com.fasterxml.jackson.core", "jackson-databind", "2.13.4.2")
-    compileOnly("com.fasterxml.jackson.module", "jackson-module-kotlin", "2.13.4")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.14.0")
+    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
 
@@ -36,12 +36,13 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk", "mockk", "1.12.3") // mock framework
-    testImplementation("ch.qos.logback", "logback-classic", "1.2.9") // logging framework for the tests
+    testImplementation("io.mockk:mockk:1.13.2") // mock framework
+    @Suppress("GradlePackageUpdate") // we want to run tests on JVM 8, so we will stay on 1.3.x version
+    testImplementation("ch.qos.logback:logback-classic:1.3.3") // logging framework for the tests
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.9.1") // junit testing framework
-    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.9.1") // generated parameters for tests
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.9.1") // testing runtime
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1") // junit testing framework
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1") // generated parameters for tests
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1") // testing runtime
 }
 
 detekt {
