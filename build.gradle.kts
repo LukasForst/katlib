@@ -28,7 +28,7 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
 
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.14.1")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
+    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("stdlib-jdk8"))
 
