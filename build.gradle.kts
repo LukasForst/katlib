@@ -36,7 +36,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit5"))
     testImplementation(kotlin("stdlib-jdk8"))
-    testImplementation("io.mockk:mockk:1.13.2") // mock framework
+    testImplementation("io.mockk:mockk:1.13.3") // mock framework
     @Suppress("GradlePackageUpdate") // we want to run tests on JVM 8, so we will stay on 1.3.x version
     testImplementation("ch.qos.logback:logback-classic:1.3.3") // logging framework for the tests
 
