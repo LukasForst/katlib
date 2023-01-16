@@ -40,7 +40,7 @@ dependencies {
     @Suppress("GradlePackageUpdate") // we want to run tests on JVM 8, so we will stay on 1.3.x version
     testImplementation("ch.qos.logback:logback-classic:1.3.3") // logging framework for the tests
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1") // junit testing framework
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2") // junit testing framework
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1") // generated parameters for tests
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1") // testing runtime
 }
