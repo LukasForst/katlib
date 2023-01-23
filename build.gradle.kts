@@ -41,7 +41,7 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.3.3") // logging framework for the tests
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2") // junit testing framework
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1") // generated parameters for tests
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2") // generated parameters for tests
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2") // testing runtime
 }
 
