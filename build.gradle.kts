@@ -7,7 +7,7 @@ plugins {
 
     `maven-publish`
     signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 
     // 3.0.0 requires JVM 11, but we want to keep this compatible with JVM 8
     id("net.nemerosa.versioning") version "2.15.1"
