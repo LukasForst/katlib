@@ -3,7 +3,7 @@ import java.net.URL
 
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
 
     `maven-publish`
     signing
