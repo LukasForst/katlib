@@ -13,13 +13,13 @@ Collection of Kotlin extension functions and utilities. This library does not ha
 Katlib is available on the Maven Central. Then to import Katlib to Gradle project use:
 
 ```Kotlin
-implementation("dev.forst", "katlib", "2.2.5")
+implementation("dev.forst", "katlib", "2.2.7")
 ```
 
 Or with Groovy DSL
 
 ```groovy
-implementation 'dev.forst:katlib:2.2.5'
+implementation 'dev.forst:katlib:2.2.7'
 ```
 
 To import Katlib to Maven project use:
@@ -29,7 +29,7 @@ To import Katlib to Maven project use:
 <dependency>
     <groupId>dev.forst</groupId>
     <artifactId>katlib</artifactId>
-    <version>2.2.5</version>
+    <version>2.2.7</version>
 </dependency>
 ```
 
