@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     // compile only detekt plugin
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
 
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
